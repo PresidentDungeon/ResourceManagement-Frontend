@@ -1,17 +1,22 @@
 <div id="container">
     <div id="formfield">
         <h1>Login</h1>
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form [formGroup]="loginForm" (ngSubmit)="login()">
+
             <mat-form-field appearance="outline">
                 <mat-label>Full name</mat-label>
                 <input formControlName="username" matInput placeholder="Name...">
             </mat-form-field>
+
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input formControlName="password" matInput placeholder="Password...">
+                <input type="password" formControlName="password" matInput placeholder="Password...">
                 <mat-error>You need to fill it out, pal!</mat-error>
             </mat-form-field>
-        </form>
-        <button mat-raised-button type="submit">Login</button>
+
+          <mat-checkbox [checked]="saveLogin" [(ngModel)]="saveLogin" [ngModelOptions]="{standalone: true}" color="primary">Remember me</mat-checkbox>
+
+          <button mat-raised-button type="submit" [disabled]="!loginForm.valid || loginLoad"  >Login</button>
+        </mat-form>
     </div>
 </div>

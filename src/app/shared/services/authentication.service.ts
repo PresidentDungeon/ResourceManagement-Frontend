@@ -26,6 +26,10 @@ import { map } from "rxjs/operators";
       }))
     }
 
+    logout(): void {
+      localStorage.removeItem('loggedUser');
+    }
+
     saveLogin(loginDTO: LoginDto): void{
       localStorage.setItem('loginForm', JSON.stringify({ username: loginDTO, password: loginDTO}));
     }

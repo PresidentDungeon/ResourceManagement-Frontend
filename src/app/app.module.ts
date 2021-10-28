@@ -10,7 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from "./shared/shared.module";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -20,6 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginComponent
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -27,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule
+    MatCheckboxModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
