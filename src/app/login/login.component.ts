@@ -69,11 +69,6 @@ export class LoginComponent implements OnInit {
       else{this.authService.forgetLogin();}},
       (error) => {
       this.loginError = error.error; this.loginLoad = false;
-
-      //Some check here if error is of type of status 423. IF that is the case ->
-
-
-
       },
     () => {this.loginLoad = false; this.router.navigate(['']);});
   }
