@@ -3,13 +3,13 @@
     justify-content: center;
 }
 
-#formfield {
+.formfield {
     display: flex;
     flex-direction: column;
     margin-top: 2rem;
 }
 
-mat-form {
+form {
     display: flex;
     flex-direction: column;
 }
