@@ -15,7 +15,8 @@ import { map } from "rxjs/operators";
     constructor(private http: HttpClient) {}
 
     login(loginDTO: LoginDto): Observable<boolean> {
-      return this.http.post<LoginResponseDto>(environment.apiUrl + 'user/login', loginDTO)
+
+      return this.http.post<LoginResponseDto>(environment.apiUrl + '/user/login', loginDTO)
       .pipe(map((loginResponseDTO) => {
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
@@ -30,11 +31,30 @@ import { map } from "rxjs/operators";
       localStorage.removeItem('loggedUser');
     }
 
+    getToken(): string {
+      const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+      if (loggedUser !== null) {
+        return loggedUser.token;
+      } else {
+        return null;
+      }
+    }
+
+    validateToken(): boolean{
+      const token: string = this.getToken();
+      const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+      return ((Math.floor((new Date).getTime() / 1000)) <= expiry);
+    }
+
     saveLogin(loginDTO: LoginDto): void{
       localStorage.setItem('loginForm', JSON.stringify({ username: loginDTO, password: loginDTO}));
     }
 
     forgetLogin(): void{
       localStorage.removeItem('loginForm');
+    }
+
+    getLoginInformation(): any{
+      return JSON.parse(localStorage.getItem('loginForm'));
     }
   }

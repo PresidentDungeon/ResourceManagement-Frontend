@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from "./shared/modules/shared.module";
+import { MaterialModule } from './shared/modules/material.module';
+
 import { AppComponent } from './app.component';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { VerificationComponent } from './verification/verification.component';
 import { HiringpageComponent } from './hiringpage/hiringpage.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
@@ -21,17 +23,18 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatGridListModule} from "@angular/material/grid-list";
 
+import { AuthInterceptor } from "./auth-guards/auth.interceptor";
+
 @NgModule({
   declarations: [
     AppComponent,
     FrontpageComponent,
     NavbarComponent,
     LoginComponent,
+    VerificationComponent,
     HiringpageComponent
   ],
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -46,8 +49,10 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatSidenavModule,
     MatListModule,
     MatGridListModule
+    SharedModule,
+    MaterialModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
