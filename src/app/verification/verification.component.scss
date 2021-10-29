@@ -1,0 +1,19 @@
+#container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#verify-field, #email-field {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3rem;
+}
+
+button {
+    width: fit-content;
+    align-self: center;
+    background-color: #103447;
+    color: white;
+}
