@@ -13,6 +13,7 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { VerificationComponent } from './verification/verification.component';
+import { HiringpageComponent } from './hiringpage/hiringpage.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { VerificationComponent } from './verification/verification.component';
     FrontpageComponent,
     NavbarComponent,
     LoginComponent,
-    VerificationComponent
+    VerificationComponent,
+    HiringpageComponent
   ],
   imports: [
     FormsModule,

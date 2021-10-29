@@ -1,0 +1,24 @@
+<h1>Resources to choose from</h1>
+<div id="container">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Search</mat-label>
+        <input matInput>
+    </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Select an option</mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option>None</mat-option>
+      <mat-option value="Strong-Man">Option 1</mat-option>
+      <mat-option value="Electritian">Option 2</mat-option>
+      <mat-option value="Engineer">Option 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>You selected: {{selected}}</p>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Candidate qualifications</mat-label>
+        <textarea matInput></textarea>
+    </mat-form-field>
+</div>
