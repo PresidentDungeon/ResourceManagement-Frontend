@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {Location} from '@angular/common';
-import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginDto } from "../shared/dtos/login.dto";
 import { AuthenticationService } from "../shared/services/authentication.service";
@@ -22,12 +22,16 @@ export class LoginComponent implements OnInit {
   registerForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(8)])
+    passwordConfirm: new FormControl('', [Validators.required])
   }, {validators: [this.passwordConfirming]});
 
-  passwordConfirming(c: AbstractControl): { invalid: boolean } {
-    if (c.get('password').value !== c.get('passwordConfirm').value) {
+  passwordConfirming(group: AbstractControl): ValidationErrors  {
+    if (group.get('password').value !== group.get('passwordConfirm').value) {
+      group.get('passwordConfirm').setErrors({'incorrect': true});
       return {invalid: true};
+    }
+    else{
+      group.get('passwordConfirm').setErrors(null);
     }
   }
 
@@ -65,7 +69,11 @@ export class LoginComponent implements OnInit {
       else{this.authService.forgetLogin();}},
       (error) => {
       this.loginError = error.error; this.loginLoad = false;
+
       //Some check here if error is of type of status 423. IF that is the case ->
+
+
+
       },
     () => {this.loginLoad = false; this.router.navigate(['']);});
   }
@@ -78,7 +86,7 @@ export class LoginComponent implements OnInit {
     const registerDTO: LoginDto = {username: registerData.username, password: registerData.password}
 
     this.userService.register(registerDTO).subscribe(success => {
-        //Redirect to verification module here
+        //User creation is successful - redirect to verification module here
       },
       error => {this.registerError = error.error; this.registerLoad = false;},
       () => {this.registerLoad = false;});

@@ -15,7 +15,8 @@ import { map } from "rxjs/operators";
     constructor(private http: HttpClient) {}
 
     login(loginDTO: LoginDto): Observable<boolean> {
-      return this.http.post<LoginResponseDto>(environment.apiUrl + 'user/login', loginDTO)
+
+      return this.http.post<LoginResponseDto>(environment.apiUrl + '/user/login', loginDTO)
       .pipe(map((loginResponseDTO) => {
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
