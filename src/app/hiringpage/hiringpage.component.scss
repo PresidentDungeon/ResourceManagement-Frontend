@@ -1,6 +1,18 @@
 #container {
   display: flex;
-  align-content: center;
+  justify-content: center;
   flex-direction: column;
-  width: 40%;
+  align-items: center;
+}
+
+.employeeList-container {
+  width: 800px;
+  height: 600px;
+  margin: 10px;
+  border: 1px solid #555;
+}
+
+.mat-grid-tile-content {
+  display: flex;
+  flex-direction: column;
 }

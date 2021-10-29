@@ -17,6 +17,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "./shared/shared.module";
 import {CommonModule} from "@angular/common";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -36,10 +39,13 @@ import {CommonModule} from "@angular/common";
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
     MatButtonModule,
     MatCheckboxModule,
-    SharedModule
+    SharedModule,
+    MatSidenavModule,
+    MatListModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
