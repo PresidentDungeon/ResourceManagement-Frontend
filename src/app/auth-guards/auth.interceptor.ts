@@ -42,10 +42,6 @@ export class AuthInterceptor implements HttpInterceptor {
           if(err.status === this.UnauthorizedErrorCode || err.status === this.ForbiddenErrorCode){
             this.router.navigate(['/login']);
           }
-          if(err.status === this.LockedErrorCode){
-            //We should redirect to verification here.
-            this.router.navigate(['']);
-          }
         }
       }));
   }

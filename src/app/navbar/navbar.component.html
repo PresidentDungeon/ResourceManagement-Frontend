@@ -1,5 +1,8 @@
 <div id="container">
-    <img src="../../assets/images/semco-logo-hvid.png" routerLink="/home">
-    <a routerLink="/login">Sign in</a>
-    <a routerLink="/hiring">Hiring</a>
+  <img src="../../assets/images/semco-logo-hvid.png" routerLink="/home">
+  <a *ngIf="!(loggedUser$ | async)" routerLink="/register">Register</a>
+  <a *ngIf="!(loggedUser$ | async)"routerLink="/login">Sign in</a>
+  <a *ngIf="loggedUser$ | async" routerLink="/login">Sign out</a>
+  <a routerLink="/hiring">Hiring</a>
 </div>
+

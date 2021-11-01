@@ -12,8 +12,11 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { VerificationComponent } from './verification/verification.component';
 import { HiringpageComponent } from './hiringpage/hiringpage.component';
+import { RegisterComponent } from './register/register.component';
+import { VerificationLinkComponent } from './verification-link/verification-link.component';
 
 import { AuthInterceptor } from "./auth-guards/auth.interceptor";
+import { VerificationCardComponent } from './verification-card/verification-card.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { AuthInterceptor } from "./auth-guards/auth.interceptor";
     NavbarComponent,
     LoginComponent,
     VerificationComponent,
-    HiringpageComponent
+    HiringpageComponent,
+    RegisterComponent,
+    VerificationLinkComponent,
+    VerificationCardComponent
   ],
   imports: [
     BrowserModule,

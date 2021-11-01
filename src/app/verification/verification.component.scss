@@ -1,19 +1,31 @@
 #container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 #verify-field, #email-field {
-    display: flex;
-    flex-direction: column;
-    margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
 }
 
 button {
-    width: fit-content;
-    align-self: center;
-    background-color: #103447;
-    color: white;
+  width: fit-content;
+  align-self: center;
+  background-color: #103447;
+  color: white;
+}
+
+#confirmButton{
+  width: fit-content;
+  align-self: center;
+  background-color: #125702;
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
 }

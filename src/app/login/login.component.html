@@ -1,6 +1,6 @@
 <div id="container">
 
-  <div class="formfield">
+  <div *ngIf="isActive && loginIsActive" class="formfield">
     <h1>Login</h1>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
@@ -16,36 +16,32 @@
         <mat-error>Password is required</mat-error>
       </mat-form-field>
 
+      <a id="forgotButton" (click)="forgotLoginButton()">Forgot your password?</a>
       <mat-checkbox [checked]="saveLogin" [(ngModel)]="saveLogin" [ngModelOptions]="{standalone: true}" color="primary">Remember me</mat-checkbox>
 
       <button mat-raised-button type="submit" [disabled]="!loginForm.valid || loginLoad">Login</button>
     </form>
   </div>
 
-  <div class="formfield">
-    <h1>Register</h1>
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
+  <div *ngIf="isActive && !loginIsActive && !passwordResetRequestIsSuccessful" class="formfield">
+    <h1>Password Reset</h1>
+    <p>We'll send a password reset link to your email account.</p>
+    <form [formGroup]="resetForm" (ngSubmit)="sendPasswordResetLink()">
 
       <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input formControlName="username" matInput placeholder="Username...">
-        <mat-error>Username must be a valid e-mail</mat-error>
+        <mat-label>Email</mat-label>
+        <input formControlName="username" matInput placeholder="Name...">
+        <mat-error>Email is required</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input type="password" formControlName="password" matInput placeholder="Password...">
-        <mat-error>Password is required (min. 8 characters)</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Repeat password</mat-label>
-        <input type="password" formControlName="passwordConfirm" matInput placeholder="Repeat password...">
-        <mat-error>Password must be identical</mat-error>
-      </mat-form-field>
-
-      <button mat-raised-button type="submit" [disabled]="!registerForm.valid || registerLoad">Register</button>
+      <button mat-raised-button type="submit" [disabled]="!resetForm.valid || passwordResetLoading">Reset password</button>
     </form>
+  </div>
+
+  <app-verification-card *ngIf="isActive && !loginIsActive && passwordResetRequestIsSuccessful" [showCheckmark]="false" [emailBold]="true" [header]="'Password Reset'" [text]="email"></app-verification-card>
+
+  <div *ngIf="!isActive">
+    <app-verification [email]="email"></app-verification>
   </div>
 
 </div>

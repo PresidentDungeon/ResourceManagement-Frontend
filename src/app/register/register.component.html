@@ -1,0 +1,33 @@
+<div id="container">
+
+  <div *ngIf="isActive" class="formfield">
+    <h1>Register</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input formControlName="username" matInput placeholder="Username...">
+        <mat-error>Username must be a valid e-mail</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" formControlName="password" matInput placeholder="Password...">
+        <mat-error>Password is required (min. 8 characters)</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Repeat password</mat-label>
+        <input type="password" formControlName="passwordConfirm" matInput placeholder="Repeat password...">
+        <mat-error>Password must be identical</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" [disabled]="!registerForm.valid || registerLoad">Register</button>
+    </form>
+  </div>
+
+  <div *ngIf="!isActive">
+    <app-verification [email]="email"></app-verification>
+  </div>
+
+</div>

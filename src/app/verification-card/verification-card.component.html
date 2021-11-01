@@ -1,0 +1,11 @@
+<div id="cardContainer">
+
+  <mat-card id="verificationCard">
+    <img *ngIf="showCheckmark" mat-card-sm-image src="assets/images/Checkmark.png">
+    <h2 class="cardElement">{{header}}</h2>
+    <p *ngIf="!emailBold">{{text}}</p>
+    <p *ngIf="emailBold" class="cardElement">An email has been sent to <b>{{text}}</b> with instructions for resetting your password.</p>
+    <button (click)="returnToLogin()" id="returnButton" mat-raised-button>Return to login</button>
+  </mat-card>
+
+</div>
