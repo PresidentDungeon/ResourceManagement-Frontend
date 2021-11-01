@@ -7,7 +7,10 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
-import { MatProgressBarModule} from "@angular/material/progress-bar";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     declarations: [],
@@ -22,7 +25,10 @@ import { MatProgressBarModule} from "@angular/material/progress-bar";
       MatOptionModule,
       MatSnackBarModule,
       MatCardModule,
-      MatProgressBarModule
+      MatProgressBarModule,
+      MatGridListModule,
+      MatSidenavModule,
+      MatListModule
     ],
     providers: []
   })

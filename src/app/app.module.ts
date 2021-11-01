@@ -35,16 +35,6 @@ import { VerificationCardComponent } from './verification-card/verification-card
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    SharedModule,
-    MatSidenavModule,
-    MatListModule,
-    MatGridListModule
     SharedModule,
     MaterialModule
   ],
