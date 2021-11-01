@@ -1,24 +1,63 @@
-<h1>Resources to choose from</h1>
-<div id="container">
 
-    <mat-form-field appearance="fill">
-        <mat-label>Search</mat-label>
-        <input matInput>
-    </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Select an option</mat-label>
-    <mat-select [(value)]="selected">
-      <mat-option>None</mat-option>
-      <mat-option value="Strong-Man">Option 1</mat-option>
-      <mat-option value="Electritian">Option 2</mat-option>
-      <mat-option value="Engineer">Option 3</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div id="container">
+  <h1>Resources to choose from</h1>
+  <mat-drawer-container class="employeeList-container">
+    <mat-drawer mode="side" opened>
+      Employee select list
+
+      <mat-selection-list #candidates>
+        <mat-list-option *ngFor="let candidates of proposedList">
+          {{candidates}}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <p>
+        Options selected: {{candidates.selectedOptions.selected.length}}
+      </p>
+    </mat-drawer>
+    <mat-drawer-content>
+      <h1>Candidate details</h1>
+
+      <mat-grid-list cols="2" rowHeight="2:1" >
+        <mat-grid-tile class="grid-details">
+          <h2>Main work field</h2>
+          <h3>employee.workField</h3>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-details">
+          <h2>Education</h2>
+          <h3>employee.education</h3>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-details">
+          <h2>Focus Diplomas</h2>
+          <h3>employee.diplomas</h3>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-details">
+          <h2>Completed Courses</h2>
+          <h3>employee.courses</h3>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-details">
+          <h2>Previously been off-shore:</h2>
+          <h3>employee.previousTrips</h3>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-details">
+          <h2>Years of experience</h2>
+          <h3>employee.experience</h3>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+
 
   <p>You selected: {{selected}}</p>
 
     <mat-form-field appearance="fill">
-        <mat-label>Candidate qualifications</mat-label>
+        <mat-label>Candidates</mat-label>
         <textarea matInput></textarea>
     </mat-form-field>
+
+  <button mat-raised-button color="primary">Send Proposal</button>
 </div>
