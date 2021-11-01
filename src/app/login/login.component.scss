@@ -1,23 +1,23 @@
 #container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .formfield {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-    width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  width: 300px;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 button {
-    width: fit-content;
-    align-self: center;
-    background-color: #103447;
-    color: white;
+  width: fit-content;
+  align-self: center;
+  background-color: #103447;
+  color: white;
 }
