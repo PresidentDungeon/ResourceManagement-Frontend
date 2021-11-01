@@ -1,0 +1,26 @@
+#cardContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#verificationCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  margin-bottom: 8px;
+  margin-top: 2rem;
+}
+
+.cardElement{
+  margin-top: 10px;
+}
+
+#returnButton{
+  width: fit-content;
+  align-self: center;
+  color: #ffffff;
+  background: #4ad52a;
+  opacity: 85%;
+}

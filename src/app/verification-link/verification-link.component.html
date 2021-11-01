@@ -1,0 +1,38 @@
+<div *ngIf="loading" class="container">
+  <mat-progress-bar id="loadingBar" mode="indeterminate"></mat-progress-bar>
+  <h2>Sending request</h2>
+</div>
+
+<div *ngIf="!loading && errorMessage && (!successfulVerification || !successfulPasswordVerification)" class="container">
+  <h1>{{errorMessage}}</h1>
+</div>
+
+<app-verification-card *ngIf="!loading && successfulVerification" [showCheckmark]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>
+
+<div *ngIf="!loading && successfulPasswordVerification" class="container">
+
+  <div class="formfield" *ngIf="!passwordChanged">
+    <h1>Update Password</h1>
+    <form [formGroup]="passwordForm" (ngSubmit)="sendPasswordChangeRequest()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" formControlName="password" matInput placeholder="Password...">
+        <mat-error>Password is required (min. 8 characters)</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Repeat password</mat-label>
+        <input type="password" formControlName="passwordConfirm" matInput placeholder="Repeat password...">
+        <mat-error>Password must be identical</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" [disabled]="!passwordForm.valid || passwordChangeLoading">Update</button>
+    </form>
+  </div>
+
+  <app-verification-card *ngIf="passwordChanged" [showCheckmark]="true" [header]="'Password has been reset'" [text]="'Your password has successfully been reset.'"></app-verification-card>
+
+</div>
+
+

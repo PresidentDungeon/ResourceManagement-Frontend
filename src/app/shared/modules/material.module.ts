@@ -5,19 +5,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
-import { CommonModule } from "@angular/common";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatCardModule } from "@angular/material/card";
+import { MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
     declarations: [],
     imports: [
     ],
     exports: [
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatOptionModule
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCheckboxModule,
+      MatSelectModule,
+      MatOptionModule,
+      MatSnackBarModule,
+      MatCardModule,
+      MatProgressBarModule
     ],
     providers: []
   })

@@ -1,7 +1,9 @@
 <div id="container">
   <a id="logo"><img src="../../assets/images/semco-light.webp" routerLink="/home"></a>
   <div id="navbar">
-    <a routerLink="/login">Sign in</a>
+    <a *ngIf="!(loggedUser$ | async)" routerLink="/register">Register</a>
+    <a *ngIf="!(loggedUser$ | async)"routerLink="/login">Sign in</a>
+    <a *ngIf="loggedUser$ | async" routerLink="/login">Sign out</a>
     <a routerLink="/hiring">Hiring</a>
   </div>
 </div>

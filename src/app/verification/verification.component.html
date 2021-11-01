@@ -1,18 +1,27 @@
-<div id="container">
+<div *ngIf="!emailVerified" id="container">
     <div id="verify-field">
-        <h1>You need to verify your account via email</h1>
+      <h1>You need to verify your account via email</h1>
+
+      <form [formGroup]="verificationForm" (ngSubmit)="confirmVerificationCode()">
 
         <mat-form-field appearance="outline">
-            <mat-label>Verification code</mat-label>
-            <input matInput placeholder="Verify...">
+          <mat-label>Verification code</mat-label>
+          <input formControlName="verificationCode" matInput placeholder="Verify...">
+          <mat-error>Verification code must be 6 characters)</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button>Verify</button>
+        <button mat-raised-button type="submit" [disabled]="!verificationForm.valid || sendLoading">Verify</button>
+      </form>
+
+
     </div>
 
     <div id="email-field">
-        <h2>Code sent to: "Email here"</h2>
-        <h2>Did not recieve email? Send new code here.</h2>
-        <button mat-raised-button>Send new code</button>
+      <h2>Code sent to: {{email}}</h2>
+      <h2>Did not receive email? Send new code here.</h2>
+      <button *ngIf="!emailHasBeenResend" mat-raised-button (click)="resendVerificationMail()" [disabled]="resendLoading">Send new code</button>
+      <button id="confirmButton" *ngIf="emailHasBeenResend" [disabled]="true" mat-raised-button>Email has been send</button>
     </div>
 </div>
+
+<app-verification-card *ngIf="emailVerified" [showCheckmark]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>

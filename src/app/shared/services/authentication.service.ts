@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import {Injectable, OnInit} from "@angular/core";
+import {BehaviorSubject, Observable, Subject, Subscriber} from "rxjs";
 import { environment } from "src/environments/environment";
 import { LoginDto } from "../dtos/login.dto";
 import { LoginResponseDto } from "../dtos/login.response.dto";
@@ -10,17 +10,26 @@ import { map } from "rxjs/operators";
 @Injectable({
     providedIn: 'root'
   })
-  export class AuthenticationService {
+  export class AuthenticationService{
 
-    constructor(private http: HttpClient) {}
+  private userLoggedInBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public userLoggedIn$: Observable<boolean> = this.userLoggedInBehaviourSubject.asObservable();
 
-    login(loginDTO: LoginDto): Observable<boolean> {
-      return this.http.post<LoginResponseDto>(environment.apiUrl + 'user/login', loginDTO)
-      .pipe(map((loginResponseDTO) => {
+  constructor(private http: HttpClient) {
+    const token = this.getToken();
+    if(token != null && token != undefined && token != '' ){this.userLoggedInBehaviourSubject.next(true);}
+    else{this.userLoggedInBehaviourSubject.next(false);}
+  }
+
+  login(loginDTO: LoginDto): Observable<boolean> {
+      return this.http.post<LoginResponseDto>(environment.apiUrl + '/user/login', loginDTO)
+        .pipe(map((loginResponseDTO) => {
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
+          this.userLoggedInBehaviourSubject.next(true);
           return true;
         } else {
+          this.userLoggedInBehaviourSubject.next(false);
           return false;
         }
       }))
@@ -28,6 +37,7 @@ import { map } from "rxjs/operators";
 
     logout(): void {
       localStorage.removeItem('loggedUser');
+      this.userLoggedInBehaviourSubject.next(false);
     }
 
     getToken(): string {
@@ -46,7 +56,7 @@ import { map } from "rxjs/operators";
     }
 
     saveLogin(loginDTO: LoginDto): void{
-      localStorage.setItem('loginForm', JSON.stringify({ username: loginDTO, password: loginDTO}));
+      localStorage.setItem('loginForm', JSON.stringify(loginDTO));
     }
 
     forgetLogin(): void{
@@ -54,6 +64,9 @@ import { map } from "rxjs/operators";
     }
 
     getLoginInformation(): any{
-      return JSON.parse(localStorage.getItem('loginForm'));
+      const loginDTO: LoginDto = JSON.parse(localStorage.getItem('loginForm'));
+      return loginDTO;
     }
+
+
   }
