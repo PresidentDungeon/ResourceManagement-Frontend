@@ -12,7 +12,8 @@
   border: 1px solid #555;
 }
 
-.mat-grid-tile-content {
+mat-grid-tile {
   display: flex;
   flex-direction: column;
+  float: left;
 }
