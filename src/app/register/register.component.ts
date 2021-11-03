@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../shared/services/authentication.service";
-import {UserService} from "../shared/services/user.service";
-import {Location} from "@angular/common";
-import {LoginDto} from "../shared/dtos/login.dto";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "../shared/services/authentication.service";
+import { UserService } from "../shared/services/user.service";
+import { Location } from "@angular/common";
+import { LoginDto } from "../shared/dtos/login.dto";
+import { SnackMessage } from '../shared/helpers/snack-message';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +14,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthenticationService, private userService: UserService,
-              private location: Location, private snackBar: MatSnackBar) { }
+  constructor(
+    private router: Router, 
+    private authService: AuthenticationService, 
+    private userService: UserService,
+    private location: Location, 
+    private snackbar: SnackMessage) { }
 
   registerForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
@@ -55,7 +59,7 @@ export class RegisterComponent implements OnInit {
          this.isActive = false;
          this.email = registerData.username;
       },
-      error => {this.registerLoad = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
+      error => {this.registerLoad = false; this.snackbar.open('error', error.error.message)},
       () => {this.registerLoad = false;});
   }
 

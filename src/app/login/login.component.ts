@@ -1,11 +1,11 @@
-import {Component, OnInit, Output} from "@angular/core";
-import {Location} from '@angular/common';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import { Component, OnInit, Output } from "@angular/core";
+import { Location } from '@angular/common';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginDto } from "../shared/dtos/login.dto";
 import { AuthenticationService } from "../shared/services/authentication.service";
-import {UserService} from "../shared/services/user.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { UserService } from "../shared/services/user.service";
+import { SnackMessage } from "../shared/helpers/snack-message";
 
 @Component({
   selector: "app-login",
@@ -15,8 +15,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 export class LoginComponent implements OnInit {
 
-  constructor( private router: Router, private authService: AuthenticationService, private userService: UserService,
-               private location: Location, private snackBar: MatSnackBar) { }
+  constructor( 
+    private router: Router, 
+    private authService: AuthenticationService, 
+    private userService: UserService,
+    private location: Location, 
+    private snackbar: SnackMessage) { }
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -68,7 +72,7 @@ export class LoginComponent implements OnInit {
           this.saveLoginForUser(loginDTO);
         }
         else{
-          this.loginLoad = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})
+          this.loginLoad = false; this.snackbar.open('error', error.error.message)
         }
       },
     () => {this.loginLoad = false; this.router.navigate(['']);});
@@ -87,7 +91,7 @@ export class LoginComponent implements OnInit {
     this.userService.requestPasswordResetLink(email).subscribe(() => {
       this.passwordResetRequestIsSuccessful = true;
       this.email = email},
-      (error) => {this.passwordResetLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000});},
+      (error) => {this.passwordResetLoading = false; this.snackbar.open('error', error.error.message);},
       () => {this.passwordResetLoading = false;})
   }
 
