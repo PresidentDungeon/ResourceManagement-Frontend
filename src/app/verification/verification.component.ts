@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {UserService} from "../shared/services/user.service";
-import {LoginDto} from "../shared/dtos/login.dto";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {VerificationDTO} from "../shared/dtos/verification.dto";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { UserService } from "../shared/services/user.service";
+import { LoginDto } from "../shared/dtos/login.dto";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { VerificationDTO } from "../shared/dtos/verification.dto";
+import { Router } from "@angular/router";
+import { SnackMessage } from "../shared/helpers/snack-message";
 
 @Component({
   selector: "app-verification",
@@ -14,8 +14,10 @@ import {Router} from "@angular/router";
 
 export class VerificationComponent implements OnInit {
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar,
-              private router: Router) {}
+  constructor(
+    private userService: UserService, 
+    private snackbar: SnackMessage,
+    private router: Router) {}
 
   @Input() email: string;
 
@@ -41,7 +43,7 @@ export class VerificationComponent implements OnInit {
     this.userService.confirmUserMail(verificationDTO).subscribe(() => {
       this.emailVerified = true;
       },
-      (error) => {this.sendLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
+      (error) => {this.sendLoading = false; this.snackbar.open('error', error.error.message)},
       () => {this.sendLoading = false;});
   }
 
@@ -50,7 +52,7 @@ export class VerificationComponent implements OnInit {
 
     this.userService.resendConfirmationMail(this.email).subscribe(success => {
         this.emailHasBeenResend = true;},
-      (error) => {this.resendLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
+      (error) => {this.resendLoading = false; this.snackbar.open('error', error.error.message)},
       () => {this.resendLoading = false;});
   }
 
