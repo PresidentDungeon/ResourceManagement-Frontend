@@ -17,8 +17,9 @@ import { VerificationLinkComponent } from './verification-link/verification-link
 
 import { AuthInterceptor } from "./auth-guards/auth.interceptor";
 import { VerificationCardComponent } from './verification-card/verification-card.component';
-import {UserlistComponent} from "./userlist/userlist.component";
+import { UserlistComponent } from "./userlist/userlist.component";
 import { ProfilepageComponent } from './profilepage/profilepage.component';
+import { SocketIoModule } from "ngx-socket-io";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ProfilepageComponent } from './profilepage/profilepage.component';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    SocketIoModule.forRoot({url: ''}),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

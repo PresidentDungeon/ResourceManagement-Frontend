@@ -1,34 +1,63 @@
 <div id="container">
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="userList" class="mat-elevation-z8">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+    </ng-container>
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let element"> {{element.userID}} </td>
-  </ng-container>
+    <ng-container matColumnDef="Username">
+      <th mat-header-cell *matHeaderCellDef> Username </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Username </th>
-    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-  </ng-container>
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef> Company </th>
-    <td mat-cell *matCellDef="let element"> {{element.company}} </td>
-  </ng-container>
+    <ng-container matColumnDef="Role">
+      <th mat-header-cell *matHeaderCellDef> Role </th>
+      <td mat-cell *matCellDef="let element"> {{element.role.role}} </td>
+    </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef> Role </th>
-    <td mat-cell *matCellDef="let element"> {{element.role}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/profilepage/{{row.userID}}"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/profilepage/{{row.ID}}"></tr>
+  </table>
 </div>
+
+<div class="container">
+
+  <mat-form-field appearance="outline">
+    <mat-label>User mail</mat-label>
+    <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..."/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>User role</mat-label>
+    <mat-select>
+      <mat-option (onSelectionChange)="onRolesChange(role)" *ngFor="let role of roles">
+        {{role.role}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>User status</mat-label>
+    <mat-select>
+      <mat-option (onSelectionChange)="onStatusChange(status)" *ngFor="let status of status" >
+        {{status.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-paginator [length]="pageLength"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="onPaginationChange($event)"
+                 aria-label="Select page">
+  </mat-paginator>
+
+</div>
+
+

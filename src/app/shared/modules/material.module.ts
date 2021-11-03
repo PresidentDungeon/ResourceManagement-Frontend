@@ -11,7 +11,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
     declarations: [],
@@ -30,7 +31,8 @@ import {MatTableModule} from '@angular/material/table';
       MatGridListModule,
       MatSidenavModule,
       MatListModule,
-      MatTableModule
+      MatTableModule,
+      MatPaginatorModule
     ],
     providers: []
   })

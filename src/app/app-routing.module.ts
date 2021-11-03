@@ -4,10 +4,11 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
 import { HiringpageComponent } from './hiringpage/hiringpage.component';
 import { LoginComponent } from './login/login.component';
 import { VerificationComponent } from './verification/verification.component';
-import {RegisterComponent} from "./register/register.component";
-import {VerificationLinkComponent} from "./verification-link/verification-link.component";
-import {UserlistComponent} from "./userlist/userlist.component";
-import {ProfilepageComponent} from "./profilepage/profilepage.component";
+import { RegisterComponent } from "./register/register.component";
+import { VerificationLinkComponent } from "./verification-link/verification-link.component";
+import { UserlistComponent } from "./userlist/userlist.component";
+import { ProfilepageComponent } from "./profilepage/profilepage.component";
+import {AdminAuthGuard} from "./auth-guards/admin-auth-guard";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'verify', component: VerificationComponent},
   {path: 'verifyLink', component: VerificationLinkComponent},
   {path: 'hiring', component: HiringpageComponent},
-  {path: 'table', component: UserlistComponent},
+  //{path: 'table', component: UserlistComponent},
+  {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
   {path: 'profilepage/:id', component: ProfilepageComponent}
 ];
 
