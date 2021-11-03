@@ -1,4 +1,32 @@
-<div id="container">
+<div class="container">
+
+  <div id="inputFields">
+
+    <mat-form-field id='searchBox' appearance="outline">
+      <mat-label>User mail</mat-label>
+      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..."/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>User role</mat-label>
+      <mat-select>
+        <mat-option (onSelectionChange)="onRolesChange(role)" *ngFor="let role of roles">
+          {{role.role}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>User status</mat-label>
+      <mat-select>
+        <mat-option (onSelectionChange)="onStatusChange(status)" *ngFor="let status of status" >
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+<div id="table">
   <table mat-table [dataSource]="userList" class="mat-elevation-z8">
 
     <ng-container matColumnDef="ID">
@@ -23,41 +51,22 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/profilepage/{{row.ID}}"></tr>
+
   </table>
 </div>
 
-<div class="container">
-
-  <mat-form-field appearance="outline">
-    <mat-label>User mail</mat-label>
-    <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..."/>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>User role</mat-label>
-    <mat-select>
-      <mat-option (onSelectionChange)="onRolesChange(role)" *ngFor="let role of roles">
-        {{role.role}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>User status</mat-label>
-    <mat-select>
-      <mat-option (onSelectionChange)="onStatusChange(status)" *ngFor="let status of status" >
-        {{status.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-paginator [length]="pageLength"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="pageSizeOptions"
-                 (page)="onPaginationChange($event)"
-                 aria-label="Select page">
-  </mat-paginator>
+  <div id="paginator">
+    <mat-paginator [length]="pageLength"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPaginationChange($event)"
+                   aria-label="Select page">
+    </mat-paginator>
+  </div>
 
 </div>
+
+
+
 
 

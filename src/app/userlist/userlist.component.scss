@@ -1,5 +1,12 @@
-#container {
+.container {
   display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#inputFields, #table {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -9,4 +16,18 @@ table {
 
 td {
   cursor: pointer;
+}
+
+mat-form-field {
+  margin: 16px 4px -4px 4px;
+}
+
+#searchBox {
+  min-width: 300px;
+}
+
+#paginator {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
 }
