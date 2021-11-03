@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { VerificationComponent } from './verification/verification.component';
 import {RegisterComponent} from "./register/register.component";
 import {VerificationLinkComponent} from "./verification-link/verification-link.component";
+import {UserlistComponent} from "./userlist/userlist.component";
+import {ProfilepageComponent} from "./profilepage/profilepage.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -14,7 +16,9 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'verify', component: VerificationComponent},
   {path: 'verifyLink', component: VerificationLinkComponent},
-  {path: 'hiring', component: HiringpageComponent}
+  {path: 'hiring', component: HiringpageComponent},
+  {path: 'table', component: UserlistComponent},
+  {path: 'profilepage/:id', component: ProfilepageComponent}
 ];
 
 @NgModule({
