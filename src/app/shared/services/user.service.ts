@@ -57,9 +57,6 @@ export class UserService {
     return this.socket.fromEvent<User>('userDeleted');
   }
 
-  registerUser(): void{
-    this.socket.emit('register', {data: 'someValue'});
-  }
 
 
 

@@ -13,7 +13,5 @@ export class FrontpageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.userService.registerUser();
-  }
+  ngOnInit() {}
 }

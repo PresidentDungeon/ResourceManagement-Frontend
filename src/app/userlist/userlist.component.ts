@@ -7,6 +7,7 @@ import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {UserService} from "../shared/services/user.service";
 import {RoleService} from "../shared/services/role.service";
 import {MatTable} from "@angular/material/table";
+import {SnackMessage} from "../shared/helpers/snack-message";
 
 @Component({
   selector: 'app-userlist',
@@ -14,13 +15,13 @@ import {MatTable} from "@angular/material/table";
   styleUrls: ['./userlist.component.scss']
 })
 export class UserlistComponent implements OnInit, OnDestroy {
-  constructor(private snackBar: MatSnackBar,
+  constructor(private snackbar: SnackMessage,
               private userService: UserService,
               private roleService: RoleService) { }
 
   pageSizeOptions: number[] = [25, 50, 75, 100];
   pageSize: number = 25;
-  pageLength: number = 50;
+  pageLength: number = 0;
   currentPage: number = 0;
 
   roles: Role[] = [];
@@ -49,10 +50,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
   getUsers(shouldLoad: boolean): void {
 
-    if(shouldLoad)
-    {
-      this.snackbarRef = this.snackBar.open('Loading...', '', {horizontalPosition: 'center', verticalPosition: 'top', duration: 60000})
-    }
+    this.snackbarRef = this.snackbar.open('');
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}`
       + `&roleID=${this.selectedRoleID}&status=${this.selectedStatus}&sorting=ASC&sortingType=ADDED`;
@@ -60,20 +58,20 @@ export class UserlistComponent implements OnInit, OnDestroy {
     this.userService.getUsers(filter).subscribe((FilterList) => {
       this.pageLength = FilterList.totalItems;
       this.userList = FilterList.list;},
-      (error) => {this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
-      () => {if(shouldLoad){this.snackbarRef.dismiss();} });
+      (error) => {this.snackbar.open('error', error.message.message)},
+      () => {this.snackbarRef.dismiss();});
   }
 
   getRoles(): void{
     this.roleService.getRoles().subscribe((roles) => {
       this.roles = roles; this.roles.splice(0, 0, {ID: 0, role: 'All'});},
-      (error) => {},
+      (error) => {this.snackbar.open('error', error.message.message)},
       () => {})
   }
 
   onPaginationChange($event){
     this.currentPage = $event.pageIndex;
-    console.log(this.currentPage);
+    this.getUsers(true);
   }
 
   onRolesChange(role: Role){
