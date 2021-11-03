@@ -25,6 +25,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
   currentPage: number = 0;
 
   roles: Role[] = [];
+  selectRoles: Role[] = [];
   selectedRoleID: number = 0;
 
   status: any[] = [{name: 'All', status: ''}, {name: 'Pending', status: 'pending'}, {name: 'Active', status: 'active'}];
@@ -57,13 +58,15 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
     this.userService.getUsers(filter).subscribe((FilterList) => {
       this.pageLength = FilterList.totalItems;
-      this.userList = FilterList.list;},
+      this.userList = FilterList.list;
+      },
       (error) => {this.snackbar.open('error', error.message.message)},
       () => {this.snackbarRef.dismiss();});
   }
 
   getRoles(): void{
     this.roleService.getRoles().subscribe((roles) => {
+      this.selectRoles = [...roles];
       this.roles = roles; this.roles.splice(0, 0, {ID: 0, role: 'All'});},
       (error) => {this.snackbar.open('error', error.message.message)},
       () => {})
