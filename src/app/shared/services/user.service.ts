@@ -8,6 +8,8 @@ import {PasswordChangeRequestDTO} from "../dtos/password.change.request.dto";
 import {User} from "../models/user";
 import {FilterList} from "../models/filterList";
 import {SocketManagementApp} from "../modules/shared.module";
+import {Role} from "../models/role";
+import {Status} from "../models/status";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,18 @@ export class UserService {
 
   getUsers(filter: string): Observable<FilterList<User>>{
     return this.http.get<FilterList<User>>(environment.apiUrl + '/user/getUsers' + filter);
+  }
+
+  getUserRoles(): Observable<Role[]>{
+    return this.http.get<Role[]>(environment.apiUrl + '/user/getUserRoles');
+  }
+
+  getUserStatuses(): Observable<Status[]>{
+    return this.http.get<Status[]>(environment.apiUrl + '/user/getUserStatuses');
+  }
+
+  updateUser(user: User): Observable<User>{
+    return this.http.put<User>(environment.apiUrl + '/user/updateUser', user);
   }
 
   confirmUserMail(verificationDTO: VerificationDTO): Observable<void>{
@@ -43,24 +57,5 @@ export class UserService {
   requestPasswordChange(passwordChangeDTO: PasswordChangeRequestDTO): Observable<void>{
     return this.http.post<void>(environment.apiUrl + '/user/requestPasswordChange', passwordChangeDTO);
   }
-
-
-  listenForCreate(): Observable<User>{
-    return this.socket.fromEvent<User>('userCreated');
-  }
-
-  listenForUpdateChange(): Observable<User>{
-    return this.socket.fromEvent<User>('userUpdated');
-  }
-
-  listenForDeleteChange(): Observable<User>{
-    return this.socket.fromEvent<User>('userDeleted');
-  }
-
-
-
-
-
-
 
 }
