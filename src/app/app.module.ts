@@ -42,7 +42,7 @@ import { SocketIoModule } from "ngx-socket-io";
     HttpClientModule,
     SharedModule,
     MaterialModule,
-    SocketIoModule.forRoot({url: ''}),
+    SocketIoModule.forRoot({url: ''})
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

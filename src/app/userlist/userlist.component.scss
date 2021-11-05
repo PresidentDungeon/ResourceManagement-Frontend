@@ -1,16 +1,13 @@
 .container {
   display:flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
-#inputFields, #table {
+#table {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-}
-
-table {
   width: 80%;
 }
 
@@ -29,5 +26,5 @@ mat-form-field {
 #paginator {
   margin-top: 16px;
   display: flex;
-  justify-content: center;
+  justify-content: right;
 }

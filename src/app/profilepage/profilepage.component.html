@@ -1,1 +1,24 @@
-<p>profilepage works!</p>
+<div id="container" *ngIf="user">
+  <h1>{{user.username}}</h1>
+
+  <div id="formfields">
+    <mat-form-field appearance="outline">
+      <mat-label>Old password</mat-label>
+      <input matInput placeholder="Password...">
+      <mat-error>Password is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>New password</mat-label>
+      <input matInput placeholder="Password...">
+      <mat-error>Password is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Repeat new password</mat-label>
+      <input matInput placeholder="Password...">
+      <mat-error>Password is required</mat-error>
+    </mat-form-field>
+  </div>
+
+</div>

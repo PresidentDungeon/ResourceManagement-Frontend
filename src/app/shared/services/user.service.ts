@@ -24,6 +24,10 @@ export class UserService {
     return this.http.get<FilterList<User>>(environment.apiUrl + '/user/getUsers' + filter);
   }
 
+  getUserByID(userID: number): Observable<User>{
+    return this.http.get<User>(environment.apiUrl + `/user/getUserByID?ID=${userID}`);
+  }
+
   confirmUserMail(verificationDTO: VerificationDTO): Observable<void>{
     return this.http.post<void>(environment.apiUrl + '/user/verifyUser', verificationDTO);
   }
@@ -44,7 +48,6 @@ export class UserService {
     return this.http.post<void>(environment.apiUrl + '/user/requestPasswordChange', passwordChangeDTO);
   }
 
-
   listenForCreate(): Observable<User>{
     return this.socket.fromEvent<User>('userCreated');
   }
@@ -56,11 +59,4 @@ export class UserService {
   listenForDeleteChange(): Observable<User>{
     return this.socket.fromEvent<User>('userDeleted');
   }
-
-
-
-
-
-
-
 }
