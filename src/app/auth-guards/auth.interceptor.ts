@@ -15,7 +15,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   UnauthorizedErrorCode: number = 401;
   ForbiddenErrorCode: number = 403;
-  LockedErrorCode: number = 423;
 
   constructor(private router: Router) {}
 

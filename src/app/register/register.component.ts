@@ -6,6 +6,7 @@ import { UserService } from "../shared/services/user.service";
 import { Location } from "@angular/common";
 import { LoginDto } from "../shared/dtos/login.dto";
 import { SnackMessage } from '../shared/helpers/snack-message';
+import {RegisterDTO} from "../shared/dtos/register.dto";
 
 @Component({
   selector: 'app-register',
@@ -15,10 +16,10 @@ import { SnackMessage } from '../shared/helpers/snack-message';
 export class RegisterComponent implements OnInit {
 
   constructor(
-    private router: Router, 
-    private authService: AuthenticationService, 
+    private router: Router,
+    private authService: AuthenticationService,
     private userService: UserService,
-    private location: Location, 
+    private location: Location,
     private snackbar: SnackMessage) { }
 
   registerForm = new FormGroup({
@@ -53,7 +54,7 @@ export class RegisterComponent implements OnInit {
     this.registerLoad = true;
 
     const registerData = this.registerForm.value;
-    const registerDTO: LoginDto = {username: registerData.username, password: registerData.password}
+    const registerDTO: RegisterDTO = {username: registerData.username, password: registerData.password}
 
     this.userService.register(registerDTO).subscribe(success => {
          this.isActive = false;
