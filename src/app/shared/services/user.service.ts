@@ -10,6 +10,7 @@ import {FilterList} from "../models/filterList";
 import {SocketManagementApp} from "../modules/shared.module";
 import {Role} from "../models/role";
 import {Status} from "../models/status";
+import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class UserService {
 
   updateUser(user: User): Observable<User>{
     return this.http.put<User>(environment.apiUrl + '/user/updateUser', user);
+  }
+
+  updatePassword(userPasswordUpdateDTO: UserPasswordUpdateDto): Observable<boolean>{
+    return this.http.put<boolean>(environment.apiUrl + '/user/updatePassword', userPasswordUpdateDTO);
   }
 
   confirmUserMail(verificationDTO: VerificationDTO): Observable<void>{
