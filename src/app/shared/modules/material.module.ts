@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
     declarations: [],
@@ -34,7 +35,8 @@ import { MatChipsModule } from "@angular/material/chips";
       MatListModule,
       MatTableModule,
       MatPaginatorModule,
-      MatChipsModule
+      MatChipsModule,
+      MatMenuModule
     ],
     providers: []
   })
