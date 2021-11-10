@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
     declarations: [],
@@ -32,7 +33,8 @@ import { MatPaginatorModule } from "@angular/material/paginator";
       MatSidenavModule,
       MatListModule,
       MatTableModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatMenuModule
     ],
     providers: []
   })
