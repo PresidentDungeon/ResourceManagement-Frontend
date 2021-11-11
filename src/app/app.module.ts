@@ -20,6 +20,7 @@ import { VerificationCardComponent } from './verification-card/verification-card
 import { UserlistComponent } from "./userlist/userlist.component";
 import { ProfilepageComponent } from './profilepage/profilepage.component';
 import { SocketIoModule } from "ngx-socket-io";
+import { ContractpageComponent } from './contractpage/contractpage.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SocketIoModule } from "ngx-socket-io";
     VerificationLinkComponent,
     VerificationCardComponent,
     UserlistComponent,
-    ProfilepageComponent
+    ProfilepageComponent,
+    ContractpageComponent
   ],
   imports: [
     BrowserModule,

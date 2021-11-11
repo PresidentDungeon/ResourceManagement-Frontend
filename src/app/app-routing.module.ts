@@ -8,7 +8,8 @@ import { RegisterComponent } from "./register/register.component";
 import { VerificationLinkComponent } from "./verification-link/verification-link.component";
 import { UserlistComponent } from "./userlist/userlist.component";
 import { ProfilepageComponent } from "./profilepage/profilepage.component";
-import {AdminAuthGuard} from "./auth-guards/admin-auth-guard";
+import { AdminAuthGuard } from "./auth-guards/admin-auth-guard";
+import { ContractpageComponent } from './contractpage/contractpage.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'hiring', component: HiringpageComponent},
   {path: 'table', component: UserlistComponent},
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
-  {path: 'profilepage/:id', component: ProfilepageComponent}
+  {path: 'profilepage/:id', component: ProfilepageComponent},
+  {path: 'contract', component: ContractpageComponent}
 ];
 
 @NgModule({

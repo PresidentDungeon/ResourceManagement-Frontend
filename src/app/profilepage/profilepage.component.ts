@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormGroupDirective, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserPasswordUpdateDto } from '../shared/dtos/user.password.update.dto';
 import { SnackMessage } from '../shared/helpers/snack-message';
@@ -57,7 +57,7 @@ export class ProfilepageComponent implements OnInit {
     );
   }
 
-  update(): void{
+  update(formDirective: FormGroupDirective): void{
     
     const passwordData = this.updateForm.value;
 
@@ -65,7 +65,10 @@ export class ProfilepageComponent implements OnInit {
 
     this.userService.updatePassword(updatePasswordUserDTO).subscribe(() => {
       this.passwordUpdated = true;
-      this.updateForm.reset();},
+      formDirective.resetForm();
+      this.updateForm.reset();
+      this.snackbar.open('updated', 'Password')
+    },
       error => {this.passwordUpdated = false; this.snackbar.open('error', error.error.message)},
       () => {this.passwordUpdated = false;});
   }

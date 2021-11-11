@@ -13,6 +13,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from "@angular/material/menu";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [],
@@ -32,7 +38,13 @@ import { MatPaginatorModule } from "@angular/material/paginator";
       MatSidenavModule,
       MatListModule,
       MatTableModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatStepperModule,
+      MatChipsModule,
+      MatMenuModule,
+      MatDatepickerModule,
+      MatIconModule,
+      MatNativeDateModule
     ],
     providers: []
   })
