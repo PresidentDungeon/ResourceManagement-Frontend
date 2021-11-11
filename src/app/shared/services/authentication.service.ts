@@ -11,13 +11,14 @@ import { map } from "rxjs/operators";
   })
   export class AuthenticationService{
 
-  private userLoggedInBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public userLoggedIn$: Observable<boolean> = this.userLoggedInBehaviourSubject.asObservable();
+  private userStatusBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  public userStatus$: Observable<string> = this.userStatusBehaviourSubject.asObservable();
 
   constructor(private http: HttpClient) {
+    console.log(this.getRole());
     const token = this.getToken();
-    if(token != null && token != undefined && token != '' ){this.userLoggedInBehaviourSubject.next(true);}
-    else{this.userLoggedInBehaviourSubject.next(false);}
+    if(token != null && token != undefined && token != '' ){this.userStatusBehaviourSubject.next(this.getRole());}
+    else{this.userStatusBehaviourSubject.next(null);}
   }
 
   login(loginDTO: LoginDto): Observable<boolean> {
@@ -25,10 +26,10 @@ import { map } from "rxjs/operators";
       .pipe(map((loginResponseDTO) => {
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
-          this.userLoggedInBehaviourSubject.next(true);
+          this.userStatusBehaviourSubject.next(this.getRole());
           return true;
         } else {
-          this.userLoggedInBehaviourSubject.next(false);
+          this.userStatusBehaviourSubject.next(null);
           return false;
         }
       }))
@@ -36,7 +37,7 @@ import { map } from "rxjs/operators";
 
   logout(): void {
     localStorage.removeItem('loggedUser');
-    this.userLoggedInBehaviourSubject.next(false);
+    this.userStatusBehaviourSubject.next(null);
   }
 
   getToken(): string {

@@ -1,9 +1,19 @@
 <div id="container">
   <a id="logo"><img src="../../assets/images/semco-light.webp" routerLink="/home"></a>
-  <div id="navbar">
-    <a *ngIf="!(loggedUser$ | async)" routerLink="/register">Register</a>
-    <a *ngIf="!(loggedUser$ | async)"routerLink="/login">Sign in</a>
-    <a *ngIf="loggedUser$ | async" routerLink="/login">Sign out</a>
+  <div *ngIf="true;" id="navbar">
+    <a *ngIf="!(loggedUserStatus$ | async)" routerLink="/register">Register</a>
+    <a *ngIf="!(loggedUserStatus$ | async)"routerLink="/login">Sign in</a>
+    <a *ngIf="loggedUserStatus$ | async" routerLink="/login">Sign out</a>
     <a routerLink="/hiring">Hiring</a>
+    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="" [matMenuTriggerFor]="contractMenuAdmin">Contract</a>
+    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" routerLink="" [matMenuTriggerFor]="contractMenuUser">Contract</a>
+    <mat-menu #contractMenuAdmin="matMenu">
+      <button mat-menu-item>New Contract</button>
+      <button mat-menu-item>All Contracts</button>
+    </mat-menu>
+    <mat-menu #contractMenuUser="matMenu">
+      <button mat-menu-item>Request Contract</button>
+      <button mat-menu-item>My Contracts</button>
+    </mat-menu>
   </div>
 </div>
