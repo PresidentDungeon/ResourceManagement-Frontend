@@ -19,7 +19,7 @@ import { ProfilepageComponent } from './profilepage/profilepage.component';
 import { SocketIoModule } from "ngx-socket-io";
 import { ContractpageComponent } from './contractpage/contractpage.component';
 import { AuthInterceptor } from "./auth-guards/auth.interceptor";
-import { ReplaceNullWithTextPipe } from './shared/helpers/replace-null-with-text.pipe';
+import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text.pipe";
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { ReplaceNullWithTextPipe } from './shared/helpers/replace-null-with-text
     VerificationCardComponent,
     UserlistComponent,
     ProfilepageComponent,
-    ContractpageComponent
+    ContractpageComponent,
+    ReplaceNullWithTextPipe
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,6 @@ import { ReplaceNullWithTextPipe } from './shared/helpers/replace-null-with-text
     SharedModule,
     MaterialModule,
     SocketIoModule.forRoot({url: ''}),
-    ReplaceNullWithTextPipe
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
