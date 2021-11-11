@@ -9,7 +9,7 @@
 
 <app-verification-card *ngIf="!loading && successfulVerification" [showCheckmark]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>
 
-<div *ngIf="!loading && successfulPasswordVerification" class="container">
+<div *ngIf="(!loading && successfulPasswordVerification) || (!loading && successfulConfirmationVerification)" class="container">
 
   <div class="formfield" *ngIf="!passwordChanged">
     <h1>Update Password</h1>

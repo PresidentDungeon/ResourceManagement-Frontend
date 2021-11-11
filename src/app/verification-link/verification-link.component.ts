@@ -10,6 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 enum typeEnums {
   password = 'password',
   confirmation = 'confirmation',
+  setup = 'setup'
 }
 
 @Component({
@@ -46,6 +47,7 @@ export class VerificationLinkComponent implements OnInit {
   passwordChangeLoading: boolean = false;
   successfulVerification: boolean = false;
   successfulPasswordVerification: boolean = false;
+  successfulConfirmationVerification: boolean = false;
   passwordChanged: boolean = false;
 
   ngOnInit(): void {
@@ -76,12 +78,20 @@ export class VerificationLinkComponent implements OnInit {
         () => {this.loading = false;})
     }
 
-    else if(this.type = typeEnums.password){
-
+    else if(this.type == typeEnums.password){
       const verificationDTO: VerificationDTO = {username: this.email, verificationCode: this.verificationCode};
 
       this.userService.verifyPasswordToken(verificationDTO).subscribe(() => {
         this.successfulPasswordVerification = true;},
+        (error) => {this.errorMessage = error.error.message; this.loading = false;},
+        () => {this.loading = false;});
+    }
+
+    else if(this.type == typeEnums.setup){
+
+      const verificationDTO: VerificationDTO = {username: this.email, verificationCode: this.verificationCode};
+      this.userService.verifyConfirmationToken(verificationDTO).subscribe(() => {
+          this.successfulConfirmationVerification = true;},
         (error) => {this.errorMessage = error.error.message; this.loading = false;},
         () => {this.loading = false;});
     }
@@ -94,9 +104,19 @@ export class VerificationLinkComponent implements OnInit {
     const passwordData = this.passwordForm.value;
     const passwordChangeDTO: PasswordChangeRequestDTO = {username: this.email, verificationCode: this.verificationCode, password: passwordData.password}
 
-    this.userService.requestPasswordChange(passwordChangeDTO).subscribe(success => {
-        this.passwordChanged = true;},
-      (error) => {this.passwordChangeLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
-      () => {this.passwordChangeLoading = false;});
+    if(this.type == typeEnums.password){
+      this.userService.requestPasswordChange(passwordChangeDTO).subscribe(success => {
+          this.passwordChanged = true;},
+        (error) => {this.passwordChangeLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
+        () => {this.passwordChangeLoading = false;});
+    }
+    else if(this.type == typeEnums.setup){
+      this.userService.requestPasswordSignupChange(passwordChangeDTO).subscribe(success => {
+          this.passwordChanged = true;},
+        (error) => {this.passwordChangeLoading = false; this.snackBar.open(error.error.message, 'ok', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})},
+        () => {this.passwordChangeLoading = false;});
+    }
+
+
   }
 }

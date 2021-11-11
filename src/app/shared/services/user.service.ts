@@ -63,7 +63,15 @@ export class UserService {
     return this.http.post<void>(environment.apiUrl + '/user/verifyPasswordToken', verificationDTO);
   }
 
+  verifyConfirmationToken(verificationDTO: VerificationDTO): Observable<void>{
+    return this.http.post<void>(environment.apiUrl + '/user/verifyConfirmationToken', verificationDTO);
+  }
+
   requestPasswordChange(passwordChangeDTO: PasswordChangeRequestDTO): Observable<void>{
     return this.http.post<void>(environment.apiUrl + '/user/requestPasswordChange', passwordChangeDTO);
+  }
+
+  requestPasswordSignupChange(passwordChangeDTO: PasswordChangeRequestDTO): Observable<void>{
+    return this.http.post<void>(environment.apiUrl + '/user/requestPasswordSignupChange', passwordChangeDTO);
   }
 }
