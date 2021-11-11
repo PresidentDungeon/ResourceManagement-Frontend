@@ -1,0 +1,9 @@
+<app-cvtest [displaySelect]="true" [displayPagination]="true" [displayUserInfo]="true" [dataSource]="proposedList" (selectedWorkerEmitter)="updateCheckedList($event)"></app-cvtest>
+
+<div id="container">
+  <mat-chip-list aria-label="Selected Workers">
+    <mat-chip *ngFor="let worker of selectedWorkers">{{worker.name}}</mat-chip>
+  </mat-chip-list>
+</div>
+
+

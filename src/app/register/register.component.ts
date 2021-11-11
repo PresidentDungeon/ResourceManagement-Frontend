@@ -64,4 +64,14 @@ export class RegisterComponent implements OnInit {
       () => {this.registerLoad = false;});
   }
 
+
+
+
+
+
+  stepOneForm = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
+  });
+
 }

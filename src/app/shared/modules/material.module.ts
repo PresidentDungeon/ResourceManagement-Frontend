@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from "@angular/material/select";
-import { MatOptionModule } from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatMenuModule } from "@angular/material/menu";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @NgModule({
     declarations: [],
@@ -36,7 +37,9 @@ import { MatMenuModule } from "@angular/material/menu";
       MatTableModule,
       MatPaginatorModule,
       MatChipsModule,
-      MatMenuModule
+      MatMenuModule,
+      MatDatepickerModule,
+      MatNativeDateModule
     ],
     providers: []
   })

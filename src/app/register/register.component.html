@@ -24,10 +24,44 @@
 
       <button mat-raised-button type="submit" [disabled]="!registerForm.valid || registerLoad">Register</button>
     </form>
+
+    <form [formGroup]="stepOneForm">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="stepOneForm" [rangePicker]="picker">
+          <input matStartDate formControlName="startDate" placeholder="Start date">
+          <input matEndDate formControlName="endDate" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="stepOneForm.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="stepOneForm.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+      </mat-form-field>
+
+
+
+
+      <button mat-raised-button type="submit" [disabled]="!stepOneForm.valid || registerLoad">Active</button>
+    </form>
+
+
+
   </div>
 
   <div *ngIf="!isActive">
     <app-verification [email]="email"></app-verification>
   </div>
 
+
+
+
+
+
+
+
+
 </div>
+
+

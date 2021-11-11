@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from "./shared/modules/shared.module";
 import { MaterialModule } from './shared/modules/material.module';
-import { SocketIoModule } from "ngx-socket-io";
 
 import { AppComponent } from './app.component';
 import { FrontpageComponent } from './frontpage/frontpage.component';
@@ -15,11 +14,15 @@ import { VerificationComponent } from './verification/verification.component';
 import { HiringpageComponent } from './hiringpage/hiringpage.component';
 import { RegisterComponent } from './register/register.component';
 import { VerificationLinkComponent } from './verification-link/verification-link.component';
+
+import { AuthInterceptor } from "./auth-guards/auth.interceptor";
 import { VerificationCardComponent } from './verification-card/verification-card.component';
 import { UserlistComponent } from "./userlist/userlist.component";
 import { ProfilepageComponent } from './profilepage/profilepage.component';
-
-import { AuthInterceptor } from "./auth-guards/auth.interceptor";
+import { SocketIoModule } from "ngx-socket-io";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import { CvtestComponent } from './cvtest/cvtest.component';
+import { Test2Component } from './test2/test2.component';
 import { ReplaceNullWithTextPipe } from './shared/helpers/replace-null-with-text.pipe';
 
 @NgModule({
@@ -35,6 +38,8 @@ import { ReplaceNullWithTextPipe } from './shared/helpers/replace-null-with-text
     VerificationCardComponent,
     UserlistComponent,
     ProfilepageComponent,
+    CvtestComponent,
+    Test2Component,
     ReplaceNullWithTextPipe
   ],
     imports: [

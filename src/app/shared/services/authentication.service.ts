@@ -15,7 +15,6 @@ import { map } from "rxjs/operators";
   public userStatus$: Observable<string> = this.userStatusBehaviourSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    console.log(this.getRole());
     const token = this.getToken();
     if(token != null && token != undefined && token != '' ){this.userStatusBehaviourSubject.next(this.getRole());}
     else{this.userStatusBehaviourSubject.next(null);}
