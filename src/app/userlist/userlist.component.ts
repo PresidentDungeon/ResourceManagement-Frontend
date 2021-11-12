@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {User} from "../shared/models/user";
 import {Role} from "../shared/models/role";
 import {MatSnackBarRef} from "@angular/material/snack-bar";
@@ -13,9 +13,18 @@ import {Status} from "../shared/models/status";
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.scss']
 })
-export class UserlistComponent implements OnInit, OnDestroy {
+export class UserlistComponent implements OnInit {
   constructor(private snackbar: SnackMessage,
               private userService: UserService) { }
+
+  @Input() isSelectable: boolean;
+  @Output() selectedUsersEmitter = new EventEmitter();
+
+  displayedColumnsWithSelect: string[] = ['ID', 'Username', 'Status', 'Role', 'Select'];
+  displayedColumnsWithoutSelect: string[] = ['ID', 'Username', 'Status', 'Role'];
+
+  displayedColumns: string[] = ['ID', 'Username'];
+
 
   pageSizeOptions: number[] = [25, 50, 75, 100];
   pageSize: number = 25;
@@ -36,11 +45,10 @@ export class UserlistComponent implements OnInit, OnDestroy {
   snackbarRef: MatSnackBarRef<any>;
 
   userList: User[] = [];
-  displayedColumns: string[] = ['ID', 'Username', 'Status', 'Role'];
-
-  unsubscriber$ = new Subject();
+  selectedUsers: User[] = [];
 
   ngOnInit(): void {
+    this.displayedColumns = (this.isSelectable) ? this.displayedColumnsWithSelect : this.displayedColumnsWithoutSelect;
 
     this.searchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
     subscribe((search) => {this.searchTerm = search; this.getUsers()});
@@ -98,18 +106,19 @@ export class UserlistComponent implements OnInit, OnDestroy {
       (error) => {this.snackbar.open('error', error.message.message)});
   }
 
-  onPaginationChange($event){
+  onPaginationChange($event){;
     this.currentPage = $event.pageIndex;
+    this.pageSize = $event.pageSize;
     this.getUsers();
   }
 
-  onRolesSearchChange(role: Role){
-    this.selectedRoleID = role.ID;
+  onRolesSearchChange($event){
+    this.selectedRoleID = $event.value;
     this.getUsers();
   }
 
-  onStatusSearchChange(status: Status){
-    this.selectedStatusID = status.ID;
+  onStatusSearchChange($event){
+    this.selectedStatusID = $event.value;
     this.getUsers();
   }
 
@@ -117,9 +126,24 @@ export class UserlistComponent implements OnInit, OnDestroy {
     this.searchTerms.next(term);
   }
 
-  ngOnDestroy(): void {
-    this.unsubscriber$.next();
-    this.unsubscriber$.complete();
+  checkChange(user: User, $event: any){
+    const checked: boolean = $event.checked;
+
+    if(checked){
+      this.selectedUsers.push(user);
+    }
+    else{
+      const index: number = this.selectedUsers.findIndex(indexUser => indexUser.ID == user.ID);
+      this.selectedUsers.splice(index, 1);
+    }
+
+    this.selectedUsersEmitter.emit(this.selectedUsers);
   }
 
+  isChecked(user: User){
+    if(this.selectedUsers.find(indexUser => indexUser.ID == user.ID)){
+      return true;
+    }
+    return false;
+  }
 }

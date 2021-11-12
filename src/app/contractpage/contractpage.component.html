@@ -8,20 +8,17 @@
           <input matInput placeholder="Insert title..." formControlName="firstControl" required>
         </mat-form-field>
 
-        <app-userlist></app-userlist>
+        <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateCheckedList($event)"></app-userlist>
 
         <mat-form-field appearance="outline">
           <mat-label>Selected users</mat-label>
           <mat-chip-list #chipList aria-label="User selection">
-            <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-              (removed)="remove(fruit)">{{fruit.name}}
+            <mat-chip *ngFor="let user of selectedUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user)">
               <button matChipRemove *ngIf="removable">
                 <mat-icon>cancel</mat-icon>
               </button>
+              {{user.username}}
             </mat-chip>
-            <input placeholder="New fruit..." [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-              (matChipInputTokenEnd)="add($event)">
           </mat-chip-list>
         </mat-form-field>
 

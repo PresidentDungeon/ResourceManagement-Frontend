@@ -4,13 +4,13 @@
 
     <mat-form-field id='searchBox' appearance="outline">
       <mat-label>User mail</mat-label>
-      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..." />
+      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..."/>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>User role</mat-label>
-      <mat-select>
-        <mat-option (onSelectionChange)="onRolesSearchChange(role)" *ngFor="let role of roles">
+      <mat-select (selectionChange)="onRolesSearchChange($event)">
+        <mat-option *ngFor="let role of roles" [value]="role.ID">
           {{role.role}}
         </mat-option>
       </mat-select>
@@ -18,8 +18,8 @@
 
     <mat-form-field appearance="outline">
       <mat-label>User status</mat-label>
-      <mat-select>
-        <mat-option (onSelectionChange)="onStatusSearchChange(status)" *ngFor="let status of statuses" >
+      <mat-select (selectionChange)="onStatusSearchChange($event)">
+        <mat-option *ngFor="let status of statuses" [value]="status.ID">
           {{status.status}}
         </mat-option>
       </mat-select>
@@ -30,55 +30,66 @@
     <table mat-table [dataSource]="userList" class="mat-elevation-z8">
 
       <ng-container matColumnDef="ID">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+        <th mat-header-cell *matHeaderCellDef> ID</th>
+        <td mat-cell *matCellDef="let user"> {{user.ID}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Username">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        <th mat-header-cell *matHeaderCellDef> Username</th>
+        <td mat-cell *matCellDef="let user"> {{user.username}} </td>
       </ng-container>
 
-    <ng-container matColumnDef="Status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element">
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef> Status</th>
+        <td mat-cell *matCellDef="let user">
 
-        <mat-form-field appearance="outline">
-          <mat-label>User role</mat-label>
-          <mat-select (selectionChange)="onStatusChange(element, $event)" [(value)]="element.status.ID">
-            <mat-option *ngFor="let status of selectableStatuses" [value]="status.ID">
-              {{status.status}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field *ngIf="!isSelectable" appearance="outline">
+            <mat-label>User role</mat-label>
+            <mat-select (selectionChange)="onStatusChange(user, $event)" [(value)]="user.status.ID">
+              <mat-option *ngFor="let status of selectableStatuses" [value]="status.ID">
+                {{status.status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      </td>
-    </ng-container>
+          <p *ngIf="isSelectable">{{user.status.status}}</p>
 
-    <ng-container matColumnDef="Role">
-      <th mat-header-cell *matHeaderCellDef> Role </th>
-      <td mat-cell *matCellDef="let element">
+        </td>
+      </ng-container>
 
-        <mat-form-field appearance="outline">
-          <mat-label>User role</mat-label>
-          <mat-select (selectionChange)="onRolesChange(element, $event)" [(value)]="element.role.ID">
-            <mat-option *ngFor="let role of selectableRoles" [value]="role.ID">
-              {{role.role}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <ng-container matColumnDef="Role">
+        <th mat-header-cell *matHeaderCellDef> Role</th>
+        <td mat-cell *matCellDef="let user">
 
-      </td>
-    </ng-container>
+          <mat-form-field *ngIf="!isSelectable" appearance="outline">
+            <mat-label>User role</mat-label>
+            <mat-select (selectionChange)="onRolesChange(user, $event)" [(value)]="user.role.ID">
+              <mat-option *ngFor="let role of selectableRoles" [value]="role.ID">
+                {{role.role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+          <p *ngIf="isSelectable">{{user.role.role}}</p>
+
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="isSelectable" matColumnDef="Select">
+        <th mat-header-cell *matHeaderCellDef> Select</th>
+        <td mat-cell *matCellDef="let user">
+          <mat-checkbox [checked]="isChecked(user)" (change)="checkChange(user, $event)" color="primary"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
 
     <div id="paginator">
       <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-        (page)="onPaginationChange($event)" aria-label="Select page">
+                     (page)="onPaginationChange($event)" aria-label="Select page">
       </mat-paginator>
     </div>
   </div>

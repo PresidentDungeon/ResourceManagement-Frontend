@@ -1,12 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, EventEmitter, OnInit} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from "@angular/material/chips";
-
-//ToDeleteMock
-export interface Fruit {
-  name: string;
-}
+import {User} from "../shared/models/user";
 
 @Component({
   selector: "app-contractpage",
@@ -25,13 +20,10 @@ export class ContractpageComponent implements OnInit {
   contractLoad = false;
   selectable = true;
   removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  //ToDeleteMock
-  fruits: Fruit[] = [{name: 'Lemon'}, {name: 'Lime'}, {name: 'Apple'}];
-  
-  constructor() { 
+  selectedUsers: User[] = [];
+
+  constructor() {
 
   }
 
@@ -39,22 +31,16 @@ export class ContractpageComponent implements OnInit {
 
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    // Add our fruit
-    if (value) {
-      this.fruits.push({name: value});
-    }
 
-    // Clear the input value
-    event.chipInput!.clear();
+  updateCheckedList(selectedUsers: User[]){
+    this.selectedUsers = selectedUsers;
   }
 
-  remove(fruit: Fruit): void {
-    const index = this.fruits.indexOf(fruit);
-
+  remove(user:User): void {
+    const index = this.selectedUsers.indexOf(user);
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.selectedUsers.splice(index, 1);
     }
   }
+
 }
