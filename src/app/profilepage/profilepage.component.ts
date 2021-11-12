@@ -5,6 +5,7 @@ import { UserPasswordUpdateDto } from '../shared/dtos/user.password.update.dto';
 import { SnackMessage } from '../shared/helpers/snack-message';
 import { User } from '../shared/models/user';
 import { UserService } from '../shared/services/user.service';
+import {AuthenticationService} from "../shared/services/authentication.service";
 
 @Component({
   selector: 'app-profilepage',
@@ -20,18 +21,18 @@ export class ProfilepageComponent implements OnInit {
     passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(8)])
   }, {validators: [this.passwordConfirming]});
 
-  userID: number;
   user: User = null;
+  userID: number;
 
   passwordUpdated: boolean = false;
 
   constructor(
-    private userService: UserService, 
+    private authService: AuthenticationService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private snackbar: SnackMessage) { }
 
   ngOnInit(): void {
-    this.userID = + this.route.snapshot.paramMap.get('id');
     this.getUserByID();
   }
 
@@ -50,6 +51,7 @@ export class ProfilepageComponent implements OnInit {
   }
 
   getUserByID(){
+    this.userID = this.authService.getID();
     this.userService.getUserByID(this.userID).subscribe(
       (user) => {
         this.user = user;
@@ -58,7 +60,7 @@ export class ProfilepageComponent implements OnInit {
   }
 
   update(formDirective: FormGroupDirective): void{
-    
+
     const passwordData = this.updateForm.value;
 
     const updatePasswordUserDTO: UserPasswordUpdateDto = {userID: this.userID, password: passwordData.password, oldPassword: passwordData.oldPassword}

@@ -64,6 +64,16 @@ import { map } from "rxjs/operators";
     }
   }
 
+  getID(): number{
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    if (loggedUser !== null){
+      return JSON.parse(atob(loggedUser.token.split('.')[1])).ID;
+    }
+    else{
+      return null;
+    }
+  }
+
   saveLogin(loginDTO: LoginDto): void{
     localStorage.setItem('loginForm', JSON.stringify(loginDTO));
   }
