@@ -1,16 +1,16 @@
 <div id="container">
-  <mat-stepper #stepper>
+  <mat-stepper #stepper [linear]="true">
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
-        <mat-form-field appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Contract title</mat-label>
           <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
         </mat-form-field>
 
         <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateCheckedList($event)"></app-userlist>
 
-        <mat-form-field floatLabel="always" appearance="outline">
+        <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
           <mat-chip-list #chipList aria-label="User selection">
             <mat-chip id="registered" *ngFor="let user of selectedUsers" [selectable]="selectable"
@@ -36,7 +36,7 @@
           </mat-chip-list>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [formGroup]="firstFormGroup" [rangePicker]="picker">
             <input matStartDate formControlName="startDate" placeholder="Start date">
@@ -50,11 +50,16 @@
           <mat-error *ngIf="firstFormGroup.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button type="submit" [disabled]="!firstFormGroup.valid || contractLoad">Active</button>
+        <button matStepperNext mat-raised-button id="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractLoad">Next Step</button>
 
       </form>
 
     </mat-step>
+
+    <mat-step label="Resumes">
+
+    </mat-step>
+
   </mat-stepper>
 </div>
 
