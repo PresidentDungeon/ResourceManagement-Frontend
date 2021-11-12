@@ -3,3 +3,27 @@
   justify-content: center;
   flex-direction: column;
 }
+
+#add-button {
+  display: flex;
+  align-items: center;
+  border-radius: 25px;
+  max-height: 32px;
+  background-color: rgb(150, 252, 127, 0.4) !important;
+}
+
+#add-icon {
+  margin-top: 4px;
+  font-size: 18px;
+  opacity: 50%;
+}
+
+:host #registered.mat-chip{
+  background-color: rgba(4, 141, 238, 0.1) !important;
+  color: #000000 !important;
+}
+
+:host #unregistered.mat-chip{
+  background-color: rgba(248, 150, 2, 0.2) !important;
+  color: #000000 !important;
+}

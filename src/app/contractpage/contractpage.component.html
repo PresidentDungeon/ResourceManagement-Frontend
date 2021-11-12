@@ -10,15 +10,26 @@
 
         <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateCheckedList($event)"></app-userlist>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
           <mat-chip-list #chipList aria-label="User selection">
-            <mat-chip *ngFor="let user of selectedUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user)">
+            <mat-chip id="registered" *ngFor="let user of selectedUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user, selectedUsers)">
+              {{user.username}}
               <button matChipRemove *ngIf="removable">
                 <mat-icon>cancel</mat-icon>
               </button>
-              {{user.username}}
             </mat-chip>
+
+            <mat-chip id="unregistered" *ngFor="let user of selectedUnregisteredUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user, selectedUnregisteredUsers)">
+              {{user.username}}
+              <button matChipRemove *ngIf="removable">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <button id="add-button" mat-raised-button aria-label="Example icon button with a delete icon">
+              Add new user
+              <mat-icon id="add-icon">add_circle</mat-icon>
+            </button>
           </mat-chip-list>
         </mat-form-field>
 

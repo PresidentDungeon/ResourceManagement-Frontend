@@ -13,7 +13,7 @@ import {Status} from "../shared/models/status";
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.scss']
 })
-export class UserlistComponent implements OnInit {
+export class UserlistComponent implements OnInit{
   constructor(private snackbar: SnackMessage,
               private userService: UserService) { }
 
@@ -146,4 +146,5 @@ export class UserlistComponent implements OnInit {
     }
     return false;
   }
+
 }

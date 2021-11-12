@@ -22,6 +22,7 @@ export class ContractpageComponent implements OnInit {
   removable = true;
 
   selectedUsers: User[] = [];
+  selectedUnregisteredUsers: User[] = [];
 
   constructor() {
 
@@ -36,10 +37,10 @@ export class ContractpageComponent implements OnInit {
     this.selectedUsers = selectedUsers;
   }
 
-  remove(user:User): void {
-    const index = this.selectedUsers.indexOf(user);
+  remove(user: User, userList: User[]): void {
+    const index = userList.indexOf(user);
     if (index >= 0) {
-      this.selectedUsers.splice(index, 1);
+      userList.splice(index, 1);
     }
   }
 
