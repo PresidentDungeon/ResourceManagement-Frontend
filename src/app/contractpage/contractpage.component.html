@@ -2,10 +2,10 @@
   <mat-stepper #stepper>
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
-      <form id="form-container" [formGroup]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
         <mat-form-field appearance="outline">
           <mat-label>Contract title</mat-label>
-          <input matInput placeholder="Insert title..." formControlName="firstControl" required>
+          <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
         </mat-form-field>
 
         <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateCheckedList($event)"></app-userlist>
@@ -13,20 +13,23 @@
         <mat-form-field floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
           <mat-chip-list #chipList aria-label="User selection">
-            <mat-chip id="registered" *ngFor="let user of selectedUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user, selectedUsers)">
+            <mat-chip id="registered" *ngFor="let user of selectedUsers" [selectable]="selectable"
+                      [removable]="removable" (removed)="remove(user, selectedUsers)">
               {{user.username}}
               <button matChipRemove *ngIf="removable">
                 <mat-icon>cancel</mat-icon>
               </button>
             </mat-chip>
 
-            <mat-chip id="unregistered" *ngFor="let user of selectedUnregisteredUsers" [selectable]="selectable" [removable]="removable" (removed)="remove(user, selectedUnregisteredUsers)">
+            <mat-chip id="unregistered" *ngFor="let user of selectedUnregisteredUsers" [selectable]="selectable"
+                      [removable]="removable" (removed)="remove(user, selectedUnregisteredUsers)">
               {{user.username}}
               <button matChipRemove *ngIf="removable">
                 <mat-icon>cancel</mat-icon>
               </button>
             </mat-chip>
-            <button id="add-button" mat-raised-button aria-label="Example icon button with a delete icon">
+            <button id="add-button" mat-raised-button aria-label="Example icon button with a delete icon"
+                    (click)="openNewUserInput(createTemplate)">
               Add new user
               <mat-icon id="add-icon">add_circle</mat-icon>
             </button>
@@ -54,3 +57,28 @@
     </mat-step>
   </mat-stepper>
 </div>
+
+<ng-template #createTemplate>
+
+  <h1 mat-dialog-title>Register new User</h1>
+
+  <div mat-dialog-content id="template-container">
+
+
+
+
+      <form #formDirective="ngForm" [formGroup]="registerUserForm" (ngSubmit)="addNewUser(formDirective)">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input formControlName="username" matInput placeholder="Username...">
+          <mat-error>Username must be a valid e-mail</mat-error>
+        </mat-form-field>
+
+        <button id="register-button" mat-raised-button type="submit" [disabled]="!registerUserForm.valid">Register</button>
+      </form>
+
+
+  </div>
+
+</ng-template>

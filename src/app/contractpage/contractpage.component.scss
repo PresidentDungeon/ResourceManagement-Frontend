@@ -1,4 +1,4 @@
-#form-container {
+#container {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -26,4 +26,25 @@
 :host #unregistered.mat-chip{
   background-color: rgba(248, 150, 2, 0.2) !important;
   color: #000000 !important;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-top: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+#register-button{
+  margin-bottom: 5px;
+  background-color: rgb(150, 252, 127, 0.4) !important;
+}
+
+#register-button:disabled{
+  background-color: rgba(122, 122, 122, 0.4) !important;
 }
