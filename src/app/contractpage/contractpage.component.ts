@@ -23,6 +23,10 @@ export class ContractpageComponent implements OnInit {
     endDate: new FormControl('', [Validators.required]),
   });
 
+  secondFormGroup = new FormGroup({
+    resumes: new FormControl('', [Validators.required]),
+  })
+
   contractLoad = false;
   selectable = true;
   removable = true;

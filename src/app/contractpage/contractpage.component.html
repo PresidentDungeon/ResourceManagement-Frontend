@@ -57,7 +57,14 @@
     </mat-step>
 
     <mat-step label="Resumes">
-
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field class="form-field" floatLabel="always" appearance="outline">
+          <mat-label>Selected resumes</mat-label>
+          <mat-chip-list #chipList aria-label="Resume selection">
+            <mat-chip></mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+      </form>
     </mat-step>
 
   </mat-stepper>
