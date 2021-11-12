@@ -7,8 +7,8 @@ import { VerificationComponent } from './verification/verification.component';
 import { RegisterComponent } from "./register/register.component";
 import { VerificationLinkComponent } from "./verification-link/verification-link.component";
 import { UserlistComponent } from "./userlist/userlist.component";
-import { ProfilepageComponent } from "./profilepage/profilepage.component";
 import { AdminAuthGuard } from "./auth-guards/admin-auth-guard";
+import { UserAuthGuard } from './auth-guards/user-auth-guard';
 import { ContractpageComponent } from './contractpage/contractpage.component';
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'hiring', component: HiringpageComponent},
   {path: 'table', component: UserlistComponent},
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
-  {path: 'profilepage/:id', component: ProfilepageComponent},
+  {path: 'profilepage', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
   {path: 'contract', component: ContractpageComponent}
 ];
 
