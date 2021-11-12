@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'hiring', component: HiringpageComponent},
   {path: 'table', component: UserlistComponent},
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
-  {path: 'profilepage', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
+  {path: 'profile', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
   {path: 'contract', component: ContractpageComponent}
 ];
 
