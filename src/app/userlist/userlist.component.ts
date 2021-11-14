@@ -68,7 +68,7 @@ export class UserlistComponent implements OnInit{
       this.pageLength = FilterList.totalItems;
       this.userList = FilterList.list;
       },
-      (error) => {this.snackbar.open('error', error.message.message)},
+      (error) => {this.snackbar.open('error', error.error.message)},
       () => {this.snackbarRef.dismiss();});
   }
 
@@ -76,7 +76,7 @@ export class UserlistComponent implements OnInit{
     this.userService.getUserRoles().subscribe((roles) => {
       this.selectableRoles = [...roles];
       this.roles = roles; this.roles.splice(0, 0, {ID: 0, role: 'All'});},
-      (error) => {this.snackbar.open('error', error.message.message)},
+      (error) => {this.snackbar.open('error', error.error.message)},
       () => {})
   }
 
@@ -84,7 +84,7 @@ export class UserlistComponent implements OnInit{
     this.userService.getUserStatuses().subscribe((statuses) => {
         this.selectableStatuses = [...statuses];
         this.statuses = statuses; this.statuses.splice(0, 0, {ID: 0, status: 'All'});},
-      (error) => {this.snackbar.open('error', error.message.message)},
+      (error) => {this.snackbar.open('error', error.error.message)},
       () => {})
   }
 
@@ -103,7 +103,7 @@ export class UserlistComponent implements OnInit{
   updateUser(userToUpdate: User): void{
     this.userService.updateUser(userToUpdate).subscribe((user) => {
       this.getUsers();},
-      (error) => {this.snackbar.open('error', error.message.message)});
+      (error) => {this.snackbar.open('error', error.error.message)});
   }
 
   onPaginationChange($event){;
