@@ -1,19 +1,43 @@
 <div id="container">
-
   <div id="selectView">
     <div id="selectTable">
+
+      <div id="input-fields">
+        <mat-form-field class='searchBox' appearance="outline">
+          <mat-label>Candidate name...</mat-label>
+          <input #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput placeholder="Candiate name..."/>
+        </mat-form-field>
+
+        <mat-form-field class='searchBox' appearance="outline">
+          <mat-label>Candidate occupation...</mat-label>
+          <input #occupationSearchBox [ngModel]="occupationSearchTerm" (input)="searchOccupation(occupationSearchBox.value)" matInput placeholder="Candiate occupation..."/>
+        </mat-form-field>
+      </div>
+
+      <div id="table-container">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+        <ng-container matColumnDef="occupation">
+          <th mat-header-cell *matHeaderCellDef>Occupation</th>
+          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.occupation}}</td>
+        </ng-container>
+
         <ng-container matColumnDef="candidates">
-          <th mat-header-cell *matHeaderCellDef> Candidates</th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)"> {{resume.firstName}}
-            {{resume.middleLastName}} <p *ngIf="displayResumeCountInfo" id="info">Selected in {{resume.count |
-              replaceNullWithText: '0'}}</p>
+          <th mat-header-cell *matHeaderCellDef>Candidates</th>
+          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.firstName}} {{resume.middleLastName}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="iconStatus">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">
+            <mat-icon matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon" matTooltipPosition="above" *ngIf="displayResumeCountInfo"
+                      [class.iconState3]="resume.count >= warningIconCount" [class.iconState2]="resume.count >= alertIconCount" [class.iconState1]="resume.count >= availableIconCount">lens</mat-icon>
           </td>
         </ng-container>
 
         <ng-container *ngIf="displaySelect" matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef> Select</th>
+          <th mat-header-cell *matHeaderCellDef>Select</th>
           <td mat-cell *matCellDef="let resume">
             <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary">
             </mat-checkbox>
@@ -24,34 +48,37 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-
-      <div *ngIf="displayPagination" id="paginator">
-        <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-          (page)="onPaginationChange($event)" aria-label="Select page">
-        </mat-paginator>
       </div>
 
-
+      <div id="paginator" *ngIf="displayPagination">
+        <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                       (page)="onPaginationChange($event)" aria-label="Select page">
+        </mat-paginator>
+      </div>
     </div>
-    <div id="infoView" *ngIf="selectedResume">
+
+    <div id="infoView">
       <h1>Candidate details</h1>
+      <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
+      <div *ngIf="selectedResume">
+        <h2>Main work field</h2>
+        <h3>{{selectedResume.occupation}}</h3>
 
-      <h2>Main work field</h2>
-      <h3>{{selectedResume.workField}}</h3>
+        <h2>Education</h2>
+        <h3 *ngFor="let education of selectedResume.education">{{education.typeOfEducation}}</h3>
 
-      <h2>Education</h2>
-      <h3>{{selectedResume.education}}</h3>
+        <h2>Focus Diplomas</h2>
+        <h3>{{selectedResume.diplomas}}</h3>
 
-      <h2>Focus Diplomas</h2>
-      <h3>{{selectedResume.diplomas}}</h3>
+        <h2>Completed Courses</h2>
+        <h3>employee.courses</h3>
 
-      <h2>Completed Courses</h2>
-      <h3>employee.courses</h3>
+        <h2>Previously been off-shore:</h2>
+        <h3>employee.previousTrips</h3>
 
-      <h2>Previously been off-shore:</h2>
-      <h3>employee.previousTrips</h3>
-
-      <h2>Years of experience</h2>
-      <h3>employee.experience</h3>
+        <h2>Years of experience</h2>
+        <h3>employee.experience</h3>
+      </div>
     </div>
   </div>
+</div>

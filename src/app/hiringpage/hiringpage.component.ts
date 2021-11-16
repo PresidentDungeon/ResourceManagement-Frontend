@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-import {Employee} from "../shared/models/employee";
 
 export interface Worker {
   name: string;

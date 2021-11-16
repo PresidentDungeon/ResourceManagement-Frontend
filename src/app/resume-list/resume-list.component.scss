@@ -1,0 +1,113 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#selectView {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 80%;
+}
+
+#selectTable {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+#infoView {
+  margin: 80px 0 0 24px;
+  width: 40%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#table-container {
+  min-height: 50vh;
+}
+
+#input-fields {
+  align-self: center;
+  min-height: 80px;
+}
+
+.searchBox {
+  margin: 0 12px;
+  min-width: 300px;
+}
+
+button {
+  margin: 12px;
+}
+
+td {
+  cursor: pointer;
+}
+
+#paginator {
+  margin-top: 19px;
+  display: flex;
+  justify-content: right;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #103447;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #001a37;
+}
+
+:host .mat-column-select:host {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 7% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+:host .mat-column-iconStatus:host {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 2% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+#countIcon{
+  cursor: help;
+  font-size: 10px;
+  position: relative;
+  top: 6px;
+}
+
+.iconState1{
+  color: #19f5b1;
+}
+
+.iconState2{
+  color: orange;
+}
+
+.iconState3{
+  color: red;
+}

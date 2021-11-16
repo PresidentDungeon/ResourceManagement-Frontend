@@ -20,6 +20,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [],
@@ -46,7 +47,8 @@ import { MatDialogModule } from "@angular/material/dialog";
       MatDatepickerModule,
       MatIconModule,
       MatNativeDateModule,
-      MatDialogModule
+      MatDialogModule,
+      MatTooltipModule
     ],
     providers: []
   })

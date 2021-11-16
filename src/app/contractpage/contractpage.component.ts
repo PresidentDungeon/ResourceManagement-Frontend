@@ -4,6 +4,7 @@ import { MatChipInputEvent } from "@angular/material/chips";
 import {User} from "../shared/models/user";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {RegisterDTO} from "../shared/dtos/register.dto";
+import {Resume} from "../shared/models/resume";
 
 @Component({
   selector: "app-contractpage",
@@ -34,6 +35,8 @@ export class ContractpageComponent implements OnInit {
   selectedUsers: User[] = [];
   selectedUnregisteredUsers: User[] = [];
 
+  selectedResumes: Resume[] = [];
+
   dialogRef: MatDialogRef<any>;
 
   constructor(
@@ -45,14 +48,25 @@ export class ContractpageComponent implements OnInit {
   }
 
 
-  updateCheckedList(selectedUsers: User[]){
+  updateUserCheckedList(selectedUsers: User[]){
     this.selectedUsers = selectedUsers;
+  }
+
+  updateResumeCheckedList(selectedResumes: Resume[]){
+    this.selectedResumes = selectedResumes;
   }
 
   remove(user: User, userList: User[]): void {
     const index = userList.indexOf(user);
     if (index >= 0) {
       userList.splice(index, 1);
+    }
+  }
+
+  removeResume(resume: Resume): void {
+    const index = this.selectedResumes.indexOf(resume);
+    if (index >= 0) {
+      this.selectedResumes.splice(index, 1);
     }
   }
 

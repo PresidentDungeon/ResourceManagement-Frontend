@@ -1,22 +1,25 @@
 <div id="container">
   <h1>Resources to choose from</h1>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Select Contract</mat-label>
-    <mat-select>
-      <mat-option value="one">user.contract1</mat-option>
-      <mat-option value="two">user.contract2</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div id="select-contract">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Contract</mat-label>
+      <mat-select>
+        <mat-option value="one">user.contract1</mat-option>
+        <mat-option value="two">user.contract2</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <app-resume-list></app-resume-list>
 
-  <p>You selected: {{selected}}</p>
+  <div id="select-chips">
+    <p>You selected: {{selected}}</p>
 
-  <mat-chip-list aria-label="Fish selection">
-    <mat-chip>One fish</mat-chip>
-    <mat-chip>Two fish</mat-chip>
-  </mat-chip-list>
+    <mat-chip-list aria-label="Fish selection">
+      <mat-chip>One fish</mat-chip>
+      <mat-chip>Two fish</mat-chip>
+    </mat-chip-list>
 
-  <button mat-raised-button color="primary">Send Proposal</button>
+    <button mat-raised-button color="primary">Send Proposal</button>
+  </div>
 </div>

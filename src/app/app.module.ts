@@ -40,15 +40,15 @@ import { ResumeListComponent } from './resume-list/resume-list.component';
     ReplaceNullWithTextPipe,
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    MaterialModule,
-    SocketIoModule.forRoot({url: ''}),
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        SharedModule,
+        MaterialModule,
+        SocketIoModule.forRoot({url: ''}),
+    ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

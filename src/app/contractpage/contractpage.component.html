@@ -1,5 +1,29 @@
 <div id="container">
   <mat-stepper #stepper [linear]="false">
+
+    <mat-step label="Resumes">
+      <form [formGroup]="secondFormGroup">
+
+        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+
+        <mat-form-field class="form-field" floatLabel="always" appearance="outline">
+          <mat-label>Selected resumes</mat-label>
+
+          <mat-chip-list #chipList aria-label="Resume selection">
+            <mat-chip *ngFor="let resume of selectedResumes" [selectable]="selectable"
+                      [removable]="removable" (removed)="removeResume(resume)">
+              {{resume.firstName}}  {{resume.middleLastName}}
+              <button matChipRemove *ngIf="removable">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+
+          </mat-chip-list>
+
+        </mat-form-field>
+      </form>
+    </mat-step>
+
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
@@ -8,7 +32,7 @@
           <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
         </mat-form-field>
 
-        <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateCheckedList($event)"></app-userlist>
+        <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>
 
         <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
@@ -56,19 +80,7 @@
 
     </mat-step>
 
-    <mat-step label="Resumes">
-      <form [formGroup]="secondFormGroup">
 
-        <app-resume-list [isAdminPage]="true"></app-resume-list>
-
-        <mat-form-field class="form-field" floatLabel="always" appearance="outline">
-          <mat-label>Selected resumes</mat-label>
-          <mat-chip-list #chipList aria-label="Resume selection">
-            <mat-chip></mat-chip>
-          </mat-chip-list>
-        </mat-form-field>
-      </form>
-    </mat-step>
 
   </mat-stepper>
 </div>
