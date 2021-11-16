@@ -8,7 +8,7 @@ export interface Resume {
   nationality: string, //ISO 3166 Alpha-3 country code
   occupation: string,
   summary: summary,
-  workExperiences?: workExperience[],
+  workExperience?: workExperience[],
   education: education[],
   certificates: certificates[],
   otherInformation: string,

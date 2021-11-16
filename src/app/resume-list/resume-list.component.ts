@@ -75,7 +75,6 @@ export class ResumeListComponent implements OnInit {
       if(!this.displayResumeCountInfo){
         this.pageLength = filterList.totalItems;
         this.dataSource = filterList.list;
-        this.selectedResume = filterList.list[0]; //Delete later
       }
       else{
 
@@ -99,7 +98,7 @@ export class ResumeListComponent implements OnInit {
 
   onSelect(resume: Resume): void {
     this.resumeService.getResumeByID(resume.ID).subscribe((resume) => {
-      this.selectedResume = resume;},
+      this.selectedResume = resume; console.log(resume);},
       (error) => {this.snackbar.open('error', error.error.message)});
   }
 

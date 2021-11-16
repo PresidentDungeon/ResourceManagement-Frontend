@@ -61,23 +61,38 @@
       <h1>Candidate details</h1>
       <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
       <div *ngIf="selectedResume">
+
+        <h2>{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
+        <h3 class="titleSpacing">{{selectedResume.dateOfBirth | date}}</h3>
+        <h3>{{selectedResume.summary.summaryHeadline}}</h3>
+        <p class="titleSpacing">{{selectedResume.summary.summaryBody}}</p>
+
+
         <h2>Main work field</h2>
         <h3>{{selectedResume.occupation}}</h3>
+        <p class="titleSpacing">{{selectedResume.otherInformation}}</p>
 
         <h2>Education</h2>
-        <h3 *ngFor="let education of selectedResume.education">{{education.typeOfEducation}}</h3>
+        <div id="education" *ngFor="let education of selectedResume.education">
+          <h4>{{education.typeOfEducation}} ({{education.language}})</h4>
+          <h5>{{education.nameOfInstitution}}, {{education.cityOfInstitution}}<br>
+            {{education.comments}}</h5>
+        </div>
 
-        <h2>Focus Diplomas</h2>
-        <h3>{{selectedResume.diplomas}}</h3>
-
-        <h2>Completed Courses</h2>
-        <h3>employee.courses</h3>
-
-        <h2>Previously been off-shore:</h2>
-        <h3>employee.previousTrips</h3>
+        <h2>Certificates</h2>
+        <div id="certificates" *ngFor="let certificate of selectedResume.certificates">
+          <h4>{{certificate.certificateTitle}} ({{certificate.issuingAuthority}})</h4>
+          <h5 *ngIf="certificate.expiryDate">Issue date: {{certificate.issueDate}}<br>Expiry date: {{certificate.expiryDate}}</h5>
+          <h5 *ngIf="!certificate.expiryDate">Issue date: {{certificate.issueDate}}</h5>
+        </div>
 
         <h2>Years of experience</h2>
-        <h3>employee.experience</h3>
+        <div id="experiences" *ngFor="let workExperience of selectedResume.workExperience">
+          <h4>{{workExperience.roleHeld}} ({{workExperience.roleHeldReferenceCode}}) at {{workExperience.client}}</h4>
+          <h5>{{workExperience.comments}}<br>{{workExperience.experienceType}} {{workExperience.site}} ({{workExperience.siteID}})<br>
+            {{workExperience.fromDate}} - {{workExperience.toDate}}</h5>
+        </div>
+
       </div>
     </div>
   </div>
