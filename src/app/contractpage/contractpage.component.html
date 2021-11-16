@@ -1,5 +1,5 @@
 <div id="container">
-  <mat-stepper #stepper [linear]="true">
+  <mat-stepper #stepper [linear]="false">
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
@@ -58,6 +58,9 @@
 
     <mat-step label="Resumes">
       <form [formGroup]="secondFormGroup">
+
+        <app-resume-list [isAdminPage]="true"></app-resume-list>
+
         <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected resumes</mat-label>
           <mat-chip-list #chipList aria-label="Resume selection">
@@ -76,11 +79,7 @@
 
   <div mat-dialog-content id="template-container">
 
-
-
-
       <form #formDirective="ngForm" [formGroup]="registerUserForm" (ngSubmit)="addNewUser(formDirective)">
-
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
           <input formControlName="username" matInput placeholder="Username...">
@@ -89,8 +88,6 @@
 
         <button id="register-button" mat-raised-button type="submit" [disabled]="!registerUserForm.valid">Register</button>
       </form>
-
-
   </div>
 
 </ng-template>

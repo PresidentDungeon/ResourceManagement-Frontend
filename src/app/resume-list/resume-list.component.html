@@ -6,13 +6,17 @@
 
         <ng-container matColumnDef="candidates">
           <th mat-header-cell *matHeaderCellDef> Candidates</th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)"> {{resume.firstName}} {{resume.middleLastName}} <p *ngIf="displayResumeCountInfo" id="info">Selected in {{resume.count | replaceNullWithText: '0'}}</p></td>
+          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)"> {{resume.firstName}}
+            {{resume.middleLastName}} <p *ngIf="displayResumeCountInfo" id="info">Selected in {{resume.count |
+              replaceNullWithText: '0'}}</p>
+          </td>
         </ng-container>
 
         <ng-container *ngIf="displaySelect" matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef> Select</th>
           <td mat-cell *matCellDef="let resume">
-            <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary"></mat-checkbox>
+            <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary">
+            </mat-checkbox>
           </td>
         </ng-container>
 
@@ -23,13 +27,12 @@
 
       <div *ngIf="displayPagination" id="paginator">
         <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                       (page)="onPaginationChange($event)" aria-label="Select page">
+          (page)="onPaginationChange($event)" aria-label="Select page">
         </mat-paginator>
       </div>
 
 
     </div>
-<!--
     <div id="infoView" *ngIf="selectedResume">
       <h1>Candidate details</h1>
 
@@ -50,10 +53,5 @@
 
       <h2>Years of experience</h2>
       <h3>employee.experience</h3>
-
-
-    </div>  -->
+    </div>
   </div>
-</div>
-
-

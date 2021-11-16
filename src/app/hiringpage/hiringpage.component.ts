@@ -1,7 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {Employee} from "../shared/models/employee";
-
-
 
 export interface Worker {
   name: string;
@@ -32,12 +30,9 @@ export class HiringpageComponent  {
   selectedWorker?: Worker;
   worker: Worker;
 
-
-
   constructor() {
 
   }
-
 
   onSelect(worker: Worker): void {
     this.selectedWorker = worker;
