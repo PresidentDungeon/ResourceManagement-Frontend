@@ -20,6 +20,7 @@ import { SocketIoModule } from "ngx-socket-io";
 import { ContractpageComponent } from './contractpage/contractpage.component';
 import { AuthInterceptor } from "./auth-guards/auth.interceptor";
 import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text.pipe";
+import { ResumeListComponent } from './resume-list/resume-list.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text
     UserlistComponent,
     ProfilepageComponent,
     ContractpageComponent,
-    ReplaceNullWithTextPipe
+    ResumeListComponent,
+    ReplaceNullWithTextPipe,
+
   ],
   imports: [
     BrowserModule,
