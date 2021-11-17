@@ -6,6 +6,7 @@ import {ResumeService} from "../shared/services/resume.service";
 import {ResumeDTO} from "../shared/dtos/resumeDTO";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {OccupationCount} from "../shared/models/occupation-count";
 
 @Component({
   selector: 'app-resume-list',
@@ -50,6 +51,9 @@ export class ResumeListComponent implements OnInit {
   availableIconCount: number = 0
 
   checkedResumes: Resume[] = [];
+
+  totalOccupation: OccupationCount = {occupation: 'Total', count: 0};
+  occupationTypes: OccupationCount[] = [];
 
   ngOnInit(): void {
     this.displayedColumns = (this.displaySelect) ? this.displayedColumnsWithSelect : this.displayedColumnsWithoutSelect;
@@ -113,10 +117,12 @@ export class ResumeListComponent implements OnInit {
 
     if(checked){
       this.checkedResumes.push(resume);
+      this.addOccupation(resume.occupation);
     }
     else{
       const index: number = this.checkedResumes.findIndex(indexResume => indexResume.ID == resume.ID);
       this.checkedResumes.splice(index, 1);
+      this.removeOccupation(resume.occupation);
     }
 
     this.selectedResumeEmitter.emit(this.checkedResumes);
@@ -128,6 +134,7 @@ export class ResumeListComponent implements OnInit {
       this.checkedResumes.splice(index, 1);
     }
 
+    this.removeOccupation(resume.occupation);
     this.selectedResumeEmitter.emit(this.checkedResumes);
   }
 
@@ -144,6 +151,31 @@ export class ResumeListComponent implements OnInit {
 
   searchOccupation(term: string): void {
     this.occupationSearchTerms.next(term);
+  }
+
+
+
+
+
+
+  addOccupation(occupationString: string){
+    const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
+    if(index != -1){this.occupationTypes[index].count++;}
+    else{this.occupationTypes.push({occupation: occupationString, count: 1});}
+    this.totalOccupation.count = this.checkedResumes.length;
+  }
+
+  removeOccupation(occupationString: string){
+    const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
+    if(this.occupationTypes[index].count > 1){this.occupationTypes[index].count--;}
+    else{this.occupationTypes.splice(index, 1);}
+    this.totalOccupation.count = this.checkedResumes.length;
+  }
+
+  removeAllOccupations(){
+    this.checkedResumes = [];
+    this.occupationTypes = [];
+    this.totalOccupation.count = this.checkedResumes.length;
   }
 
 }

@@ -116,6 +116,16 @@ td {
   width: 100%;
 }
 
+:host #total-occupation.mat-chip{
+  background-color: rgba(6, 255, 197, 0.98) !important;
+  color: #000000 !important;
+}
+
+:host #occupation.mat-chip{
+  background-color: rgba(255, 220, 0, 0.98) !important;
+  color: #000000 !important;
+}
+
 .titleSpacing{
   margin-top: -18px;
 }
