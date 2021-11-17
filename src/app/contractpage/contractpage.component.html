@@ -81,7 +81,7 @@
     </mat-step>
 
     <mat-step label="Confirmation">
-      <form [formGroup]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup" (ngSubmit)="saveContract()">
 
 
           <mat-form-field class="form-field" appearance="fill">
@@ -92,7 +92,7 @@
           </mat-form-field>
 
         <button mat-raised-button id="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractLoad">Create contract</button>
-
+        <mat-progress-bar *ngIf="contractLoad" id="progress-bar" mode="indeterminate"></mat-progress-bar>
 
       </form>
     </mat-step>

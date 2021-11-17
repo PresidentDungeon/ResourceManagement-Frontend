@@ -8,6 +8,8 @@ import {Resume} from "../shared/models/resume";
 import {ContractService} from "../shared/services/contract.service";
 import {Status} from "../shared/models/status";
 import {SnackMessage} from "../shared/helpers/snack-message";
+import {UserService} from "../shared/services/user.service";
+import {Contract} from "../shared/models/contract";
 
 @Component({
   selector: "app-contractpage",
@@ -51,7 +53,8 @@ export class ContractpageComponent implements OnInit {
   constructor(
     private snackbar: SnackMessage,
     private dialog: MatDialog,
-    private contractService: ContractService) {}
+    private contractService: ContractService,
+    private userService: UserService) {}
 
   ngOnInit() {
     this.contractService.getContractStatuses().subscribe((statuses) => {
@@ -100,5 +103,62 @@ export class ContractpageComponent implements OnInit {
 
     formDirective.resetForm();
     this.registerUserForm.reset();
+  }
+
+  saveContract() {
+
+    /*
+        We first save new users
+        We then get the values from selectedUsers and merge with the newly created users
+        We then create the contract and save to the backend
+    */
+
+    this.contractLoad = true;
+
+    this.userService.registerUsers(this.selectedUnregisteredUsers).subscribe((registeredUsers) => {
+
+      let users = [...this.selectedUsers];
+      users.push(...registeredUsers);
+
+      const firstFormData = this.firstFormGroup.value;
+      const thirdFormData = this.thirdFormGroup.value;
+
+      const contract: Contract = {
+        ID: 0,
+        title: firstFormData.contractTitle,
+        startDate: firstFormData.startDate,
+        endDate: firstFormData.endDate,
+        status: {ID: thirdFormData.status, status: ''},
+        users: users,
+        resumes: this.selectedResumes
+      }
+
+      this.contractService.createContract(contract).subscribe((contract) => {
+        //We redirect somewhere here
+      },
+        (error) => {this.contractLoad = false; this.snackbar.open('error', error.error.message);},
+        () => {this.contractLoad = false;});
+    },
+      (error) => {this.contractLoad = false; this.snackbar.open('error', error.error.message)});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
 }
