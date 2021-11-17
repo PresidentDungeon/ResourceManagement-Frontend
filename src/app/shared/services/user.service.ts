@@ -23,6 +23,10 @@ export class UserService {
     return this.http.post<boolean>(environment.apiUrl + '/user/register', loginDTO);
   }
 
+  registerUsers(unregisteredUsers: User[]): Observable<User[]>{
+    return this.http.post<User[]>(environment.apiUrl + '/user/registerUsers', unregisteredUsers);
+  }
+
   getUsers(filter: string): Observable<FilterList<User>>{
     return this.http.get<FilterList<User>>(environment.apiUrl + '/user/getUsers' + filter);
   }

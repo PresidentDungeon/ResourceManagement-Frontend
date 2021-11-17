@@ -32,11 +32,9 @@ export class UserlistComponent implements OnInit{
   currentPage: number = 0;
 
   roles: Role[] = [];
-  selectableRoles: Role[] = [];
   selectedRoleID: number = 0;
 
   statuses: Status[] = [];
-  selectableStatuses: Status[] = [];
   selectedStatusID: number = 0;
 
   searchTerms = new Subject<string>();
@@ -74,16 +72,14 @@ export class UserlistComponent implements OnInit{
 
   getRoles(): void{
     this.userService.getUserRoles().subscribe((roles) => {
-      this.selectableRoles = [...roles];
-      this.roles = roles; this.roles.splice(0, 0, {ID: 0, role: 'All'});},
+      this.roles = [...roles];},
       (error) => {this.snackbar.open('error', error.error.message)},
       () => {})
   }
 
   getStatuses(): void{
     this.userService.getUserStatuses().subscribe((statuses) => {
-        this.selectableStatuses = [...statuses];
-        this.statuses = statuses; this.statuses.splice(0, 0, {ID: 0, status: 'All'});},
+        this.statuses = [...statuses];},
       (error) => {this.snackbar.open('error', error.error.message)},
       () => {})
   }

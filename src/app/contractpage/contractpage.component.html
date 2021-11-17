@@ -80,6 +80,22 @@
 
     </mat-step>
 
+    <mat-step label="Confirmation">
+      <form [formGroup]="thirdFormGroup" (ngSubmit)="saveContract()">
+
+
+          <mat-form-field class="form-field" appearance="fill">
+            <mat-label>Select Contract</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let status of contractStatuses" [value]="status.ID">{{status.status}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        <button mat-raised-button id="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractLoad">Create contract</button>
+        <mat-progress-bar *ngIf="contractLoad" id="progress-bar" mode="indeterminate"></mat-progress-bar>
+
+      </form>
+    </mat-step>
 
 
   </mat-stepper>
