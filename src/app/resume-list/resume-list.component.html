@@ -107,7 +107,7 @@
 
     <mat-chip-list #chipList aria-label="Resume selection">
       <mat-chip id="total-occupation" [selectable]="true" [removable]="true" (removed)="removeAllOccupations()">{{totalOccupation.occupation}}: {{totalOccupation.count}}<button matChipRemove *ngIf="true"><mat-icon>cancel</mat-icon></button></mat-chip>
-      <mat-chip id="occupation" *ngFor="let occupation of occupationTypes" [selectable]="true" [removable]="true">{{occupation.occupation}}: {{occupation.count}}<button matChipRemove *ngIf="true"><mat-icon>cancel</mat-icon></button></mat-chip>
+      <mat-chip id="occupation" *ngFor="let occupation of occupationTypes" [selectable]="true" [removable]="true" (removed)="removeOccupations(occupation.occupation)">{{occupation.occupation}}: {{occupation.count}}<button matChipRemove *ngIf="true"><mat-icon>cancel</mat-icon></button></mat-chip>
 
 
       <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true"

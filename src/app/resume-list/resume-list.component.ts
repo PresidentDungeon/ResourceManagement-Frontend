@@ -172,6 +172,12 @@ export class ResumeListComponent implements OnInit {
     this.totalOccupation.count = this.checkedResumes.length;
   }
 
+  removeOccupations(occupationString: string){
+    this.checkedResumes = this.checkedResumes.filter((resume) => {return resume.occupation !== occupationString});
+    this.occupationTypes = this.occupationTypes.filter((occupation) => {return occupation.occupation !== occupationString});
+    this.totalOccupation.count = this.checkedResumes.length;
+  }
+
   removeAllOccupations(){
     this.checkedResumes = [];
     this.occupationTypes = [];
