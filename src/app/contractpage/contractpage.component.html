@@ -1,14 +1,6 @@
 <div id="container">
   <mat-stepper #stepper [linear]="false">
 
-    <mat-step label="Resumes">
-      <form [formGroup]="secondFormGroup">
-
-        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
-        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractLoad">Next Step</button>
-      </form>
-    </mat-step>
-
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
@@ -63,6 +55,14 @@
 
       </form>
 
+    </mat-step>
+
+    <mat-step label="Resumes">
+      <form [formGroup]="secondFormGroup">
+
+        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractLoad">Next Step</button>
+      </form>
     </mat-step>
 
     <mat-step label="Confirmation">
