@@ -5,6 +5,9 @@ import {User} from "../shared/models/user";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {RegisterDTO} from "../shared/dtos/register.dto";
 import {Resume} from "../shared/models/resume";
+import {ContractService} from "../shared/services/contract.service";
+import {Status} from "../shared/models/status";
+import {SnackMessage} from "../shared/helpers/snack-message";
 
 @Component({
   selector: "app-contractpage",
@@ -25,7 +28,11 @@ export class ContractpageComponent implements OnInit {
   });
 
   secondFormGroup = new FormGroup({
-    resumes: new FormControl('', [Validators.required]),
+    resumes: new FormControl([], [Validators.required, Validators.minLength(1)]),
+  })
+
+  thirdFormGroup = new FormGroup({
+    status: new FormControl('', [Validators.required]),
   })
 
   contractLoad = false;
@@ -37,16 +44,20 @@ export class ContractpageComponent implements OnInit {
 
   selectedResumes: Resume[] = [];
 
+  contractStatuses: Status[] = [];
+
   dialogRef: MatDialogRef<any>;
 
   constructor(
+    private snackbar: SnackMessage,
     private dialog: MatDialog,
-  ) {}
+    private contractService: ContractService) {}
 
   ngOnInit() {
-
+    this.contractService.getContractStatuses().subscribe((statuses) => {
+      this.contractStatuses = statuses;},
+    (error) => {this.snackbar.open('error', error.error.message)});
   }
-
 
   updateUserCheckedList(selectedUsers: User[]){
     this.selectedUsers = selectedUsers;
@@ -54,6 +65,8 @@ export class ContractpageComponent implements OnInit {
 
   updateResumeCheckedList(selectedResumes: Resume[]){
     this.selectedResumes = selectedResumes;
+
+    this.secondFormGroup.patchValue({resumes: selectedResumes});
   }
 
   remove(user: User, userList: User[]): void {
@@ -68,6 +81,8 @@ export class ContractpageComponent implements OnInit {
     if (index >= 0) {
       this.selectedResumes.splice(index, 1);
     }
+
+    this.secondFormGroup.patchValue({resumes: this.selectedResumes});
   }
 
   openNewUserInput(template: TemplateRef<any>) {
