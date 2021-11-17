@@ -68,7 +68,6 @@ export class ContractpageComponent implements OnInit {
 
   updateResumeCheckedList(selectedResumes: Resume[]){
     this.selectedResumes = selectedResumes;
-
     this.secondFormGroup.patchValue({resumes: selectedResumes});
   }
 
@@ -77,15 +76,6 @@ export class ContractpageComponent implements OnInit {
     if (index >= 0) {
       userList.splice(index, 1);
     }
-  }
-
-  removeResume(resume: Resume): void {
-    const index = this.selectedResumes.indexOf(resume);
-    if (index >= 0) {
-      this.selectedResumes.splice(index, 1);
-    }
-
-    this.secondFormGroup.patchValue({resumes: this.selectedResumes});
   }
 
   openNewUserInput(template: TemplateRef<any>) {

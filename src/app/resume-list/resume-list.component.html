@@ -96,4 +96,21 @@
       </div>
     </div>
   </div>
+
+  <mat-form-field id="chip-list" floatLabel="always" appearance="outline">
+    <mat-label>Selected resumes</mat-label>
+
+    <mat-chip-list #chipList aria-label="Resume selection">
+      <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true"
+                [removable]="true" (removed)="removeResume(resume)">
+        {{resume.firstName}}  {{resume.middleLastName}}
+        <button matChipRemove *ngIf="true">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+
+    </mat-chip-list>
+
+  </mat-form-field>
+
 </div>

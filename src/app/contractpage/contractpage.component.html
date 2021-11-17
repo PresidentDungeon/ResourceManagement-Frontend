@@ -5,22 +5,7 @@
       <form [formGroup]="secondFormGroup">
 
         <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
-
-        <mat-form-field class="form-field" floatLabel="always" appearance="outline">
-          <mat-label>Selected resumes</mat-label>
-
-          <mat-chip-list #chipList aria-label="Resume selection">
-            <mat-chip *ngFor="let resume of selectedResumes" [selectable]="selectable"
-                      [removable]="removable" (removed)="removeResume(resume)">
-              {{resume.firstName}}  {{resume.middleLastName}}
-              <button matChipRemove *ngIf="removable">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-
-          </mat-chip-list>
-
-        </mat-form-field>
+        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractLoad">Next Step</button>
       </form>
     </mat-step>
 
@@ -74,7 +59,7 @@
           <mat-error *ngIf="firstFormGroup.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
         </mat-form-field>
 
-        <button matStepperNext mat-raised-button id="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractLoad">Next Step</button>
+        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractLoad">Next Step</button>
 
       </form>
 

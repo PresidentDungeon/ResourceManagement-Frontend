@@ -98,7 +98,7 @@ export class ResumeListComponent implements OnInit {
 
   onSelect(resume: Resume): void {
     this.resumeService.getResumeByID(resume.ID).subscribe((resume) => {
-      this.selectedResume = resume; console.log(resume);},
+      this.selectedResume = resume;},
       (error) => {this.snackbar.open('error', error.error.message)});
   }
 
@@ -116,6 +116,15 @@ export class ResumeListComponent implements OnInit {
     }
     else{
       const index: number = this.checkedResumes.findIndex(indexResume => indexResume.ID == resume.ID);
+      this.checkedResumes.splice(index, 1);
+    }
+
+    this.selectedResumeEmitter.emit(this.checkedResumes);
+  }
+
+  removeResume(resume: Resume): void {
+    const index = this.checkedResumes.indexOf(resume);
+    if (index >= 0) {
       this.checkedResumes.splice(index, 1);
     }
 
