@@ -16,42 +16,47 @@
         </mat-form-field>
       </div>
 
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <div id="resume-table" tabindex="0">
+        <div id="resume-table-content">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="occupation">
-          <th mat-header-cell *matHeaderCellDef>Occupation</th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.occupation}}</td>
-        </ng-container>
+            <ng-container matColumnDef="occupation">
+              <th mat-header-cell *matHeaderCellDef>Occupation</th>
+              <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.occupation}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="candidates">
-          <th mat-header-cell *matHeaderCellDef>Candidates</th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.firstName}}
-            {{resume.middleLastName}}
-          </td>
-        </ng-container>
+            <ng-container matColumnDef="candidates">
+              <th mat-header-cell *matHeaderCellDef>Candidates</th>
+              <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.firstName}}
+                {{resume.middleLastName}}
+              </td>
+            </ng-container>
 
-        <ng-container matColumnDef="iconStatus">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">
-            <mat-icon matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon"
-              matTooltipPosition="above" *ngIf="displayResumeCountInfo"
-              [class.iconState3]="resume.count >= warningIconCount" [class.iconState2]="resume.count >= alertIconCount"
-              [class.iconState1]="resume.count >= availableIconCount">lens</mat-icon>
-          </td>
-        </ng-container>
+            <ng-container matColumnDef="iconStatus">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">
+                <mat-icon matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon"
+                  matTooltipPosition="above" *ngIf="displayResumeCountInfo"
+                  [class.iconState3]="resume.count >= warningIconCount"
+                  [class.iconState2]="resume.count >= alertIconCount"
+                  [class.iconState1]="resume.count >= availableIconCount">lens</mat-icon>
+              </td>
+            </ng-container>
 
-        <ng-container *ngIf="displaySelect" matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>Select</th>
-          <td mat-cell *matCellDef="let resume">
-            <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary">
-            </mat-checkbox>
-          </td>
-        </ng-container>
+            <ng-container *ngIf="displaySelect" matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>Select</th>
+              <td mat-cell *matCellDef="let resume">
+                <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary">
+                </mat-checkbox>
+              </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      </table>
+          </table>
+        </div>
+      </div>
 
       <div id="paginator" *ngIf="displayPagination">
         <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
@@ -60,44 +65,45 @@
       </div>
     </div>
 
-    <div id="infoView">
-      <h1>Candidate details</h1>
-      <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
-      <div *ngIf="selectedResume">
+    <div id="infoView" tabindex="0">
+      <div id="infoView-content">
+        <h1>Candidate details</h1>
+        <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
+        <div *ngIf="selectedResume">
 
-        <h2>{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
-        <h3 class="titleSpacing">{{selectedResume.dateOfBirth | date}}</h3>
-        <h3>{{selectedResume.summary.summaryHeadline}}</h3>
-        <p class="titleSpacing">{{selectedResume.summary.summaryBody}}</p>
+          <h2>{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
+          <h3 class="titleSpacing">{{selectedResume.dateOfBirth | date}}</h3>
+          <h3>{{selectedResume.summary.summaryHeadline}}</h3>
+          <p class="titleSpacing">{{selectedResume.summary.summaryBody}}</p>
 
 
-        <h2>Main work field</h2>
-        <h3>{{selectedResume.occupation}}</h3>
-        <p class="titleSpacing">{{selectedResume.otherInformation}}</p>
+          <h2>Main work field</h2>
+          <h3>{{selectedResume.occupation}}</h3>
+          <p class="titleSpacing">{{selectedResume.otherInformation}}</p>
 
-        <h2>Education</h2>
-        <div id="education" *ngFor="let education of selectedResume.education">
-          <h4>{{education.typeOfEducation}} ({{education.language}})</h4>
-          <h5>{{education.nameOfInstitution}}, {{education.cityOfInstitution}}<br>
-            {{education.comments}}</h5>
+          <h2>Education</h2>
+          <div id="education" *ngFor="let education of selectedResume.education">
+            <h4>{{education.typeOfEducation}} ({{education.language}})</h4>
+            <h5>{{education.nameOfInstitution}}, {{education.cityOfInstitution}}<br>
+              {{education.comments}}</h5>
+          </div>
+
+          <h2>Certificates</h2>
+          <div id="certificates" *ngFor="let certificate of selectedResume.certificates">
+            <h4>{{certificate.certificateTitle}} ({{certificate.issuingAuthority}})</h4>
+            <h5 *ngIf="certificate.expiryDate">Issue date: {{certificate.issueDate}}<br>Expiry date:
+              {{certificate.expiryDate}}</h5>
+            <h5 *ngIf="!certificate.expiryDate">Issue date: {{certificate.issueDate}}</h5>
+          </div>
+
+          <h2>Years of experience</h2>
+          <div id="experiences" *ngFor="let workExperience of selectedResume.workExperience">
+            <h4>{{workExperience.roleHeld}} ({{workExperience.roleHeldReferenceCode}}) at {{workExperience.client}}</h4>
+            <h5>{{workExperience.comments}}<br>{{workExperience.experienceType}} {{workExperience.site}}
+              ({{workExperience.siteID}})<br>
+              {{workExperience.fromDate}} - {{workExperience.toDate}}</h5>
+          </div>
         </div>
-
-        <h2>Certificates</h2>
-        <div id="certificates" *ngFor="let certificate of selectedResume.certificates">
-          <h4>{{certificate.certificateTitle}} ({{certificate.issuingAuthority}})</h4>
-          <h5 *ngIf="certificate.expiryDate">Issue date: {{certificate.issueDate}}<br>Expiry date:
-            {{certificate.expiryDate}}</h5>
-          <h5 *ngIf="!certificate.expiryDate">Issue date: {{certificate.issueDate}}</h5>
-        </div>
-
-        <h2>Years of experience</h2>
-        <div id="experiences" *ngFor="let workExperience of selectedResume.workExperience">
-          <h4>{{workExperience.roleHeld}} ({{workExperience.roleHeldReferenceCode}}) at {{workExperience.client}}</h4>
-          <h5>{{workExperience.comments}}<br>{{workExperience.experienceType}} {{workExperience.site}}
-            ({{workExperience.siteID}})<br>
-            {{workExperience.fromDate}} - {{workExperience.toDate}}</h5>
-        </div>
-
       </div>
     </div>
   </div>
@@ -106,13 +112,20 @@
     <mat-label>Selected resumes</mat-label>
 
     <mat-chip-list #chipList aria-label="Resume selection">
-      <mat-chip id="total-occupation" [selectable]="true" [removable]="true" (removed)="removeAllOccupations()">{{totalOccupation.occupation}}: {{totalOccupation.count}}<button matChipRemove *ngIf="true"><mat-icon>cancel</mat-icon></button></mat-chip>
-      <mat-chip id="occupation" *ngFor="let occupation of occupationTypes" [selectable]="true" [removable]="true" (removed)="removeOccupations(occupation.occupation)">{{occupation.occupation}}: {{occupation.count}}<button matChipRemove *ngIf="true"><mat-icon>cancel</mat-icon></button></mat-chip>
+      <mat-chip id="total-occupation" [selectable]="true" [removable]="true" (removed)="removeAllOccupations()">
+        {{totalOccupation.occupation}}: {{totalOccupation.count}}<button matChipRemove *ngIf="true">
+          <mat-icon>cancel</mat-icon>
+        </button></mat-chip>
+      <mat-chip id="occupation" *ngFor="let occupation of occupationTypes" [selectable]="true" [removable]="true"
+        (removed)="removeOccupations(occupation.occupation)">{{occupation.occupation}}: {{occupation.count}}<button
+          matChipRemove *ngIf="true">
+          <mat-icon>cancel</mat-icon>
+        </button></mat-chip>
 
 
-      <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true"
-                [removable]="true" (removed)="removeResume(resume)">
-        {{resume.firstName}}  {{resume.middleLastName}}
+      <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true" [removable]="true"
+        (removed)="removeResume(resume)">
+        {{resume.firstName}} {{resume.middleLastName}}
         <button matChipRemove *ngIf="true">
           <mat-icon>cancel</mat-icon>
         </button>

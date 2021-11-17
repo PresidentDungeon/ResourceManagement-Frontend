@@ -19,9 +19,20 @@
 
 #infoView {
   margin: 80px 0 0 24px;
-  max-height: 80vh;
   width: 500px;
+  max-height: 80vh;
   overflow-y: auto;
+  visibility: hidden;
+}
+
+#resume-table {
+  max-height: 80vh;
+  overflow-y: auto;
+  visibility: hidden;
+}
+
+#resume-table-content, #resume-table:hover, #infoView-content, #infoView:hover {
+  visibility: visible;
 }
 
 #input-fields {
@@ -117,12 +128,12 @@ td {
 }
 
 :host #total-occupation.mat-chip{
-  background-color: rgba(6, 255, 197, 0.98) !important;
+  background-color: rgba(92, 169, 183, 0.5) !important;
   color: #000000 !important;
 }
 
 :host #occupation.mat-chip{
-  background-color: rgba(255, 220, 0, 0.98) !important;
+  background-color: rgba(200, 103, 70, 0.5) !important;
   color: #000000 !important;
 }
 
