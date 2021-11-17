@@ -1,9 +1,7 @@
 <div id="container" *ngIf="user">
-  <div id="form-fields">
-    <h1>{{user.username}}</h1>
-
-    <form [formGroup]="updateForm" #formDirective="ngForm" (ngSubmit)="update(formDirective)">
-
+  <h1><b>Profilepage for:</b><br>{{user.username}}</h1>
+  <form [formGroup]="updateForm" #formDirective="ngForm" (ngSubmit)="update(formDirective)">
+    <div id="form-fields">
       <mat-form-field appearance="outline">
         <mat-label>Old password</mat-label>
         <input type="password" formControlName="oldPassword" matInput placeholder="Password...">
@@ -21,8 +19,7 @@
         <input type="password" formControlName="passwordConfirm" matInput placeholder="Password...">
         <mat-error>Password is required</mat-error>
       </mat-form-field>
-
-      <button mat-raised-button type="submit" [disabled]="!updateForm.valid || passwordUpdated">Update password</button>
-    </form>
-  </div>
+    </div>
+    <button mat-raised-button type="submit" [disabled]="!updateForm.valid || passwordUpdated">Update password</button>
+  </form>
 </div>

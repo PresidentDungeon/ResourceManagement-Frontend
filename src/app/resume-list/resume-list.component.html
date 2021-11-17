@@ -5,16 +5,17 @@
       <div id="input-fields">
         <mat-form-field class='searchBox' appearance="outline">
           <mat-label>Candidate name...</mat-label>
-          <input #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput placeholder="Candiate name..."/>
+          <input #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput
+            placeholder="Candiate name..." />
         </mat-form-field>
 
         <mat-form-field class='searchBox' appearance="outline">
           <mat-label>Candidate occupation...</mat-label>
-          <input #occupationSearchBox [ngModel]="occupationSearchTerm" (input)="searchOccupation(occupationSearchBox.value)" matInput placeholder="Candiate occupation..."/>
+          <input #occupationSearchBox [ngModel]="occupationSearchTerm"
+            (input)="searchOccupation(occupationSearchBox.value)" matInput placeholder="Candiate occupation..." />
         </mat-form-field>
       </div>
 
-      <div id="table-container">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="occupation">
@@ -24,15 +25,18 @@
 
         <ng-container matColumnDef="candidates">
           <th mat-header-cell *matHeaderCellDef>Candidates</th>
-          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.firstName}} {{resume.middleLastName}}
+          <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">{{resume.firstName}}
+            {{resume.middleLastName}}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="iconStatus">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let resume" (click)="onSelect(resume)">
-            <mat-icon matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon" matTooltipPosition="above" *ngIf="displayResumeCountInfo"
-                      [class.iconState3]="resume.count >= warningIconCount" [class.iconState2]="resume.count >= alertIconCount" [class.iconState1]="resume.count >= availableIconCount">lens</mat-icon>
+            <mat-icon matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon"
+              matTooltipPosition="above" *ngIf="displayResumeCountInfo"
+              [class.iconState3]="resume.count >= warningIconCount" [class.iconState2]="resume.count >= alertIconCount"
+              [class.iconState1]="resume.count >= availableIconCount">lens</mat-icon>
           </td>
         </ng-container>
 
@@ -48,11 +52,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-      </div>
 
       <div id="paginator" *ngIf="displayPagination">
         <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                       (page)="onPaginationChange($event)" aria-label="Select page">
+          (page)="onPaginationChange($event)" aria-label="Select page">
         </mat-paginator>
       </div>
     </div>
@@ -82,14 +85,16 @@
         <h2>Certificates</h2>
         <div id="certificates" *ngFor="let certificate of selectedResume.certificates">
           <h4>{{certificate.certificateTitle}} ({{certificate.issuingAuthority}})</h4>
-          <h5 *ngIf="certificate.expiryDate">Issue date: {{certificate.issueDate}}<br>Expiry date: {{certificate.expiryDate}}</h5>
+          <h5 *ngIf="certificate.expiryDate">Issue date: {{certificate.issueDate}}<br>Expiry date:
+            {{certificate.expiryDate}}</h5>
           <h5 *ngIf="!certificate.expiryDate">Issue date: {{certificate.issueDate}}</h5>
         </div>
 
         <h2>Years of experience</h2>
         <div id="experiences" *ngFor="let workExperience of selectedResume.workExperience">
           <h4>{{workExperience.roleHeld}} ({{workExperience.roleHeldReferenceCode}}) at {{workExperience.client}}</h4>
-          <h5>{{workExperience.comments}}<br>{{workExperience.experienceType}} {{workExperience.site}} ({{workExperience.siteID}})<br>
+          <h5>{{workExperience.comments}}<br>{{workExperience.experienceType}} {{workExperience.site}}
+            ({{workExperience.siteID}})<br>
             {{workExperience.fromDate}} - {{workExperience.toDate}}</h5>
         </div>
 

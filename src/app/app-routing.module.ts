@@ -19,7 +19,7 @@ const routes: Routes = [
   {path: 'verify', component: VerificationComponent},
   {path: 'verifyLink', component: VerificationLinkComponent},
   {path: 'hiring', component: HiringpageComponent},
-  {path: 'table', component: UserlistComponent},
+  {path: 'users', component: UserlistComponent},
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
   {path: 'profile', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
   {path: 'contract', component: ContractpageComponent}
