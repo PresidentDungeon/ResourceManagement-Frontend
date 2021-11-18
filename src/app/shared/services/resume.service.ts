@@ -6,6 +6,7 @@ import {FilterList} from "../models/filterList";
 import {Resume} from "../models/resume";
 import {ResumeDTO} from "../dtos/resumeDTO";
 import {User} from "../models/user";
+import {ResumeAmountRequestDTO} from "../dtos/resume.amount.request.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class ResumeService {
     return this.http.get<FilterList<Resume>>(environment.mockAPIUrl + '/resume/getResumes' + filter);
   }
 
-  getResumesCount(resumesDTOs: ResumeDTO[]): Observable<ResumeDTO[]>{
-    return this.http.post<ResumeDTO[]>(environment.apiUrl + '/contract/getResumesAmount', resumesDTOs);
+  getResumesCount(requestDTO: ResumeAmountRequestDTO): Observable<ResumeDTO[]>{
+    return this.http.post<ResumeDTO[]>(environment.apiUrl + '/contract/getResumesAmount', requestDTO);
   }
 }
