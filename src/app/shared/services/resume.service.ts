@@ -18,6 +18,22 @@ export class ResumeService {
     return this.http.get<Resume>(environment.mockAPIUrl + `/resume/getResumeByID?ID=${resumeID}`);
   }
 
+  async getResumesByID(IDs: number[]): Promise<Resume[]>{
+
+    let resumes: Resume[] = []
+    const promises: Promise<Resume>[] = []
+
+    IDs.forEach((resumeID) => {
+      const promise: Promise<Resume> = this.getResumeByID(resumeID).toPromise();
+      promise.then((resume) => {resumes.push(resume)});
+      promises.push(promise);
+    });
+
+    await Promise.all(promises);
+    return resumes;
+
+  }
+
   getResumes(filter: string): Observable<FilterList<Resume>>{
     return this.http.get<FilterList<Resume>>(environment.mockAPIUrl + '/resume/getResumes' + filter);
   }

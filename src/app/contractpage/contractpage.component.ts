@@ -10,6 +10,8 @@ import {Status} from "../shared/models/status";
 import {SnackMessage} from "../shared/helpers/snack-message";
 import {UserService} from "../shared/services/user.service";
 import {Contract} from "../shared/models/contract";
+import {ActivatedRoute} from "@angular/router";
+import {ResumeService} from "../shared/services/resume.service";
 
 @Component({
   selector: "app-contractpage",
@@ -41,10 +43,13 @@ export class ContractpageComponent implements OnInit {
   selectable = true;
   removable = true;
 
+  contract: Contract = null;
+
   selectedUsers: User[] = [];
   selectedUnregisteredUsers: User[] = [];
 
   selectedResumes: Resume[] = [];
+  selectedResumesEmitter: EventEmitter<Resume[]> = new EventEmitter<Resume[]>();
 
   contractStatuses: Status[] = [];
 
@@ -54,12 +59,33 @@ export class ContractpageComponent implements OnInit {
     private snackbar: SnackMessage,
     private dialog: MatDialog,
     private contractService: ContractService,
-    private userService: UserService) {}
+    private resumeService: ResumeService,
+    private userService: UserService,
+    private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.contractService.getContractStatuses().subscribe((statuses) => {
       this.contractStatuses = statuses;},
     (error) => {this.snackbar.open('error', error.error.message)});
+
+    let contractID = this.route.snapshot.paramMap.get('id');
+
+    if(contractID != null){
+      this.contractService.getContractByID(+contractID).subscribe(async (contract) => {
+          this.contract = contract;
+
+          //We need to load correct contracts from backend
+          let IDs: number[] = this.contract.resumes.map((resume) => {return resume.ID});
+          let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
+          this.contract.resumes = resumes;
+          this.initializeContract();
+        },
+        (error) => {this.snackbar.open('error', error.error.message);});
+    }
+  }
+
+  initializeContract(){
+    this.selectedResumesEmitter.next(this.contract.resumes);
   }
 
   updateUserCheckedList(selectedUsers: User[]){
@@ -130,25 +156,5 @@ export class ContractpageComponent implements OnInit {
         () => {this.contractLoad = false;});
     },
       (error) => {this.contractLoad = false; this.snackbar.open('error', error.error.message)});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 }

@@ -25,6 +25,7 @@ export class ResumeListComponent implements OnInit {
   @Input() displaySelect: boolean;
   @Input() displayResumeCountInfo: boolean;
   @Input() dataSource: Resume[] = [];
+  @Input() selectedResumesEmitter: EventEmitter<Resume[]>;
   @Output() selectedResumeEmitter = new EventEmitter();
 
   displayedColumnsWithSelect: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
@@ -67,6 +68,10 @@ export class ResumeListComponent implements OnInit {
     if(this.dataSource.length == 0){
       this.getResumes();
     }
+
+    this.selectedResumesEmitter.subscribe((selectedResumes) => {
+      this.insertSelected(selectedResumes);
+    })
   }
 
   getResumes(){
@@ -153,11 +158,6 @@ export class ResumeListComponent implements OnInit {
     this.occupationSearchTerms.next(term);
   }
 
-
-
-
-
-
   addOccupation(occupationString: string){
     const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
     if(index != -1){this.occupationTypes[index].count++;}
@@ -182,6 +182,10 @@ export class ResumeListComponent implements OnInit {
     this.checkedResumes = [];
     this.occupationTypes = [];
     this.totalOccupation.count = this.checkedResumes.length;
+  }
+
+  insertSelected(resumes: Resume[]){
+    resumes.forEach((resume) => {this.addOccupation(resume.occupation)});
   }
 
 }
