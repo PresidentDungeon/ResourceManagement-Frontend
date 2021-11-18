@@ -1,20 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
-
-export interface Worker {
-  name: string;
-  selected: boolean;
-  workField: string;
-  education: string;
-  diplomas: string;
-}
-const proposedList: Worker[] = [
-  {name: 'Electrician 1', selected: false, workField: 'Electritian', education: 'SDU Esbjerg', diplomas: 'Safety 2018'},
-  {name: 'Electrician 2', selected: false, workField: 'Electritian', education: 'EASV Esbjerg', diplomas: 'Safety 2020'},
-  {name: 'Telecom 1', selected: false, workField: 'Telecom', education: 'STD Bramming 2016', diplomas: 'Safety 2018'},
-  {name: 'Engineer', selected: false, workField: 'Engineer', education: 'DUI CPH', diplomas: 'Safety 2018'},
-  {name: 'Spokes Person', selected: false, workField: 'Talker', education: 'DTU CPH', diplomas: 'Telecom beginner 2015'},
-  {name: 'Sneakers', selected: false, workField: 'Sneaker', education: 'DIY Tønder', diplomas: 'Safety 2021'}
-];
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { SnackMessage } from "../shared/helpers/snack-message";
+import { Contract } from "../shared/models/contract";
+import { AuthenticationService } from "../shared/services/authentication.service";
+import { ContractService } from "../shared/services/contract.service";
 
 @Component({
   selector: "app-hiringpage",
@@ -22,18 +11,31 @@ const proposedList: Worker[] = [
   styleUrls: ["./hiringpage.component.scss"]
 })
 
-export class HiringpageComponent  {
-  selected: Worker;
-  displayedColumns: string[] = ['candidates', 'select'];
-  dataSource = proposedList;
-  selectedWorker?: Worker;
-  worker: Worker;
+export class HiringpageComponent implements OnInit {
 
-  constructor() {
+  snackbarRef: MatSnackBarRef<any>;
 
+  userID: number;
+  contracts: Contract[] = [];
+
+  constructor(
+    private snackbar: SnackMessage,
+    private contractService: ContractService,
+    private authService: AuthenticationService
+  ) {}
+
+  ngOnInit(): void {
+    this.getContractByUserID();
   }
 
-  onSelect(worker: Worker): void {
-    this.selectedWorker = worker;
+  getContractByUserID() {
+    this.snackbarRef = this.snackbar.open('');
+    this.userID = this.authService.getID();
+    this.contractService.getContractByUserID(this.userID).subscribe((contract) =>{
+      this.contracts = contract;
+    },
+    (error) => {this.snackbar.open('error', error.error.message)},
+    () => {this.snackbarRef.dismiss();});
   }
+  
 }

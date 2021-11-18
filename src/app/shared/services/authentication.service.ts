@@ -87,4 +87,8 @@ import { map } from "rxjs/operators";
     return loginDTO;
   }
 
+  verifyAdmin(): Observable<void>{
+    return this.http.get<void>(environment.apiUrl + '/user/verifyAdmin');
+  }
+
 }
