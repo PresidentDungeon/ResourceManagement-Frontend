@@ -72,8 +72,8 @@ export class ContractpageComponent implements OnInit {
 
     this.contractService.getContractStatuses().subscribe((statuses) => {
       this.contractStatuses = statuses;
-      this.contractLoad = (contractID == null) ? true : false;},
-    (error) => {this.contractLoad = (contractID == null) ? true : false; this.invalidID = true; this.snackbar.open('error', error.error.message)});
+      this.contractLoad = (contractID == null) ? false : true;},
+    (error) => {this.contractLoad = (contractID == null) ? false : true; this.invalidID = true; this.snackbar.open('error', error.error.message)});
 
 
 
