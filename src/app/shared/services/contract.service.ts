@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Status} from "../models/status";
 import {Contract} from "../models/contract";
+import { FilterList } from '../models/filterList';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,14 @@ export class ContractService {
 
   getContractByID(ID: number): Observable<Contract>{
     return this.http.get<Contract>(environment.apiUrl + `/contract/getContractByID?ID=${ID}`);
+  }
+
+  getContractByUserID(ID: number): Observable<Contract[]>{
+    return this.http.get<Contract[]>(environment.apiUrl + `/contract/getContractByUserID?ID=${ID}`);
+  }
+
+  getContracts(filter: string): Observable<FilterList<Contract>>{
+    return this.http.get<FilterList<Contract>>(environment.apiUrl + '/contract/getContracts' + filter);
   }
 
   updateContract(contract: Contract): Observable<Contract>{

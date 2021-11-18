@@ -4,22 +4,10 @@
     <mat-form-field appearance="fill">
       <mat-label>Select Contract</mat-label>
       <mat-select>
-        <mat-option value="one">user.contract1</mat-option>
-        <mat-option value="two">user.contract2</mat-option>
+        <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <app-resume-list></app-resume-list>
-
-  <div id="select-chips">
-    <p>You selected: {{selected}}</p>
-
-    <mat-chip-list aria-label="Fish selection">
-      <mat-chip>One fish</mat-chip>
-      <mat-chip>Two fish</mat-chip>
-    </mat-chip-list>
-
-    <button mat-raised-button color="primary">Send Proposal</button>
-  </div>
+  <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="true"></app-resume-list>
 </div>

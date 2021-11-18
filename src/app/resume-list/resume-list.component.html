@@ -3,7 +3,7 @@
     <div id="selectTable">
 
       <div id="input-fields">
-        <mat-form-field class='searchBox' appearance="outline">
+        <mat-form-field *ngIf="isAdminPage" class='searchBox' appearance="outline">
           <mat-label>Candidate name...</mat-label>
           <input #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput
             placeholder="Candiate name..." />
@@ -71,7 +71,7 @@
         <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
         <div *ngIf="selectedResume">
 
-          <h2>{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
+          <h2 *ngIf="isAdminPage">{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
           <h3 class="titleSpacing">{{selectedResume.dateOfBirth | date}}</h3>
           <h3>{{selectedResume.summary.summaryHeadline}}</h3>
           <p class="titleSpacing">{{selectedResume.summary.summaryBody}}</p>
@@ -123,13 +123,15 @@
         </button></mat-chip>
 
 
-      <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true" [removable]="true"
-        (removed)="removeResume(resume)">
-        {{resume.firstName}} {{resume.middleLastName}}
-        <button matChipRemove *ngIf="true">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip>
+      <div *ngIf="isAdminPage">
+        <mat-chip *ngFor="let resume of checkedResumes" [selectable]="true" [removable]="true"
+          (removed)="removeResume(resume)">
+          {{resume.firstName}} {{resume.middleLastName}}
+          <button matChipRemove *ngIf="true">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </div>
 
     </mat-chip-list>
 

@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {MatSnackBarRef} from "@angular/material/snack-bar";
-import {SnackMessage} from "../shared/helpers/snack-message";
-import {Resume} from "../shared/models/resume";
-import {ResumeService} from "../shared/services/resume.service";
-import {ResumeDTO} from "../shared/dtos/resumeDTO";
-import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {OccupationCount} from "../shared/models/occupation-count";
-import {User} from "../shared/models/user";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { SnackMessage } from "../shared/helpers/snack-message";
+import { Resume } from "../shared/models/resume";
+import { ResumeService } from "../shared/services/resume.service";
+import { ResumeDTO } from "../shared/dtos/resumeDTO";
+import { Observable, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { OccupationCount } from "../shared/models/occupation-count";
+import { User } from "../shared/models/user";
+import { AuthenticationService } from "../shared/services/authentication.service";
 
 @Component({
   selector: 'app-resume-list',
@@ -19,7 +20,8 @@ export class ResumeListComponent implements OnInit {
 
   constructor(
     private snackbar: SnackMessage,
-    private resumeService: ResumeService) {}
+    private resumeService: ResumeService,
+    private authService: AuthenticationService) { }
 
   @Input() isAdminPage: boolean;
   @Input() displayLoad: boolean;
@@ -30,8 +32,8 @@ export class ResumeListComponent implements OnInit {
   @Input() selectedResumesObservable: Observable<Resume[]>;
   @Output() selectedResumesEmitter = new EventEmitter();
 
-  displayedColumnsWithSelect: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
-  displayedColumnsWithoutSelect: string[] = ['occupation', 'candidates'];
+  displayedColumnsWithCandidates: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
+  displayedColumnsWithoutCandidates: string[] = ['occupation', 'select'];
 
   displayedColumns: string[];
   selectedResume?: Resume;
@@ -55,77 +57,84 @@ export class ResumeListComponent implements OnInit {
 
   checkedResumes: Resume[] = [];
 
-  totalOccupation: OccupationCount = {occupation: 'Total', count: 0};
+  totalOccupation: OccupationCount = { occupation: 'Total', count: 0 };
   occupationTypes: OccupationCount[] = [];
 
   ngOnInit(): void {
-    this.displayedColumns = (this.displaySelect) ? this.displayedColumnsWithSelect : this.displayedColumnsWithoutSelect;
+    this.authService.verifyAdmin().subscribe();
+    this.displayedColumns = (this.isAdminPage) ? this.displayedColumnsWithCandidates : this.displayedColumnsWithoutCandidates;
 
     this.nameSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
-    subscribe((search) => {this.nameSearchTerm = search; this.getResumes()});
+      subscribe((search) => { this.nameSearchTerm = search; this.getResumes() });
 
     this.occupationSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
-    subscribe((search) => {this.occupationSearchTerm = search; this.getResumes()});
+      subscribe((search) => { this.occupationSearchTerm = search; this.getResumes() });
 
-    if(this.dataSource.length == 0){
+    if (this.dataSource.length == 0) {
       this.getResumes();
     }
 
-    this.selectedResumesObservable.subscribe((selectedResumes) => {
-      this.insertSelected(selectedResumes);
-    });
+    if (this.selectedResumesObservable != null) {
+      this.selectedResumesObservable.subscribe((selectedResumes) => {
+        this.insertSelected(selectedResumes);
+
+      });
+    }
   }
 
-  getResumes(){
-    if(this.displayLoad){this.snackbarRef = this.snackbar.open('')};
+  getResumes() {
+    if (this.displayLoad) { this.snackbarRef = this.snackbar.open('') };
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.nameSearchTerm}`
       + `&occupation=${this.occupationSearchTerm}&sorting=ASC&sortingType=ADDED`;
 
     this.resumeService.getResumes(filter).subscribe((filterList) => {
 
-      if(!this.displayResumeCountInfo){
+      if (!this.displayResumeCountInfo) {
         this.pageLength = filterList.totalItems;
         this.dataSource = filterList.list;
       }
-      else{
+      else {
 
         let resumeDTOs: ResumeDTO[] = [];
-        filterList.list.forEach((resume) => {resumeDTOs.push({ID: resume.ID, count: 0})})
+        filterList.list.forEach((resume) => { resumeDTOs.push({ ID: resume.ID, count: 0 }) })
 
         this.resumeService.getResumesCount(resumeDTOs).subscribe((resumeDTOs) => {
 
-          for(let i = 0; i < filterList.list.length; i++){
+          for (let i = 0; i < filterList.list.length; i++) {
             filterList.list[i].count = resumeDTOs[i].count
           }
 
           this.pageLength = filterList.totalItems;
-          this.dataSource = filterList.list;},
-          (error) => {this.snackbar.open('error', error.error.message)});
-      }},
-      (error) => {this.snackbar.open('error', error.error.message)},
-      () => {if(this.displayLoad){this.snackbarRef.dismiss();}});
+          this.dataSource = filterList.list;
+        },
+          (error) => { this.snackbar.open('error', error.error.message) });
+      }
+    },
+      (error) => { this.snackbar.open('error', error.error.message) },
+      () => { if (this.displayLoad) { this.snackbarRef.dismiss(); } });
   }
 
   onSelect(resume: Resume): void {
     this.resumeService.getResumeByID(resume.ID).subscribe((resume) => {
-      this.selectedResume = resume;},
-      (error) => {this.snackbar.open('error', error.error.message)});
+      this.selectedResume = resume;
+    },
+      (error) => { this.snackbar.open('error', error.error.message) });
   }
 
-  onPaginationChange($event){
+  onPaginationChange($event) {
     this.currentPage = $event.pageIndex;
     this.pageSize = $event.pageSize;
     this.getResumes();
   }
 
-  checkChange(resume: Resume, $event: any){
+  checkChange(resume: Resume, $event: any) {
     const checked: boolean = $event.checked;
 
-    if(checked){
+    if (checked) {
       this.checkedResumes.push(resume);
       this.addOccupation(resume.occupation);
     }
-    else{
+    else {
       const index: number = this.checkedResumes.findIndex(indexResume => indexResume.ID == resume.ID);
       this.checkedResumes.splice(index, 1);
       this.removeOccupation(resume.occupation);
@@ -144,8 +153,8 @@ export class ResumeListComponent implements OnInit {
     this.selectedResumesEmitter.emit(this.checkedResumes);
   }
 
-  isChecked(resume: Resume){
-    if(this.checkedResumes.find(indexResume => indexResume.ID == resume.ID)){
+  isChecked(resume: Resume) {
+    if (this.checkedResumes.find(indexResume => indexResume.ID == resume.ID)) {
       return true;
     }
     return false;
@@ -159,34 +168,34 @@ export class ResumeListComponent implements OnInit {
     this.occupationSearchTerms.next(term);
   }
 
-  addOccupation(occupationString: string){
+  addOccupation(occupationString: string) {
     const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
-    if(index != -1){this.occupationTypes[index].count++;}
-    else{this.occupationTypes.push({occupation: occupationString, count: 1});}
+    if (index != -1) { this.occupationTypes[index].count++; }
+    else { this.occupationTypes.push({ occupation: occupationString, count: 1 }); }
     this.totalOccupation.count = this.checkedResumes.length;
   }
 
-  removeOccupation(occupationString: string){
+  removeOccupation(occupationString: string) {
     const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
-    if(this.occupationTypes[index].count > 1){this.occupationTypes[index].count--;}
-    else{this.occupationTypes.splice(index, 1);}
+    if (this.occupationTypes[index].count > 1) { this.occupationTypes[index].count--; }
+    else { this.occupationTypes.splice(index, 1); }
     this.totalOccupation.count = this.checkedResumes.length;
   }
 
-  removeOccupations(occupationString: string){
-    this.checkedResumes = this.checkedResumes.filter((resume) => {return resume.occupation !== occupationString});
-    this.occupationTypes = this.occupationTypes.filter((occupation) => {return occupation.occupation !== occupationString});
+  removeOccupations(occupationString: string) {
+    this.checkedResumes = this.checkedResumes.filter((resume) => { return resume.occupation !== occupationString });
+    this.occupationTypes = this.occupationTypes.filter((occupation) => { return occupation.occupation !== occupationString });
     this.totalOccupation.count = this.checkedResumes.length;
   }
 
-  removeAllOccupations(){
+  removeAllOccupations() {
     this.checkedResumes = [];
     this.occupationTypes = [];
     this.totalOccupation.count = this.checkedResumes.length;
   }
 
-  insertSelected(resumes: Resume[]){
-    resumes.forEach((resume) => {this.addOccupation(resume.occupation)});
+  insertSelected(resumes: Resume[]) {
+    resumes.forEach((resume) => { this.addOccupation(resume.occupation) });
     this.checkedResumes = resumes;
     this.totalOccupation.count = resumes.length;
   }
