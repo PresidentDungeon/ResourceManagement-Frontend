@@ -10,8 +10,9 @@ import {Status} from "../shared/models/status";
 import {SnackMessage} from "../shared/helpers/snack-message";
 import {UserService} from "../shared/services/user.service";
 import {Contract} from "../shared/models/contract";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ResumeService} from "../shared/services/resume.service";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: "app-contractpage",
@@ -40,6 +41,7 @@ export class ContractpageComponent implements OnInit {
   })
 
   contractLoad = true;
+  updateView = false;
   invalidID = false;
 
   contractSave = false;
@@ -50,9 +52,12 @@ export class ContractpageComponent implements OnInit {
 
   selectedUsers: User[] = [];
   selectedUnregisteredUsers: User[] = [];
+  selectedUsersBehaviourSubject: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  selectedUsersObservable: Observable<User[]> = this.selectedUsersBehaviourSubject.asObservable();
 
   selectedResumes: Resume[] = [];
-  selectedResumesEmitter: EventEmitter<Resume[]> = new EventEmitter<Resume[]>();
+  selectedResumesBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
+  selectedResumesObservable: Observable<Resume[]> = this.selectedResumesBehaviourSubject.asObservable();
 
   contractStatuses: Status[] = [];
 
@@ -64,7 +69,8 @@ export class ContractpageComponent implements OnInit {
     private contractService: ContractService,
     private resumeService: ResumeService,
     private userService: UserService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit() {
 
@@ -73,11 +79,13 @@ export class ContractpageComponent implements OnInit {
     this.contractService.getContractStatuses().subscribe((statuses) => {
       this.contractStatuses = statuses;
       this.contractLoad = (contractID == null) ? false : true;},
-    (error) => {this.contractLoad = (contractID == null) ? false : true; this.invalidID = true; this.snackbar.open('error', error.error.message)});
+    (error) => {this.contractLoad = (contractID == null) ? false : true; this.snackbar.open('error', error.error.message)});
 
 
 
     if(contractID != null){
+      this.updateView = true;
+
       this.contractService.getContractByID(+contractID).subscribe(async (contract) => {
           this.contract = contract;
 
@@ -85,15 +93,25 @@ export class ContractpageComponent implements OnInit {
           let IDs: number[] = this.contract.resumes.map((resume) => {return resume.ID});
           let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
           this.contract.resumes = resumes;
-          this.initializeContract();
+          this.initializeContract(this.contract);
           this.contractLoad = false;
         },
-        (error) => {this.snackbar.open('error', error.error.message);});
+        (error) => {this.invalidID = true; this.contractLoad = false; this.snackbar.open('error', error.error.message);});
     }
   }
 
-  initializeContract(){
-    this.selectedResumesEmitter.next(this.contract.resumes);
+  initializeContract(contract: Contract){
+    this.firstFormGroup.patchValue({
+      contractTitle: contract.title,
+      startDate: contract.startDate,
+      endDate: contract.endDate
+    });
+    this.secondFormGroup.patchValue({resumes: contract.resumes});
+    this.thirdFormGroup.patchValue({status: contract.status.ID});
+    this.selectedUsers = contract.users;
+    this.selectedResumes = contract.resumes;
+    this.selectedResumesBehaviourSubject.next(contract.resumes);
+    this.selectedUsersBehaviourSubject.next(contract.users);
   }
 
   updateUserCheckedList(selectedUsers: User[]){
@@ -148,7 +166,7 @@ export class ContractpageComponent implements OnInit {
       const thirdFormData = this.thirdFormGroup.value;
 
       const contract: Contract = {
-        ID: 0,
+        ID: (this.updateView) ? this.contract.ID : 0,
         title: firstFormData.contractTitle,
         startDate: firstFormData.startDate,
         endDate: firstFormData.endDate,
@@ -157,11 +175,19 @@ export class ContractpageComponent implements OnInit {
         resumes: this.selectedResumes
       }
 
-      this.contractService.createContract(contract).subscribe((contract) => {
-        //We redirect somewhere here
-      },
-        (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
-        () => {this.contractSave = false;});
+      if(this.updateView){
+        this.contractService.updateContract(contract).subscribe((contract) => {
+          this.router.navigate(['']);},
+          (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
+          () => {this.contractSave = false;});
+      }
+
+      else{
+        this.contractService.createContract(contract).subscribe((contract) => {
+            this.router.navigate(['']);},
+          (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
+          () => {this.contractSave = false;});
+      }
     },
       (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message)});
   }

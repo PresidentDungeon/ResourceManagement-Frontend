@@ -1,5 +1,14 @@
 <div id="container">
-  <mat-stepper #stepper [linear]="false">
+
+  <div *ngIf="contractLoad">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!contractLoad && invalidID">
+    <h3>Invalid contract ID entered</h3>
+  </div>
+
+  <mat-stepper *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
 
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
@@ -9,7 +18,7 @@
           <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
         </mat-form-field>
 
-        <app-userlist [isSelectable]="true" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>
+        <app-userlist [isSelectable]="true" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>
 
         <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
@@ -60,7 +69,7 @@
     <mat-step label="Resumes">
       <form [formGroup]="secondFormGroup">
 
-        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [selectedResumesEmitter]="selectedResumesEmitter" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [selectedResumesObservable]="selectedResumesObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
         <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
       </form>
     </mat-step>
@@ -76,7 +85,8 @@
             </mat-select>
           </mat-form-field>
 
-        <button mat-raised-button id="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
+        <button mat-raised-button *ngIf="!updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
+        <button mat-raised-button *ngIf="updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
         <mat-progress-bar *ngIf="contractSave" id="progress-bar" mode="indeterminate"></mat-progress-bar>
 
       </form>

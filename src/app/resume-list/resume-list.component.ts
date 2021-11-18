@@ -4,9 +4,10 @@ import {SnackMessage} from "../shared/helpers/snack-message";
 import {Resume} from "../shared/models/resume";
 import {ResumeService} from "../shared/services/resume.service";
 import {ResumeDTO} from "../shared/dtos/resumeDTO";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {OccupationCount} from "../shared/models/occupation-count";
+import {User} from "../shared/models/user";
 
 @Component({
   selector: 'app-resume-list',
@@ -21,12 +22,13 @@ export class ResumeListComponent implements OnInit {
     private resumeService: ResumeService) {}
 
   @Input() isAdminPage: boolean;
+  @Input() displayLoad: boolean;
   @Input() displayPagination: boolean;
   @Input() displaySelect: boolean;
   @Input() displayResumeCountInfo: boolean;
   @Input() dataSource: Resume[] = [];
-  @Input() selectedResumesEmitter: EventEmitter<Resume[]>;
-  @Output() selectedResumeEmitter = new EventEmitter();
+  @Input() selectedResumesObservable: Observable<Resume[]>;
+  @Output() selectedResumesEmitter = new EventEmitter();
 
   displayedColumnsWithSelect: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
   displayedColumnsWithoutSelect: string[] = ['occupation', 'candidates'];
@@ -69,13 +71,13 @@ export class ResumeListComponent implements OnInit {
       this.getResumes();
     }
 
-    this.selectedResumesEmitter.subscribe((selectedResumes) => {
+    this.selectedResumesObservable.subscribe((selectedResumes) => {
       this.insertSelected(selectedResumes);
-    })
+    });
   }
 
   getResumes(){
-    this.snackbarRef = this.snackbar.open('');
+    if(this.displayLoad){this.snackbarRef = this.snackbar.open('')};
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.nameSearchTerm}`
       + `&occupation=${this.occupationSearchTerm}&sorting=ASC&sortingType=ADDED`;
 
@@ -101,8 +103,7 @@ export class ResumeListComponent implements OnInit {
           (error) => {this.snackbar.open('error', error.error.message)});
       }},
       (error) => {this.snackbar.open('error', error.error.message)},
-      () => {this.snackbarRef.dismiss();});
-
+      () => {if(this.displayLoad){this.snackbarRef.dismiss();}});
   }
 
   onSelect(resume: Resume): void {
@@ -130,7 +131,7 @@ export class ResumeListComponent implements OnInit {
       this.removeOccupation(resume.occupation);
     }
 
-    this.selectedResumeEmitter.emit(this.checkedResumes);
+    this.selectedResumesEmitter.emit(this.checkedResumes);
   }
 
   removeResume(resume: Resume): void {
@@ -140,7 +141,7 @@ export class ResumeListComponent implements OnInit {
     }
 
     this.removeOccupation(resume.occupation);
-    this.selectedResumeEmitter.emit(this.checkedResumes);
+    this.selectedResumesEmitter.emit(this.checkedResumes);
   }
 
   isChecked(resume: Resume){
@@ -186,6 +187,8 @@ export class ResumeListComponent implements OnInit {
 
   insertSelected(resumes: Resume[]){
     resumes.forEach((resume) => {this.addOccupation(resume.occupation)});
+    this.checkedResumes = resumes;
+    this.totalOccupation.count = resumes.length;
   }
 
 }

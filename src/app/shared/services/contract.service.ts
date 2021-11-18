@@ -4,8 +4,6 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Status} from "../models/status";
 import {Contract} from "../models/contract";
-import {concatAll} from "rxjs/operators";
-import {Resume} from "../models/resume";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +18,10 @@ export class ContractService {
 
   getContractByID(ID: number): Observable<Contract>{
     return this.http.get<Contract>(environment.apiUrl + `/contract/getContractByID?ID=${ID}`);
+  }
+
+  updateContract(contract: Contract): Observable<Contract>{
+    return this.http.put<Contract>(environment.apiUrl + '/contract/update', contract);
   }
 
 

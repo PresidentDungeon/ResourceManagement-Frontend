@@ -2,11 +2,12 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} fr
 import {User} from "../shared/models/user";
 import {Role} from "../shared/models/role";
 import {MatSnackBarRef} from "@angular/material/snack-bar";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {UserService} from "../shared/services/user.service";
 import {SnackMessage} from "../shared/helpers/snack-message";
 import {Status} from "../shared/models/status";
+import {Resume} from "../shared/models/resume";
 
 @Component({
   selector: 'app-userlist',
@@ -18,6 +19,8 @@ export class UserlistComponent implements OnInit{
               private userService: UserService) { }
 
   @Input() isSelectable: boolean;
+  @Input() displayLoad: boolean;
+  @Input() selectedUsersObservable: Observable<User[]>;
   @Output() selectedUsersEmitter = new EventEmitter();
 
   displayedColumnsWithSelect: string[] = ['ID', 'Username', 'Status', 'Role', 'Select'];
@@ -53,11 +56,15 @@ export class UserlistComponent implements OnInit{
     this.getRoles();
     this.getStatuses();
     this.getUsers();
+
+    this.selectedUsersObservable.subscribe((selectedUsers) => {
+      this.selectedUsers = selectedUsers;
+    });
   }
 
   getUsers(): void {
 
-    this.snackbarRef = this.snackbar.open('');
+    if(this.displayLoad){this.snackbarRef = this.snackbar.open('');}
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}`
       + `&roleID=${this.selectedRoleID}&statusID=${this.selectedStatusID}&sorting=ASC&sortingType=ADDED`;
@@ -67,7 +74,7 @@ export class UserlistComponent implements OnInit{
       this.userList = FilterList.list;
       },
       (error) => {this.snackbar.open('error', error.error.message)},
-      () => {this.snackbarRef.dismiss();});
+      () => {if(this.displayLoad){this.snackbarRef.dismiss();}});
   }
 
   getRoles(): void{
