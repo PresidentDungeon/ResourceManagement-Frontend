@@ -51,7 +51,7 @@
           <mat-error *ngIf="firstFormGroup.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
         </mat-form-field>
 
-        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractLoad">Next Step</button>
+        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractSave">Next Step</button>
 
       </form>
 
@@ -61,7 +61,7 @@
       <form [formGroup]="secondFormGroup">
 
         <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [selectedResumesEmitter]="selectedResumesEmitter" (selectedResumeEmitter)="updateResumeCheckedList($event)"></app-resume-list>
-        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractLoad">Next Step</button>
+        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
       </form>
     </mat-step>
 
@@ -76,8 +76,8 @@
             </mat-select>
           </mat-form-field>
 
-        <button mat-raised-button id="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractLoad">Create contract</button>
-        <mat-progress-bar *ngIf="contractLoad" id="progress-bar" mode="indeterminate"></mat-progress-bar>
+        <button mat-raised-button id="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
+        <mat-progress-bar *ngIf="contractSave" id="progress-bar" mode="indeterminate"></mat-progress-bar>
 
       </form>
     </mat-step>

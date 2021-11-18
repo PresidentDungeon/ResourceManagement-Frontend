@@ -39,7 +39,10 @@ export class ContractpageComponent implements OnInit {
     status: new FormControl('', [Validators.required]),
   })
 
-  contractLoad = false;
+  contractLoad = true;
+  invalidID = false;
+
+  contractSave = false;
   selectable = true;
   removable = true;
 
@@ -64,11 +67,15 @@ export class ContractpageComponent implements OnInit {
     private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.contractService.getContractStatuses().subscribe((statuses) => {
-      this.contractStatuses = statuses;},
-    (error) => {this.snackbar.open('error', error.error.message)});
 
     let contractID = this.route.snapshot.paramMap.get('id');
+
+    this.contractService.getContractStatuses().subscribe((statuses) => {
+      this.contractStatuses = statuses;
+      this.contractLoad = (contractID == null) ? true : false;},
+    (error) => {this.contractLoad = (contractID == null) ? true : false; this.invalidID = true; this.snackbar.open('error', error.error.message)});
+
+
 
     if(contractID != null){
       this.contractService.getContractByID(+contractID).subscribe(async (contract) => {
@@ -79,6 +86,7 @@ export class ContractpageComponent implements OnInit {
           let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
           this.contract.resumes = resumes;
           this.initializeContract();
+          this.contractLoad = false;
         },
         (error) => {this.snackbar.open('error', error.error.message);});
     }
@@ -129,7 +137,7 @@ export class ContractpageComponent implements OnInit {
         We then create the contract and save to the backend
     */
 
-    this.contractLoad = true;
+    this.contractSave = true;
 
     this.userService.registerUsers(this.selectedUnregisteredUsers).subscribe((registeredUsers) => {
 
@@ -152,9 +160,9 @@ export class ContractpageComponent implements OnInit {
       this.contractService.createContract(contract).subscribe((contract) => {
         //We redirect somewhere here
       },
-        (error) => {this.contractLoad = false; this.snackbar.open('error', error.error.message);},
-        () => {this.contractLoad = false;});
+        (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
+        () => {this.contractSave = false;});
     },
-      (error) => {this.contractLoad = false; this.snackbar.open('error', error.error.message)});
+      (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message)});
   }
 }
