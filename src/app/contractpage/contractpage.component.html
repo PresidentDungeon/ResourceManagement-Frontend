@@ -69,7 +69,7 @@
     <mat-step label="Resumes">
       <form [formGroup]="secondFormGroup">
 
-        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [selectedResumesObservable]="selectedResumesObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+        <app-resume-list [isAdminPage]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [selectedResumesObservable]="selectedResumesObservable" [excludeContractID]="(this.updateView && this.contract != undefined) ? this.contract.ID : 0" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
         <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
       </form>
     </mat-step>

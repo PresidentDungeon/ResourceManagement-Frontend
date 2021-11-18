@@ -8,6 +8,7 @@ import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {OccupationCount} from "../shared/models/occupation-count";
 import {User} from "../shared/models/user";
+import {ResumeAmountRequestDTO} from "../shared/dtos/resume.amount.request.dto";
 
 @Component({
   selector: 'app-resume-list',
@@ -28,6 +29,7 @@ export class ResumeListComponent implements OnInit {
   @Input() displayResumeCountInfo: boolean;
   @Input() dataSource: Resume[] = [];
   @Input() selectedResumesObservable: Observable<Resume[]>;
+  @Input() excludeContractID: number = 0;
   @Output() selectedResumesEmitter = new EventEmitter();
 
   displayedColumnsWithSelect: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
@@ -92,7 +94,9 @@ export class ResumeListComponent implements OnInit {
         let resumeDTOs: ResumeDTO[] = [];
         filterList.list.forEach((resume) => {resumeDTOs.push({ID: resume.ID, count: 0})})
 
-        this.resumeService.getResumesCount(resumeDTOs).subscribe((resumeDTOs) => {
+        const requestDTO: ResumeAmountRequestDTO = {resumes: resumeDTOs, excludeContract: this.excludeContractID}
+
+        this.resumeService.getResumesCount(requestDTO).subscribe((resumeDTOs) => {
 
           for(let i = 0; i < filterList.list.length; i++){
             filterList.list[i].count = resumeDTOs[i].count
