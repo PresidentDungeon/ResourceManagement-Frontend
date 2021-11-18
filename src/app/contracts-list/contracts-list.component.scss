@@ -1,0 +1,23 @@
+.container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#table-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+#searchBox {
+  margin-top: 18px;
+  min-width: 300px;
+}
+
+#paginator {
+  margin-top: 19px;
+  display: flex;
+  justify-content: right;
+}

@@ -6,6 +6,7 @@ import {Status} from "../models/status";
 import {Contract} from "../models/contract";
 import {concatAll} from "rxjs/operators";
 import {Resume} from "../models/resume";
+import {FilterList} from "../models/filterList";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class ContractService {
 
   createContract(contract: Contract): Observable<Contract>{
     return this.http.post<Contract>(environment.apiUrl + '/contract/create', contract);
+  }
+
+  getContracts(filter: string): Observable<FilterList<Contract>>{
+    return this.http.get<FilterList<Contract>>(environment.apiUrl + '/contract/getContracts' + filter);
   }
 
   getContractByID(ID: number): Observable<Contract>{

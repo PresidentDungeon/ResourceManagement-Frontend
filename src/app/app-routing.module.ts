@@ -10,6 +10,7 @@ import { UserlistComponent } from "./userlist/userlist.component";
 import { AdminAuthGuard } from "./auth-guards/admin-auth-guard";
 import { UserAuthGuard } from './auth-guards/user-auth-guard';
 import { ContractpageComponent } from './contractpage/contractpage.component';
+import {ContractsListComponent} from "./contracts-list/contracts-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
   {path: 'profile', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
   {path: 'contract', component: ContractpageComponent},
-  {path: 'contract/:id', component: ContractpageComponent}
+  {path: 'contract/:id', component: ContractpageComponent},
+  {path: 'contracts', component: ContractsListComponent}
 ];
 
 @NgModule({
