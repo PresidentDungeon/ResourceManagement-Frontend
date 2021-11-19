@@ -16,9 +16,9 @@
         </mat-form-field>
       </div>
 
-      <div id="resume-table" tabindex="0">
-        <div id="resume-table-content">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <div class="mat-elevation-z8">
+        <div id="resume-table" tabindex="0">
+          <table mat-table [dataSource]="dataSource" class="resume-table-content">
 
             <ng-container matColumnDef="occupation">
               <th mat-header-cell *matHeaderCellDef>Occupation</th>
@@ -43,10 +43,11 @@
               </td>
             </ng-container>
 
-            <ng-container *ngIf="displaySelect" matColumnDef="select">
+            <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>Select</th>
               <td mat-cell *matCellDef="let resume">
-                <mat-checkbox [checked]="isChecked(resume)" (change)="checkChange(resume, $event)" color="primary">
+                <mat-checkbox [checked]="isChecked(resume)" [disabled]="!displaySelect"
+                  (change)="checkChange(resume, $event)" color="primary">
                 </mat-checkbox>
               </td>
             </ng-container>
@@ -71,7 +72,8 @@
         <h2 *ngIf="!selectedResume">Please select a candidate to view their resume...</h2>
         <div *ngIf="selectedResume">
 
-          <h2 *ngIf="isAdminPage">{{selectedResume.firstName}} {{selectedResume.middleLastName}} ({{selectedResume.nationality}})</h2>
+          <h2 *ngIf="isAdminPage">{{selectedResume.firstName}} {{selectedResume.middleLastName}}
+            ({{selectedResume.nationality}})</h2>
           <h3 class="titleSpacing">{{selectedResume.dateOfBirth | date}}</h3>
           <h3>{{selectedResume.summary.summaryHeadline}}</h3>
           <p class="titleSpacing">{{selectedResume.summary.summaryBody}}</p>

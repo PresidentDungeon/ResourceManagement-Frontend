@@ -31,7 +31,7 @@
   visibility: hidden;
 }
 
-#resume-table-content, #resume-table:hover, #infoView-content, #infoView:hover {
+.resume-table-content, #resume-table:hover, #infoView-content, #infoView:hover {
   visibility: visible;
 }
 
@@ -124,6 +124,7 @@ td {
 }
 
 #chip-list{
+  margin-top: 24px;
   width: 100%;
 }
 
@@ -133,7 +134,7 @@ td {
 }
 
 :host #occupation.mat-chip{
-  background-color: rgba(200, 103, 70, 0.5) !important;
+  background-color: rgba(200, 200, 70, 0.5) !important;
   color: #000000 !important;
 }
 

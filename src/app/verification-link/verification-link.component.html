@@ -7,7 +7,7 @@
   <h1>{{errorMessage}}</h1>
 </div>
 
-<app-verification-card *ngIf="!loading && successfulVerification" [showCheckmark]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>
+<app-verification-card *ngIf="!loading && successfulVerification" [showCheckmark]="true" [showReturnLoginButton]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>
 
 <div *ngIf="(!loading && successfulPasswordVerification) || (!loading && successfulConfirmationVerification)" class="container">
 
@@ -31,7 +31,7 @@
     </form>
   </div>
 
-  <app-verification-card *ngIf="passwordChanged" [showCheckmark]="true" [header]="'Password has been reset'" [text]="'Your password has successfully been reset.'"></app-verification-card>
+  <app-verification-card *ngIf="passwordChanged" [showCheckmark]="true" [showReturnLoginButton]="true" [header]="'Password has been reset'" [text]="'Your password has successfully been reset.'"></app-verification-card>
 
 </div>
 
