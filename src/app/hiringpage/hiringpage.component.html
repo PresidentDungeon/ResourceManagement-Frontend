@@ -13,11 +13,14 @@
 
     <h2 style="text-align: center">{{selectedContract.title}} <mat-divider></mat-divider>{{selectedContract.startDate | date}} - {{selectedContract.endDate | date}}<h2 style="text-align: center">Status: {{selectedContract.status.status}}</h2></h2>
 
+    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="true" [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+
+    <div>
+      <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
+      <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)" [disabled]="selectedResumes.length <= 0">Accept contract</button>
+    </div>
 
 
-
-
-    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="true" [resumesObservable]="resumesToDisplayObservable"></app-resume-list>
   </div>
 
   <div *ngIf="!selectedContract && !loading">
@@ -29,3 +32,41 @@
   </div>
 
 </div>
+
+
+
+
+
+
+
+
+<ng-template #confirmTemplate>
+
+  <h1 mat-dialog-title>Contract confirmation</h1>
+
+  <div mat-dialog-content>
+    <p *ngIf="selectedResumes.length == 1">Is this the final <b>{{selectedResumes.length}}</b> contractor that you want confirmed?</p>
+    <p *ngIf="selectedResumes.length > 1">Are these the final <b>{{selectedResumes.length}}</b> contractors that you want confirmed?</p>
+  </div>
+
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="acceptContract()" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+  </mat-dialog-actions>
+
+</ng-template>
+
+<ng-template #declineTemplate>
+
+  <h1 mat-dialog-title>Contract decline</h1>
+
+  <div mat-dialog-content>
+    <p>Are you sure that you want to decline contract <b>{{selectedContract.title}}</b>?</p>
+  </div>
+
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="declineContract()" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+  </mat-dialog-actions>
+
+</ng-template>
