@@ -84,11 +84,10 @@ export class ResumeListComponent implements OnInit {
     else{
       this.resumesObservable.subscribe((resumes) => {
         this.dataSource = resumes;
+
+        if(!this.displaySelect){this.insertSelected(resumes);}
       });
     }
-
-
-
   }
 
   getResumes() {

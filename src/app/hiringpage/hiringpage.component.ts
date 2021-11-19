@@ -26,6 +26,8 @@ export class HiringpageComponent implements OnInit {
   isContractFinished: boolean = false;
   isContractAccepted: boolean = false;
 
+  displaySelect: boolean = true;
+
   userID: number;
   contracts: Contract[] = [];
   selectedContract: Contract = null;
@@ -63,6 +65,9 @@ export class HiringpageComponent implements OnInit {
 
     this.contractService.getContractByID(contractID).subscribe(async (contract) => {
       this.selectedContract = contract;
+
+      this.displaySelect = (contract.status.status.toLowerCase() == 'accepted' || contract.status.status.toLowerCase() == 'rejected') ? false : true;
+
       let IDs: number[] = contract.resumes.map((resume) => {return resume.ID});
       let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
       resumes = resumes.sort(resume => resume.ID);
