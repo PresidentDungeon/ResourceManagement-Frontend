@@ -17,10 +17,19 @@
   margin-top: 10px;
 }
 
-#returnButton{
+.returnButton{
   width: fit-content;
   align-self: center;
+}
+
+.button-success{
   color: #ffffff;
   background: #4ad52a;
+  opacity: 85%;
+}
+
+.button-cancel{
+  color: #ffffff;
+  background: #d52a2a;
   opacity: 85%;
 }

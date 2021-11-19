@@ -4,3 +4,27 @@
   flex-direction: column;
   align-items: center;
 }
+
+#confirmButton, #declineButton{
+  width: fit-content;
+  align-self: center;
+}
+
+#confirmButton{
+  color: #ffffff;
+  background: #4ad52a;
+  opacity: 85%;
+}
+
+#confirmButton:disabled{
+  color: #ffffff;
+  background: rgba(98, 98, 98, 0.22);
+  opacity: 85%;
+}
+
+#declineButton{
+  color: #ffffff;
+  background: #d52a2a;
+  opacity: 85%;
+  margin-right: 5px;
+}

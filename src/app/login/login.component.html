@@ -15,7 +15,7 @@
         <input type="password" formControlName="password" matInput placeholder="Password...">
         <mat-error>Password is required</mat-error>
       </mat-form-field>
-      
+
       <a id="forgotButton" (click)="forgotLoginButton()">Forgot your password?</a>
       <mat-checkbox [checked]="saveLogin" [(ngModel)]="saveLogin" [ngModelOptions]="{standalone: true}" color="primary">Remember me</mat-checkbox>
 
@@ -38,7 +38,7 @@
     </form>
   </div>
 
-  <app-verification-card *ngIf="isActive && !loginIsActive && passwordResetRequestIsSuccessful" [showCheckmark]="false" [emailBold]="true" [header]="'Password Reset'" [text]="email"></app-verification-card>
+  <app-verification-card *ngIf="isActive && !loginIsActive && passwordResetRequestIsSuccessful" [showCheckmark]="false" [showReturnLoginButton]="true" [emailBold]="true" [header]="'Password Reset'" [text]="email"></app-verification-card>
 
   <div *ngIf="!isActive">
     <app-verification [email]="email"></app-verification>
