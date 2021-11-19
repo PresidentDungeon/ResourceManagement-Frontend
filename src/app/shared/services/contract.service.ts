@@ -7,6 +7,7 @@ import {Contract} from "../models/contract";
 import {concatAll} from "rxjs/operators";
 import {Resume} from "../models/resume";
 import {FilterList} from "../models/filterList";
+import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
 
 
 @Injectable({
@@ -34,6 +35,10 @@ export class ContractService {
 
   updateContract(contract: Contract): Observable<Contract>{
     return this.http.put<Contract>(environment.apiUrl + '/contract/update', contract);
+  }
+
+  confirmContractState(contractSateReplyDTO: ContractStateReplyDTO): Observable<Contract>{
+    return this.http.post<Contract>(environment.apiUrl + '/contract/contractStateReply', contractSateReplyDTO);
   }
 
 

@@ -9,6 +9,7 @@ import {ResumeService} from "../shared/services/resume.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
 
 @Component({
   selector: "app-hiringpage",
@@ -22,6 +23,8 @@ export class HiringpageComponent implements OnInit {
   dialogRef: MatDialogRef<any>;
 
   loading: boolean = false;
+  isContractFinished: boolean = false;
+  isContractAccepted: boolean = false;
 
   userID: number;
   contracts: Contract[] = [];
@@ -67,9 +70,6 @@ export class HiringpageComponent implements OnInit {
       this.resumesToDisplayBehaviourSubject.next(resumes);},
       (error) => {this.snackbar.open('error', error.error.message)},
       () => {this.loading = false;})
-
-
-
   }
 
   updateResumeCheckedList($event: any) {
@@ -83,8 +83,22 @@ export class HiringpageComponent implements OnInit {
     });
   }
 
-  acceptContract() {}
-  declineContract() {}
+  confirmContract(isAccepted: boolean) {
+
+    this.snackbarRef = this.snackbar.open('');
+
+    let contract: Contract = this.selectedContract;
+    if(isAccepted){contract.resumes = this.selectedResumes;}
+    let contractStateReplyDTO: ContractStateReplyDTO = {contract: contract, isAccepted: isAccepted};
+
+    this.contractService.confirmContractState(contractStateReplyDTO).subscribe((contract) => {
+
+      this.isContractAccepted = isAccepted;
+      this.isContractFinished = true;
+    },
+      (error) => {this.snackbar.open('error', error.error.message)},
+      () => {this.snackbarRef.dismiss();});
+  }
 
 
 }
