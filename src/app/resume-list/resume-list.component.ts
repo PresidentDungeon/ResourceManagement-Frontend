@@ -28,8 +28,9 @@ export class ResumeListComponent implements OnInit {
   @Input() displayPagination: boolean;
   @Input() displaySelect: boolean;
   @Input() displayResumeCountInfo: boolean;
+  @Input() displayAll: boolean;
   @Input() dataSource: Resume[] = [];
-  @Input() selectedResumesObservable: Observable<Resume[]>;
+  @Input() resumesObservable: Observable<Resume[]>;
   @Input() excludeContractID: number = 0;
   @Output() selectedResumesEmitter = new EventEmitter();
 
@@ -62,7 +63,7 @@ export class ResumeListComponent implements OnInit {
   occupationTypes: OccupationCount[] = [];
 
   ngOnInit(): void {
-    this.authService.verifyAdmin().subscribe();
+    if(this.isAdminPage){this.authService.verifyAdmin().subscribe();}
     this.displayedColumns = (this.isAdminPage) ? this.displayedColumnsWithCandidates : this.displayedColumnsWithoutCandidates;
 
     this.nameSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
@@ -71,16 +72,23 @@ export class ResumeListComponent implements OnInit {
     this.occupationSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
       subscribe((search) => { this.occupationSearchTerm = search; this.getResumes() });
 
-    if (this.dataSource.length == 0) {
+    if (this.displayAll) {
       this.getResumes();
     }
 
-    if (this.selectedResumesObservable != null) {
-      this.selectedResumesObservable.subscribe((selectedResumes) => {
+    if(this.isAdminPage){
+      this.resumesObservable.subscribe((selectedResumes) => {
         this.insertSelected(selectedResumes);
-
       });
     }
+    else{
+      this.resumesObservable.subscribe((resumes) => {
+        this.dataSource = resumes;
+      });
+    }
+
+
+
   }
 
   getResumes() {

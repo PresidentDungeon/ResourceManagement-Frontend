@@ -3,11 +3,29 @@
   <div id="select-contract">
     <mat-form-field appearance="fill">
       <mat-label>Select Contract</mat-label>
-      <mat-select>
+      <mat-select (selectionChange)="contractSelect($event)">
         <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="true"></app-resume-list>
+  <div id="main-section" *ngIf="selectedContract && !loading">
+
+    <h2 style="text-align: center">{{selectedContract.title}} <mat-divider></mat-divider>{{selectedContract.startDate | date}} - {{selectedContract.endDate | date}}<h2 style="text-align: center">Status: {{selectedContract.status.status}}</h2></h2>
+
+
+
+
+
+    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="true" [resumesObservable]="resumesToDisplayObservable"></app-resume-list>
+  </div>
+
+  <div *ngIf="!selectedContract && !loading">
+    <h3>Please select a contract from the dropdown!</h3>
+  </div>
+
+  <div *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
 </div>

@@ -4,6 +4,9 @@ import { SnackMessage } from "../shared/helpers/snack-message";
 import { Contract } from "../shared/models/contract";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import { ContractService } from "../shared/services/contract.service";
+import {Resume} from "../shared/models/resume";
+import {ResumeService} from "../shared/services/resume.service";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: "app-hiringpage",
@@ -14,14 +17,20 @@ import { ContractService } from "../shared/services/contract.service";
 export class HiringpageComponent implements OnInit {
 
   snackbarRef: MatSnackBarRef<any>;
+  loading: boolean = false;
 
   userID: number;
   contracts: Contract[] = [];
+  selectedContract: Contract = null;
+
+  resumesToDisplayBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
+  resumesToDisplayObservable: Observable<Resume[]> = this.resumesToDisplayBehaviourSubject.asObservable();
 
   constructor(
     private snackbar: SnackMessage,
     private contractService: ContractService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private resumeService: ResumeService,
   ) {}
 
   ngOnInit(): void {
@@ -37,5 +46,22 @@ export class HiringpageComponent implements OnInit {
     (error) => {this.snackbar.open('error', error.error.message)},
     () => {this.snackbarRef.dismiss();});
   }
-  
+
+  contractSelect($event: any) {
+    this.loading = true;
+    let contractID: number = $event.value;
+
+    this.contractService.getContractByID(contractID).subscribe(async (contract) => {
+      this.selectedContract = contract;
+      let IDs: number[] = contract.resumes.map((resume) => {return resume.ID});
+      let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
+      resumes = resumes.sort(resume => resume.ID);
+
+      this.resumesToDisplayBehaviourSubject.next(resumes);},
+      (error) => {this.snackbar.open('error', error.error.message)},
+      () => {this.loading = false;})
+
+
+
+  }
 }
