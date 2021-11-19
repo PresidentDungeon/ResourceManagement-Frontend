@@ -27,6 +27,7 @@ export class HiringpageComponent implements OnInit {
   isContractAccepted: boolean = false;
 
   displaySelect: boolean = true;
+  hasContract: boolean = true;
 
   userID: number;
   contracts: Contract[] = [];
@@ -54,6 +55,9 @@ export class HiringpageComponent implements OnInit {
     this.userID = this.authService.getID();
     this.contractService.getContractByUserID(this.userID).subscribe((contract) =>{
       this.contracts = contract;
+
+      this.hasContract = (contract.length > 0) ? true : false;
+
     },
     (error) => {this.snackbar.open('error', error.error.message)},
     () => {this.snackbarRef.dismiss();});

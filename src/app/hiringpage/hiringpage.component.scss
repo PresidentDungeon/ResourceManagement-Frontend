@@ -1,8 +1,9 @@
-#container, #main-section {
+#container, #main-section, #select-contract {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-top: 24px;
 }
 
 #confirmButton, #declineButton{
@@ -27,4 +28,8 @@
   background: #d52a2a;
   opacity: 85%;
   margin-right: 5px;
+}
+
+#reply {
+  margin: 24px;
 }

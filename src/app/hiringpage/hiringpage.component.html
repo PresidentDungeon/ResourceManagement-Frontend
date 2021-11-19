@@ -1,12 +1,16 @@
 <div id="container" *ngIf="!isContractFinished">
   <h1>Resources to choose from</h1>
-  <div id="select-contract">
+  <h1 *ngIf="!hasContract">You do not have any contracts...</h1>
+  <div *ngIf="hasContract" id="select-contract">
     <mat-form-field appearance="fill">
       <mat-label>Select Contract</mat-label>
       <mat-select (selectionChange)="contractSelect($event)">
         <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <div *ngIf="!selectedContract && !loading">
+      <h3>Please select a contract from the dropdown!</h3>
+    </div>
   </div>
 
   <div id="main-section" *ngIf="selectedContract && !loading">
@@ -15,7 +19,7 @@
 
     <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect" [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
 
-    <div *ngIf="displaySelect">
+    <div id="reply" *ngIf="displaySelect">
       <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
       <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)" [disabled]="selectedResumes.length <= 0">Accept contract</button>
     </div>
@@ -23,11 +27,6 @@
     <div *ngIf="!displaySelect">
       <p>This contract has already been confirmed. You can still read about the selected resumes above!</p>
     </div>
-
-  </div>
-
-  <div *ngIf="!selectedContract && !loading">
-    <h3>Please select a contract from the dropdown!</h3>
   </div>
 
   <div *ngIf="loading">
