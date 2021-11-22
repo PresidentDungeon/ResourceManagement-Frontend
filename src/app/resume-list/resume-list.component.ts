@@ -49,6 +49,7 @@ export class ResumeListComponent implements OnInit {
 
   nameSearchTerms = new Subject<string>();
   nameSearchTerm: string = "";
+  initialContractResumes: Resume[] = [];
 
   occupationSearchTerms = new Subject<string>();
   occupationSearchTerm: string = "";
@@ -70,7 +71,10 @@ export class ResumeListComponent implements OnInit {
       subscribe((search) => { this.nameSearchTerm = search; this.getResumes() });
 
     this.occupationSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
-      subscribe((search) => { this.occupationSearchTerm = search; this.getResumes() });
+      subscribe((search) => {
+        this.occupationSearchTerm = search;
+        if(this.isAdminPage){this.getResumes()}
+        else{this.searchFilter();}});
 
     if (this.displayAll) {
       this.getResumes();
@@ -83,6 +87,7 @@ export class ResumeListComponent implements OnInit {
     }
     else{
       this.resumesObservable.subscribe((resumes) => {
+        this.initialContractResumes = resumes;
         this.dataSource = resumes;
 
         if(!this.displaySelect){this.insertSelected(resumes);}
@@ -176,6 +181,10 @@ export class ResumeListComponent implements OnInit {
 
   searchOccupation(term: string): void {
     this.occupationSearchTerms.next(term);
+  }
+
+  searchFilter(){
+      this.dataSource = this.initialContractResumes.filter((resume) => {return resume.occupation.toLowerCase().includes(this.occupationSearchTerm)})
   }
 
   addOccupation(occupationString: string) {
