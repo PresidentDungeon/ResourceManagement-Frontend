@@ -8,14 +8,14 @@
     <h3>Invalid contract ID entered</h3>
   </div>
 
-  <mat-stepper *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
+  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
 
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
         <mat-form-field class="form-field" appearance="outline">
           <mat-label>Contract title</mat-label>
-          <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
+          <input matInput placeholder="Insert title..." formControlName="contractTitle">
         </mat-form-field>
 
         <app-userlist [isSelectable]="true" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>

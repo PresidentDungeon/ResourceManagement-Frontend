@@ -1,0 +1,32 @@
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+#form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 1300px;
+}
+
+#occupation-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 60%;
+}
+
+.form-field {
+  align-self: center;
+  width: 80%;
+}
+
+.notices {
+  margin-top: 24px;
+}
