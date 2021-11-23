@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { OccupationCount } from "../shared/models/occupation-count";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import {ResumeAmountRequestDTO} from "../shared/dtos/resume.amount.request.dto";
+import {GetResumesDTO} from "../shared/dtos/get.resumes.dto";
 
 @Component({
   selector: 'app-resume-list',
@@ -49,6 +50,7 @@ export class ResumeListComponent implements OnInit {
 
   nameSearchTerms = new Subject<string>();
   nameSearchTerm: string = "";
+  initialContractResumes: Resume[] = [];
 
   occupationSearchTerms = new Subject<string>();
   occupationSearchTerm: string = "";
@@ -70,19 +72,20 @@ export class ResumeListComponent implements OnInit {
       subscribe((search) => { this.nameSearchTerm = search; this.getResumes() });
 
     this.occupationSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
-      subscribe((search) => { this.occupationSearchTerm = search; this.getResumes() });
-
-    if (this.displayAll) {
-      this.getResumes();
-    }
+      subscribe((search) => {
+        this.occupationSearchTerm = search;
+        if(this.isAdminPage){this.getResumes()}
+        else{this.searchFilter();}});
 
     if(this.isAdminPage){
       this.resumesObservable.subscribe((selectedResumes) => {
+        this.getResumes();
         this.insertSelected(selectedResumes);
       });
     }
     else{
       this.resumesObservable.subscribe((resumes) => {
+        this.initialContractResumes = resumes;
         this.dataSource = resumes;
 
         if(!this.displaySelect){this.insertSelected(resumes);}
@@ -92,42 +95,23 @@ export class ResumeListComponent implements OnInit {
 
   getResumes() {
     if (this.displayLoad) { this.snackbarRef = this.snackbar.open('') };
+
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.nameSearchTerm}`
       + `&occupation=${this.occupationSearchTerm}&sorting=ASC&sortingType=ADDED`;
 
-    this.resumeService.getResumes(filter).subscribe((filterList) => {
-
-      if (!this.displayResumeCountInfo) {
-        this.pageLength = filterList.totalItems;
-        this.dataSource = filterList.list;
-      }
-      else {
-
-        let resumeDTOs: ResumeDTO[] = [];
-        filterList.list.forEach((resume) => { resumeDTOs.push({ ID: resume.ID, count: 0 }) })
-
-        const requestDTO: ResumeAmountRequestDTO = {resumes: resumeDTOs, excludeContract: this.excludeContractID}
-
-        this.resumeService.getResumesCount(requestDTO).subscribe((resumeDTOs) => {
-
-          for (let i = 0; i < filterList.list.length; i++) {
-            filterList.list[i].count = resumeDTOs[i].count
-          }
-
-          this.pageLength = filterList.totalItems;
-          this.dataSource = filterList.list;
-        },
-          (error) => { this.snackbar.open('error', error.error.message) });
-      }
-    },
-      (error) => { this.snackbar.open('error', error.error.message) },
+    const getResumeDTO: GetResumesDTO = {searchFilter: filter, shouldLoadResumeCount: this.displayResumeCountInfo, excludeContract: this.excludeContractID};
+    this.resumeService.getResumes(getResumeDTO).subscribe((filterList) => {
+      this.pageLength = filterList.totalItems;
+      this.dataSource = filterList.list;},
+      (error) => { console.log(error);this.snackbar.open('error', error.error.message);},
       () => { if (this.displayLoad) { this.snackbarRef.dismiss(); } });
   }
 
   onSelect(resume: Resume): void {
-    this.resumeService.getResumeByID(resume.ID).subscribe((resume) => {
-      this.selectedResume = resume;
-    },
+
+    let resumeObservable: Observable<Resume> = (this.isAdminPage) ? this.resumeService.getResumeByID(resume.ID) : this.resumeService.getResumeByIDUser(resume.ID);
+
+    resumeObservable.subscribe((resume) => {this.selectedResume = resume;},
       (error) => { this.snackbar.open('error', error.error.message) });
   }
 
@@ -176,6 +160,10 @@ export class ResumeListComponent implements OnInit {
 
   searchOccupation(term: string): void {
     this.occupationSearchTerms.next(term);
+  }
+
+  searchFilter(){
+      this.dataSource = this.initialContractResumes.filter((resume) => {return resume.occupation.toLowerCase().includes(this.occupationSearchTerm)})
   }
 
   addOccupation(occupationString: string) {

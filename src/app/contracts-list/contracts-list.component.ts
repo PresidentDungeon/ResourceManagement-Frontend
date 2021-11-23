@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Subject} from "rxjs";
 import {ContractService} from "../shared/services/contract.service";
 import {User} from "../shared/models/user";
 import {Contract} from "../shared/models/contract";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {MatSnackBarRef} from "@angular/material/snack-bar";
+import {SnackMessage} from "../shared/helpers/snack-message";
 
 
 @Component({
@@ -12,7 +14,11 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
   styleUrls: ['./contracts-list.component.scss']
 })
 export class ContractsListComponent implements OnInit {
-  constructor(private contractService: ContractService) { }
+  constructor(private contractService: ContractService,
+              private snackbar: SnackMessage) { }
+
+  @Input() displayLoad: boolean;
+  snackbarRef: MatSnackBarRef<any>;
 
   displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate'];
 
@@ -34,12 +40,20 @@ export class ContractsListComponent implements OnInit {
   }
 
   getContracts(): void {
+
+    if(this.displayLoad){
+      this.snackbarRef = this.snackbar.open('');
+    }
+
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}&sorting=ASC&sortingType=ADDED`;
 
     this.contractService.getContracts(filter).subscribe((FilterList) => {
       this.pageLength = FilterList.totalItems;
       this.contractList = FilterList.list;
-    })
+    },
+      (error) => {this.snackbar.open('error', error.error.message)},
+      () => {if(this.displayLoad){this.snackbarRef.dismiss();}}
+      )
   }
 
   search(term: string): void {
@@ -51,4 +65,6 @@ export class ContractsListComponent implements OnInit {
     this.pageSize = $event.pageSize;
     this.getContracts();
   }
+
+
 }

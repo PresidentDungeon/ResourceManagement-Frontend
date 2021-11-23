@@ -3,7 +3,6 @@ import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import { MatChipInputEvent } from "@angular/material/chips";
 import {User} from "../shared/models/user";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {RegisterDTO} from "../shared/dtos/register.dto";
 import {Resume} from "../shared/models/resume";
 import {ContractService} from "../shared/services/contract.service";
 import {Status} from "../shared/models/status";
@@ -81,21 +80,13 @@ export class ContractpageComponent implements OnInit {
       this.contractLoad = (contractID == null) ? false : true;},
     (error) => {this.contractLoad = (contractID == null) ? false : true; this.snackbar.open('error', error.error.message)});
 
-
-
     if(contractID != null){
       this.updateView = true;
 
-      this.contractService.getContractByID(+contractID).subscribe(async (contract) => {
-          this.contract = contract;
-
-          //We need to load correct contracts from backend
-          let IDs: number[] = this.contract.resumes.map((resume) => {return resume.ID});
-          let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
-          this.contract.resumes = resumes;
-          this.initializeContract(this.contract);
-          this.contractLoad = false;
-        },
+      this.contractService.getContractByID(+contractID).subscribe((contract) => {
+        this.contract = contract;
+        this.initializeContract(this.contract);
+        this.contractLoad = false;},
         (error) => {this.invalidID = true; this.contractLoad = false; this.snackbar.open('error', error.error.message);});
     }
   }
