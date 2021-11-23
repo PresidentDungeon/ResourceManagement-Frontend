@@ -7,6 +7,7 @@ import {Resume} from "../models/resume";
 import {ResumeDTO} from "../dtos/resumeDTO";
 import {User} from "../models/user";
 import {ResumeAmountRequestDTO} from "../dtos/resume.amount.request.dto";
+import {GetResumesDTO} from "../dtos/get.resumes.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -16,30 +17,15 @@ export class ResumeService {
   constructor(private http: HttpClient) { }
 
   getResumeByID(resumeID: number): Observable<Resume>{
-    return this.http.get<Resume>(environment.mockAPIUrl + `/resume/getResumeByID?ID=${resumeID}`);
+    return this.http.get<Resume>(environment.apiUrl + `/resume/getResumeByID?ID=${resumeID}`);
   }
 
-  async getResumesByID(IDs: number[]): Promise<Resume[]>{
-
-    let resumes: Resume[] = []
-    const promises: Promise<Resume>[] = []
-
-    IDs.forEach((resumeID) => {
-      const promise: Promise<Resume> = this.getResumeByID(resumeID).toPromise();
-      promise.then((resume) => {resumes.push(resume)});
-      promises.push(promise);
-    });
-
-    await Promise.all(promises);
-    return resumes;
-
+  getResumeByIDUser(resumeID: number): Observable<Resume>{
+    return this.http.get<Resume>(environment.apiUrl + `/resume/getResumeByIDUser?ID=${resumeID}`);
   }
 
-  getResumes(filter: string): Observable<FilterList<Resume>>{
-    return this.http.get<FilterList<Resume>>(environment.mockAPIUrl + '/resume/getResumes' + filter);
+  getResumes(getResumesDTO: GetResumesDTO): Observable<FilterList<Resume>>{
+    return this.http.post<FilterList<Resume>>(environment.apiUrl + '/resume/getResumes', getResumesDTO)
   }
 
-  getResumesCount(requestDTO: ResumeAmountRequestDTO): Observable<ResumeDTO[]>{
-    return this.http.post<ResumeDTO[]>(environment.apiUrl + '/contract/getResumesAmount', requestDTO);
-  }
 }

@@ -29,7 +29,11 @@ export class ContractService {
     return this.http.get<Contract>(environment.apiUrl + `/contract/getContractByID?ID=${ID}`);
   }
 
-  getContractByUserID(ID: number): Observable<Contract[]>{
+  getContractByIDUser(ID: number): Observable<Contract>{
+    return this.http.get<Contract>(environment.apiUrl + `/contract/getContractByIDUser?ID=${ID}`);
+  }
+
+  getContractsByUserID(ID: number): Observable<Contract[]>{
     return this.http.get<Contract[]>(environment.apiUrl + `/contract/getContractByUserID?ID=${ID}`);
   }
 
