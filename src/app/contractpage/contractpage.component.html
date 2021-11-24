@@ -76,6 +76,14 @@
       <form [formGroup]="secondFormGroup">
 
         <app-resume-list [isAdminPage]="true" [displayAll]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [resumesObservable]="selectedResumesObservable" [excludeContractID]="(this.updateView && this.contract != undefined) ? this.contract.ID : 0" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+
+        <mat-form-field *ngIf="updateView" floatLabel="always" appearance="outline">
+          <mat-label>User requests</mat-label>
+          <mat-chip-list *ngIf="updateView" #chipList aria-label="User requests">
+            <mat-chip id="occupation" *ngFor="let resumeRequest of contract.resumeRequests">{{resumeRequest.occupation}}: {{resumeRequest.count}}</mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+
         <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
       </form>
     </mat-step>
