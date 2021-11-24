@@ -3,7 +3,7 @@
   <div *ngIf="true;" id="navbar">
     <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/users">Users</a>
     <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="" [matMenuTriggerFor]="contractMenuAdmin">Contract</a>
-    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" routerLink="" [matMenuTriggerFor]="contractMenuUser">Contract</a>
+    <a id="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" [matMenuTriggerFor]="contractMenuUser">Contract <mat-icon>menu</mat-icon></a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/profile/profilepage">Profile</a>
     <a *ngIf="!(loggedUserStatus$ | async)" routerLink="/register">Register</a>
     <a *ngIf="!(loggedUserStatus$ | async)"routerLink="/login">Sign in</a>
