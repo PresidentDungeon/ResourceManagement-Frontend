@@ -23,6 +23,7 @@ import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text
 import { ResumeListComponent } from './resume-list/resume-list.component';
 import { ContractsListComponent } from './contracts-list/contracts-list.component';
 import { RequestComponent } from './request/request.component';
+import { ResumeOverviewComponent } from './resume-overview/resume-overview.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { RequestComponent } from './request/request.component';
     ResumeListComponent,
     ReplaceNullWithTextPipe,
     ContractsListComponent,
-    RequestComponent
+    RequestComponent,
+    ResumeOverviewComponent
   ],
     imports: [
         BrowserModule,
