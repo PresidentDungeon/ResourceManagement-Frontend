@@ -47,18 +47,15 @@ export class HiringpageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getContractByUserID();
+    this.getContractsByUserID();
   }
 
-  getContractByUserID() {
+  getContractsByUserID() {
     this.snackbarRef = this.snackbar.open('');
     this.userID = this.authService.getID();
-    this.contractService.getContractByUserID(this.userID).subscribe((contract) =>{
+    this.contractService.getContractsByUserID(this.userID).subscribe((contract) =>{
       this.contracts = contract;
-
-      this.hasContract = (contract.length > 0) ? true : false;
-
-    },
+      this.hasContract = (contract.length > 0) ? true : false;},
     (error) => {this.snackbar.open('error', error.error.message)},
     () => {this.snackbarRef.dismiss();});
   }
@@ -67,17 +64,13 @@ export class HiringpageComponent implements OnInit {
     this.loading = true;
     let contractID: number = $event.value;
 
-    this.contractService.getContractByID(contractID).subscribe(async (contract) => {
+    this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
       this.selectedContract = contract;
-
       this.displaySelect = (contract.status.status.toLowerCase() == 'accepted' || contract.status.status.toLowerCase() == 'rejected') ? false : true;
 
-      let IDs: number[] = contract.resumes.map((resume) => {return resume.ID});
-      let resumes: Resume[] = await this.resumeService.getResumesByID(IDs);
-      resumes = resumes.sort(resume => resume.ID);
-
-      this.resumesToDisplayBehaviourSubject.next(resumes);},
-      (error) => {this.snackbar.open('error', error.error.message)},
+      //Missing sort?
+      this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
+      (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
       () => {this.loading = false;})
   }
 

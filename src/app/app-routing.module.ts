@@ -11,6 +11,7 @@ import { AdminAuthGuard } from "./auth-guards/admin-auth-guard";
 import { UserAuthGuard } from './auth-guards/user-auth-guard';
 import { ContractpageComponent } from './contractpage/contractpage.component';
 import {ContractsListComponent} from "./contracts-list/contracts-list.component";
+import { RequestComponent } from './request/request.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'profile', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
   {path: 'contract', component: ContractpageComponent},
   {path: 'contract/:id', component: ContractpageComponent},
-  {path: 'contracts', component: ContractsListComponent}
+  {path: 'contracts', component: ContractsListComponent},
+  {path: 'request', component: RequestComponent}
 ];
 
 @NgModule({

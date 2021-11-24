@@ -1,0 +1,41 @@
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+#form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 1300px;
+}
+
+#occupation-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 60%;
+}
+
+.form-field {
+  align-self: center;
+  width: 80%;
+}
+
+.notices {
+  margin-top: 24px;
+}
+
+#register-button{
+  margin-bottom: 5px;
+  background-color: rgb(150, 252, 127, 0.4) !important;
+}
+
+#register-button:disabled{
+  background-color: rgba(122, 122, 122, 0.4) !important;
+}

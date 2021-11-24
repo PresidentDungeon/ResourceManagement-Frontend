@@ -8,14 +8,14 @@
     <h3>Invalid contract ID entered</h3>
   </div>
 
-  <mat-stepper *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
+  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
 
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
       <form [formGroup]="firstFormGroup">
         <mat-form-field class="form-field" appearance="outline">
           <mat-label>Contract title</mat-label>
-          <input matInput placeholder="Insert title..." formControlName="contractTitle" required>
+          <input matInput placeholder="Insert title..." formControlName="contractTitle">
         </mat-form-field>
 
         <app-userlist [isSelectable]="true" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>
@@ -58,6 +58,12 @@
           <mat-error *ngIf="firstFormGroup.controls.startDate.hasError('matStartDateInvalid')">Invalid start date
           </mat-error>
           <mat-error *ngIf="firstFormGroup.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-field notices" appearance="outline">
+          <mat-label>Further notices</mat-label>
+          <textarea matInput formControlName="description" #input maxlength="500"></textarea>
+          <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
         </mat-form-field>
 
         <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractSave">Next Step</button>

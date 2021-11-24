@@ -22,6 +22,7 @@ import { AuthInterceptor } from "./auth-guards/auth.interceptor";
 import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text.pipe";
 import { ResumeListComponent } from './resume-list/resume-list.component';
 import { ContractsListComponent } from './contracts-list/contracts-list.component';
+import { RequestComponent } from './request/request.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { ContractsListComponent } from './contracts-list/contracts-list.componen
     ResumeListComponent,
     ReplaceNullWithTextPipe,
     ContractsListComponent,
-
+    RequestComponent
   ],
     imports: [
         BrowserModule,
