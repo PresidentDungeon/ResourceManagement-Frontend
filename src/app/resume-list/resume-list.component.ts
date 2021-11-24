@@ -24,7 +24,7 @@ export class ResumeListComponent implements OnInit {
     private resumeService: ResumeService,
     private authService: AuthenticationService) { }
 
-  @Input() isAdminPage: boolean;
+  @Input() isAdminPage: boolean = true;
   @Input() displayLoad: boolean;
   @Input() displayPagination: boolean;
   @Input() displaySelect: boolean;
@@ -33,10 +33,12 @@ export class ResumeListComponent implements OnInit {
   @Input() dataSource: Resume[] = [];
   @Input() resumesObservable: Observable<Resume[]>;
   @Input() excludeContractID: number = 0;
+  @Input() isOverview: boolean = false;
   @Output() selectedResumesEmitter = new EventEmitter();
 
   displayedColumnsWithCandidates: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
   displayedColumnsWithoutCandidates: string[] = ['occupation', 'select'];
+  displayedColumnsWithoutSelect: string[] = ['occupation', 'candidates', 'iconStatus'];
 
   displayedColumns: string[];
   selectedResume?: Resume;
@@ -66,7 +68,9 @@ export class ResumeListComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.isAdminPage){this.authService.verifyAdmin().subscribe();}
-    this.displayedColumns = (this.isAdminPage) ? this.displayedColumnsWithCandidates : this.displayedColumnsWithoutCandidates;
+    
+    if(this.isOverview){this.displayedColumns = this.displayedColumnsWithoutSelect}
+    else{this.displayedColumns = (this.isAdminPage) ? this.displayedColumnsWithCandidates : this.displayedColumnsWithoutCandidates;}
 
     this.nameSearchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
       subscribe((search) => { this.nameSearchTerm = search; this.getResumes() });
@@ -77,13 +81,18 @@ export class ResumeListComponent implements OnInit {
         if(this.isAdminPage){this.getResumes()}
         else{this.searchFilter();}});
 
-    if(this.isAdminPage){
+    if(this.isAdminPage && this.resumesObservable != undefined){
       this.resumesObservable.subscribe((selectedResumes) => {
         this.getResumes();
         this.insertSelected(selectedResumes);
       });
     }
-    else{
+
+    else if(this.isAdminPage){
+      this.getResumes();
+    }
+
+    else if(!this.isAdminPage){
       this.resumesObservable.subscribe((resumes) => {
         this.initialContractResumes = resumes;
         this.dataSource = resumes;

@@ -1,19 +1,22 @@
 <div id="container">
   <a id="logo"><img src="../../assets/images/semco-light.webp" routerLink="/home"></a>
   <div *ngIf="true;" id="navbar">
-    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/users">Users</a>
-    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" [matMenuTriggerFor]="contractMenuAdmin">Contract <mat-icon>menu</mat-icon></a>
-    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" [matMenuTriggerFor]="contractMenuUser">Contract <mat-icon>menu</mat-icon></a>
+    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/admin/users">Users</a>
+    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/admin/resumes">Resumes</a>
+    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" 
+    [matMenuTriggerFor]="contractMenuAdmin">Contract <mat-icon>menu</mat-icon></a>
+    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" 
+    [matMenuTriggerFor]="contractMenuUser">Contract <mat-icon>menu</mat-icon></a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/profile/profilepage">Profile</a>
     <a *ngIf="!(loggedUserStatus$ | async)" routerLink="/register">Register</a>
     <a *ngIf="!(loggedUserStatus$ | async)"routerLink="/login">Sign in</a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/login">Sign out</a>
     <mat-menu #contractMenuAdmin="matMenu">
-      <button mat-menu-item routerLink="/contract">New Contract</button>
-      <button mat-menu-item>All Contracts</button>
+      <button mat-menu-item routerLink="/admin/contract">New Contract</button>
+      <button mat-menu-item routerLink="/admin/contracts">All Contracts</button>
     </mat-menu>
     <mat-menu #contractMenuUser="matMenu">
-      <button mat-menu-item>Request Contract</button>
+      <button mat-menu-item routerLink="/request">Request Contract</button>
       <button mat-menu-item routerLink="/hiring">My Contracts</button>
     </mat-menu>
   </div>
