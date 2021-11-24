@@ -10,7 +10,7 @@
     <a *ngIf="loggedUserStatus$ | async" routerLink="/login">Sign out</a>
     <mat-menu #contractMenuAdmin="matMenu">
       <button mat-menu-item routerLink="/contract">New Contract</button>
-      <button mat-menu-item>All Contracts</button>
+      <button mat-menu-item routerLink="/contracts">All Contracts</button>
     </mat-menu>
     <mat-menu #contractMenuUser="matMenu">
       <button mat-menu-item>Request Contract</button>
