@@ -19,6 +19,12 @@
 
     <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect" [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
 
+    <mat-form-field class="form-field notices" appearance="outline">
+      <mat-label>Further notices</mat-label>
+      <textarea matInput [value]="selectedContract.description" [disabled]="true" #input maxlength="500"></textarea>
+      <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+    </mat-form-field>
+
     <div id="reply" *ngIf="displaySelect">
       <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
       <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)" [disabled]="selectedResumes.length <= 0">Accept contract</button>

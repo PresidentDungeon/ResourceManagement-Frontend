@@ -6,7 +6,7 @@ import { ResumeService } from "../shared/services/resume.service";
 import { ResumeDTO } from "../shared/dtos/resumeDTO";
 import { Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { OccupationCount } from "../shared/models/occupation-count";
+import { ResumeRequest } from "../shared/models/resume-request";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import {ResumeAmountRequestDTO} from "../shared/dtos/resume.amount.request.dto";
 import {GetResumesDTO} from "../shared/dtos/get.resumes.dto";
@@ -63,8 +63,8 @@ export class ResumeListComponent implements OnInit {
 
   checkedResumes: Resume[] = [];
 
-  totalOccupation: OccupationCount = { occupation: 'Total', count: 0 };
-  occupationTypes: OccupationCount[] = [];
+  totalOccupation: ResumeRequest = { ID: 0, occupation: 'Total', count: 0 };
+  occupationTypes: ResumeRequest[] = [];
 
   ngOnInit(): void {
     if(this.isAdminPage){this.authService.verifyAdmin().subscribe();}
@@ -178,7 +178,7 @@ export class ResumeListComponent implements OnInit {
   addOccupation(occupationString: string) {
     const index = this.occupationTypes.findIndex(occupation => occupation.occupation === occupationString);
     if (index != -1) { this.occupationTypes[index].count++; }
-    else { this.occupationTypes.push({ occupation: occupationString, count: 1 }); }
+    else { this.occupationTypes.push({ID: 0, occupation: occupationString, count: 1 }); }
     this.totalOccupation.count = this.checkedResumes.length;
   }
 

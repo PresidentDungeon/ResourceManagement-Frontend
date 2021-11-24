@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, TemplateRef} from "@angular/core";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import { MatChipInputEvent } from "@angular/material/chips";
 import {User} from "../shared/models/user";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Resume} from "../shared/models/resume";
@@ -29,6 +28,7 @@ export class ContractpageComponent implements OnInit {
     contractTitle: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
+    description: new FormControl('', []),
   });
 
   secondFormGroup = new FormGroup({
@@ -95,7 +95,8 @@ export class ContractpageComponent implements OnInit {
     this.firstFormGroup.patchValue({
       contractTitle: contract.title,
       startDate: contract.startDate,
-      endDate: contract.endDate
+      endDate: contract.endDate,
+      description: contract.description
     });
     this.secondFormGroup.patchValue({resumes: contract.resumes});
     this.thirdFormGroup.patchValue({status: contract.status.ID});
@@ -159,9 +160,11 @@ export class ContractpageComponent implements OnInit {
       const contract: Contract = {
         ID: (this.updateView) ? this.contract.ID : 0,
         title: firstFormData.contractTitle,
+        description: firstFormData.description,
         startDate: firstFormData.startDate,
         endDate: firstFormData.endDate,
         status: {ID: thirdFormData.status, status: ''},
+        resumeRequests: (this.updateView) ? this.contract.resumeRequests: [],
         users: users,
         resumes: this.selectedResumes
       }

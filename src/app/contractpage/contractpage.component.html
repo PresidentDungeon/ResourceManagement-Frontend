@@ -60,6 +60,12 @@
           <mat-error *ngIf="firstFormGroup.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
         </mat-form-field>
 
+        <mat-form-field class="form-field notices" appearance="outline">
+          <mat-label>Further notices</mat-label>
+          <textarea matInput formControlName="description" #input maxlength="500"></textarea>
+          <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
+        </mat-form-field>
+
         <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractSave">Next Step</button>
 
       </form>
