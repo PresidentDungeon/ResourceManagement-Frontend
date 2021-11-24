@@ -33,12 +33,12 @@ a {
 }
 
 
-#contract-selection{
+.contract-selection{
   cursor: pointer;
   user-select: none;
 }
 
-#contract-selection mat-icon{
-  position: relative;
-  top: 5px;
+.contract-selection mat-icon{
+  display: inline-flex;
+  vertical-align: middle;
 }
