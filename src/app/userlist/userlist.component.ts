@@ -19,7 +19,8 @@ export class UserlistComponent implements OnInit{
               private userService: UserService) { }
 
   @Input() isSelectable: boolean;
-  @Input() displayLoad: boolean;
+  @Input() displayLoad: boolean = true;
+  @Input() displayAddUser: boolean = true;
   @Input() selectedUsersObservable: Observable<User[]>;
   @Output() selectedUsersEmitter = new EventEmitter();
 
@@ -57,9 +58,11 @@ export class UserlistComponent implements OnInit{
     this.getStatuses();
     this.getUsers();
 
-    this.selectedUsersObservable.subscribe((selectedUsers) => {
-      this.selectedUsers = selectedUsers;
-    });
+    if(this.selectedUsersObservable){
+      this.selectedUsersObservable.subscribe((selectedUsers) => {
+        this.selectedUsers = selectedUsers;
+      });
+    }
   }
 
   getUsers(): void {
@@ -148,6 +151,12 @@ export class UserlistComponent implements OnInit{
       return true;
     }
     return false;
+  }
+
+  addUser(userToAdd: User){
+    this.userService.registerUsers([userToAdd]).subscribe((registeredUsers) => {
+      this.getUsers();},
+      (error) => {this.snackbar.open('error', error.error.message);});
   }
 
 }

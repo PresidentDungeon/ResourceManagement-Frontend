@@ -10,7 +10,7 @@ import {UserService} from "../shared/services/user.service";
 import {Contract} from "../shared/models/contract";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResumeService} from "../shared/services/resume.service";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Component({
   selector: "app-contractpage",
@@ -19,10 +19,6 @@ import {BehaviorSubject, Observable} from "rxjs";
 })
 
 export class ContractpageComponent implements OnInit {
-
-  registerUserForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')])
-  });
 
   firstFormGroup = new FormGroup({
     contractTitle: new FormControl('', [Validators.required]),
@@ -58,6 +54,9 @@ export class ContractpageComponent implements OnInit {
   selectedResumesBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
   selectedResumesObservable: Observable<Resume[]> = this.selectedResumesBehaviourSubject.asObservable();
 
+  requestUserFormSubject: Subject<any> = new Subject<any>();
+  requestUserFormObservable: Observable<any> = this.requestUserFormSubject.asObservable();
+
   contractStatuses: Status[] = [];
 
   dialogRef: MatDialogRef<any>;
@@ -77,8 +76,8 @@ export class ContractpageComponent implements OnInit {
 
     this.contractService.getContractStatuses().subscribe((statuses) => {
       this.contractStatuses = statuses;
-      this.contractLoad = (contractID == null) ? false : true;},
-    (error) => {this.contractLoad = (contractID == null) ? false : true; this.snackbar.open('error', error.error.message)});
+        if(contractID == null) this.contractLoad = false},
+    (error) => {if(contractID == null) this.contractLoad = false; this.snackbar.open('error', error.error.message)});
 
     if(contractID != null){
       this.updateView = true;
@@ -129,14 +128,12 @@ export class ContractpageComponent implements OnInit {
     });
   }
 
-  addNewUser(formDirective: FormGroupDirective){
-    const userToRegister: User = {ID: 0, username: this.registerUserForm.value.username, status: null, role: null}
-    this.selectedUnregisteredUsers.push(userToRegister);
+  requestUserForm(){
+    this.requestUserFormSubject.next();
+  }
 
-    this.dialogRef.close();
-
-    formDirective.resetForm();
-    this.registerUserForm.reset();
+  addNewUser(user: User){
+    this.selectedUnregisteredUsers.push(user);
   }
 
   saveContract() {

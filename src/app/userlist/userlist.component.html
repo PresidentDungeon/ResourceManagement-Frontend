@@ -96,4 +96,6 @@
     </div>
   </div>
 
+  <app-register-user-form *ngIf="displayAddUser" [displayAddUserButton]="true" (createdUserEmitter)="addUser($event)"></app-register-user-form>
+
 </div>

@@ -1,0 +1,18 @@
+
+
+  <h1 mat-dialog-title>Register new User</h1>
+
+  <div mat-dialog-content id="template-container">
+
+    <form #formDirective="ngForm" [formGroup]="registerUserForm" (ngSubmit)="addNewUser(formDirective)">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input formControlName="username" matInput placeholder="Username...">
+        <mat-error>Username must be a valid e-mail</mat-error>
+      </mat-form-field>
+
+      <button id="register-button" mat-raised-button type="submit" [mat-dialog-close]="registerUserForm.value.username" [disabled]="!registerUserForm.valid">Register</button>
+    </form>
+  </div>
+
+
