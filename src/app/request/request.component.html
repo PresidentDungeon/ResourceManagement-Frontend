@@ -1,7 +1,7 @@
-<div id="container">
+<div *ngIf="!requestComplete" id="container">
   <h1>Request Contract</h1>
 
-  <form id="form" [formGroup]="requestForm">
+  <form id="form" [formGroup]="requestForm" (ngSubmit)="createContractRequest()">
     <mat-form-field class="form-field" appearance="outline">
       <mat-label>Contract title</mat-label>
       <input matInput placeholder="Insert title..." formControlName="contractTitle">
@@ -51,9 +51,11 @@
 
     <mat-form-field class="form-field notices" appearance="outline">
       <mat-label>Further notices</mat-label>
-      <textarea matInput #input maxlength="500"></textarea>
+      <textarea matInput formControlName="description" #input maxlength="500"></textarea>
       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
     </mat-form-field>
-
+    <button id="register-button" mat-raised-button type="submit" [disabled]="!requestForm.valid || contractSave">Request Contract</button>
   </form>
 </div>
+
+<app-verification-card  *ngIf="requestComplete" [showCheckmark]="true" [contractBold]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been requested'" [text]="savedContract.title"></app-verification-card>

@@ -15,6 +15,7 @@ export class VerificationCardComponent implements OnInit {
   @Input() showReturnLoginButton: boolean;
   @Input() showReturnFrontpageButton: boolean;
   @Input() emailBold: boolean;
+  @Input() contractBold: boolean;
   @Input() header: string;
   @Input() text: string;
 

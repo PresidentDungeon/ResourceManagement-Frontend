@@ -4,9 +4,6 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {FilterList} from "../models/filterList";
 import {Resume} from "../models/resume";
-import {ResumeDTO} from "../dtos/resumeDTO";
-import {User} from "../models/user";
-import {ResumeAmountRequestDTO} from "../dtos/resume.amount.request.dto";
 import {GetResumesDTO} from "../dtos/get.resumes.dto";
 
 @Injectable({

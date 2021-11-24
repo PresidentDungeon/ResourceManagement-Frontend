@@ -159,9 +159,11 @@ export class ContractpageComponent implements OnInit {
       const contract: Contract = {
         ID: (this.updateView) ? this.contract.ID : 0,
         title: firstFormData.contractTitle,
+        description: (this.updateView) ? this.contract.description: '',
         startDate: firstFormData.startDate,
         endDate: firstFormData.endDate,
         status: {ID: thirdFormData.status, status: ''},
+        resumeRequests: (this.updateView) ? this.contract.resumeRequests: [],
         users: users,
         resumes: this.selectedResumes
       }

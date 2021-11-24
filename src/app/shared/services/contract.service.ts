@@ -21,6 +21,10 @@ export class ContractService {
     return this.http.post<Contract>(environment.apiUrl + '/contract/create', contract);
   }
 
+  requestContract(contract: Contract): Observable<Contract>{
+    return this.http.post<Contract>(environment.apiUrl + '/contract/requestContract', contract)
+  }
+
   getContracts(filter: string): Observable<FilterList<Contract>>{
     return this.http.get<FilterList<Contract>>(environment.apiUrl + '/contract/getContracts' + filter);
   }
