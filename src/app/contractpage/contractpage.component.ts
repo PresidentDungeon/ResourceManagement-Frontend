@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, TemplateRef} from "@angular/core";
+import {Component, EventEmitter, OnDestroy, OnInit, TemplateRef} from "@angular/core";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {User} from "../shared/models/user";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -11,6 +11,7 @@ import {Contract} from "../shared/models/contract";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResumeService} from "../shared/services/resume.service";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: "app-contractpage",
@@ -18,7 +19,7 @@ import {BehaviorSubject, Observable, Subject} from "rxjs";
   styleUrls: ["./contractpage.component.scss"]
 })
 
-export class ContractpageComponent implements OnInit {
+export class ContractpageComponent implements OnInit{
 
   firstFormGroup = new FormGroup({
     contractTitle: new FormControl('', [Validators.required]),
@@ -33,6 +34,7 @@ export class ContractpageComponent implements OnInit {
 
   thirdFormGroup = new FormGroup({
     status: new FormControl('', [Validators.required]),
+    dueDate: new FormControl('', []),
   })
 
   contractLoad = true;
@@ -61,6 +63,9 @@ export class ContractpageComponent implements OnInit {
 
   dialogRef: MatDialogRef<any>;
 
+  isDueDateRequired: boolean = false;
+  dueDateAddition: number = 7;
+
   constructor(
     private snackbar: SnackMessage,
     private dialog: MatDialog,
@@ -88,6 +93,7 @@ export class ContractpageComponent implements OnInit {
         this.contractLoad = false;},
         (error) => {this.invalidID = true; this.contractLoad = false; this.snackbar.open('error', error.error.message);});
     }
+
   }
 
   initializeContract(contract: Contract){
@@ -98,7 +104,8 @@ export class ContractpageComponent implements OnInit {
       description: contract.description
     });
     this.secondFormGroup.patchValue({resumes: contract.resumes});
-    this.thirdFormGroup.patchValue({status: contract.status.ID});
+    this.thirdFormGroup.patchValue({status: contract.status.ID, dueDate: contract.dueDate});
+    this.contractStatusUpdate(contract.status.ID);
     this.selectedUsers = contract.users;
     this.selectedResumes = contract.resumes;
     this.selectedResumesBehaviourSubject.next(contract.resumes);
@@ -121,19 +128,28 @@ export class ContractpageComponent implements OnInit {
     }
   }
 
-  openNewUserInput(template: TemplateRef<any>) {
-    this.dialogRef = this.dialog.open(template, {
-      width: '300px',
-      autoFocus: false
-    });
-  }
-
   requestUserForm(){
     this.requestUserFormSubject.next();
   }
 
   addNewUser(user: User){
     this.selectedUnregisteredUsers.push(user);
+  }
+
+  contractStatusUpdate(statusID: number){
+
+    const selectedStatusID = statusID;
+
+    if(selectedStatusID == 3){
+      this.isDueDateRequired = true;
+      this.thirdFormGroup.get('dueDate').setValidators([Validators.required]);
+    }
+    else{
+      this.isDueDateRequired = false;
+      this.thirdFormGroup.get('dueDate').setValidators([]);
+      this.thirdFormGroup.get('dueDate').updateValueAndValidity();
+    }
+
   }
 
   saveContract() {
@@ -154,14 +170,18 @@ export class ContractpageComponent implements OnInit {
       const firstFormData = this.firstFormGroup.value;
       const thirdFormData = this.thirdFormGroup.value;
 
+      let dueDate: Date = (this.isDueDateRequired) ? new Date(thirdFormData.dueDate) : null
+      if(dueDate){dueDate.setHours(23); dueDate.setMinutes(59); dueDate.setSeconds(59);}
+
       const contract: Contract = {
         ID: (this.updateView) ? this.contract.ID : 0,
         title: firstFormData.contractTitle,
         description: firstFormData.description,
         startDate: firstFormData.startDate,
         endDate: firstFormData.endDate,
+        dueDate: dueDate,
         status: {ID: thirdFormData.status, status: ''},
-        resumeRequests: (this.updateView) ? this.contract.resumeRequests: [],
+        resumeRequests: (this.updateView) ? this.contract.resumeRequests : [],
         users: users,
         resumes: this.selectedResumes
       }

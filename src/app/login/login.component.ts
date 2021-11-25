@@ -15,11 +15,11 @@ import { SnackMessage } from "../shared/helpers/snack-message";
 
 export class LoginComponent implements OnInit {
 
-  constructor( 
-    private router: Router, 
-    private authService: AuthenticationService, 
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
     private userService: UserService,
-    private location: Location, 
+    private location: Location,
     private snackbar: SnackMessage) { }
 
   loginForm = new FormGroup({
