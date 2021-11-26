@@ -1,10 +1,31 @@
 <div class="container">
 
   <div id="search">
-    <mat-form-field id='searchBox' appearance="outline">
+
+    <mat-form-field class='searchBox' appearance="outline">
       <mat-label>Contracts</mat-label>
       <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Search..."/>
     </mat-form-field>
+
+
+    <mat-form-field class="searchBox" appearance="outline">
+      <mat-label>User Contracts</mat-label>
+      <input type="text" matInput [formControl]="userContract" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" >
+        <mat-option *ngFor="let username of filteredUsernames | slice : 0 : 5" [value]="username">{{username}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contract status</mat-label>
+      <mat-select (selectionChange)="onStatusSearchChange($event)">
+        <mat-option [value]="0">All</mat-option>
+        <mat-option *ngFor="let status of statuses" [value]="status.ID">
+          {{status.status}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
 
 
