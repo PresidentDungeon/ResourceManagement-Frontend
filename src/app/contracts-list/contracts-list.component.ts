@@ -21,7 +21,6 @@ export class ContractsListComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private snackbar: SnackMessage) { }
 
-  @Input() displayLoad: boolean;
   snackbarRef: MatSnackBarRef<any>;
 
   displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate'];
@@ -50,34 +49,35 @@ export class ContractsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.searchTerms.pipe(debounceTime(300), distinctUntilChanged()).
-    subscribe((search) => {this.searchTerm = search; this.getContracts()});
+    subscribe((search) => {this.searchTerm = search; this.getContracts(true)});
 
     this.userContractSearchTerms.pipe(debounceTime(300), distinctUntilChanged()).
-    subscribe((search) => {this.userContractSearchTerm = search; this.getContracts()});
+    subscribe((search) => {this.userContractSearchTerm = search; this.getContracts(true)});
 
     this.userContract.valueChanges.pipe().subscribe((value) => {
       let searchTerm = value as string;
       this.userContractSearchTerms.next(searchTerm);
+      this.getUsernames();
       this.filteredUsernames = this.usernames.filter((username) => {return username.toLowerCase().includes(searchTerm.toLowerCase())});
     });
 
     this.contractService.listenForCreate().pipe(takeUntil(this.unsubscriber$)).
-      subscribe((contract) => {this.getContracts()});
+      subscribe((contract) => {this.getContracts(false)});
 
     this.contractService.listenForUpdateChangeAdmin().pipe(takeUntil(this.unsubscriber$)).
     subscribe((contract) => {
       const placement = this.contractList.findIndex((contractIndex) => contractIndex.ID === contract.ID)
       if(placement !== -1){this.contractList[placement] = contract; this.contractList = [...this.contractList];}
-      else{this.getContracts();}});
+      else{this.getContracts(false);}});
 
     this.getUsernames();
     this.getStatuses();
-    this.getContracts();
+    this.getContracts(true);
   }
 
-  getContracts(): void {
+  getContracts(displayLoad: boolean): void {
 
-    if(this.displayLoad){this.snackbarRef = this.snackbar.open('');}
+    if(displayLoad){this.snackbarRef = this.snackbar.open('');}
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}&contractUser=${this.userContractSearchTerm}`
     + `&statusID=${this.selectedStatusID}&sorting=ASC&sortingType=ADDED`;
@@ -87,7 +87,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
       this.contractList = FilterList.list;
     },
       (error) => {this.snackbar.open('error', error.error.message)},
-      () => {if(this.displayLoad){this.snackbarRef.dismiss();}}
+      () => {if(displayLoad){this.snackbarRef.dismiss();}}
       )
   }
 
@@ -112,12 +112,12 @@ export class ContractsListComponent implements OnInit, OnDestroy {
   onPaginationChange($event) {
     this.currentPage = $event.pageIndex;
     this.pageSize = $event.pageSize;
-    this.getContracts();
+    this.getContracts(true);
   }
 
   onStatusSearchChange($event){
     this.selectedStatusID = $event.value;
-    this.getContracts();
+    this.getContracts(true);
   }
 
   ngOnDestroy(): void {
