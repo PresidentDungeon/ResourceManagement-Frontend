@@ -7,7 +7,7 @@
     [matMenuTriggerFor]="contractMenuAdmin">Contract <mat-icon>menu</mat-icon></a>
     <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" 
     [matMenuTriggerFor]="contractMenuUser">Contract <mat-icon>menu</mat-icon></a>
-    <a *ngIf="loggedUserStatus$ | async" routerLink="/profile/profilepage">Profile</a>
+    <a *ngIf="loggedUserStatus$ | async" routerLink="/user/profile">Profile</a>
     <a *ngIf="!(loggedUserStatus$ | async)" routerLink="/register">Register</a>
     <a *ngIf="!(loggedUserStatus$ | async)"routerLink="/login">Sign in</a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/login">Sign out</a>
@@ -16,8 +16,8 @@
       <button mat-menu-item routerLink="/admin/contracts">All Contracts</button>
     </mat-menu>
     <mat-menu #contractMenuUser="matMenu">
-      <button mat-menu-item routerLink="/request">Request Contract</button>
-      <button mat-menu-item routerLink="/hiring">My Contracts</button>
+      <button mat-menu-item routerLink="/user/request">Request Contract</button>
+      <button mat-menu-item routerLink="/user/confirm">My Contracts</button>
     </mat-menu>
   </div>
 </div>

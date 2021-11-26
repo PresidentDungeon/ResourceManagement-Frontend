@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FrontpageComponent } from './frontpage/frontpage.component';
-import { HiringpageComponent } from './hiringpage/hiringpage.component';
 import { LoginComponent } from './login/login.component';
 import { VerificationComponent } from './verification/verification.component';
 import { RegisterComponent } from "./register/register.component";
 import { VerificationLinkComponent } from "./verification-link/verification-link.component";
 import { AdminAuthGuard } from "./auth-guards/admin-auth-guard";
 import { UserAuthGuard } from './auth-guards/user-auth-guard';
-import { RequestComponent } from './request/request.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -17,10 +15,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'verify', component: VerificationComponent},
   {path: 'verifyLink', component: VerificationLinkComponent},
-  {path: 'hiring', component: HiringpageComponent},
   {path: 'admin', loadChildren: () => import('./shared/modules/admin.module').then(m => m.AdminModule), canActivate: [AdminAuthGuard]},
-  {path: 'profile', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]},
-  {path: 'request', component: RequestComponent}
+  {path: 'user', loadChildren: () => import('./shared/modules/personal.module').then(m => m.PersonalModule), canActivate: [UserAuthGuard]}
 ];
 
 @NgModule({

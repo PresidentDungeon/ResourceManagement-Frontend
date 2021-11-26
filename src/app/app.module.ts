@@ -10,7 +10,7 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { VerificationComponent } from './verification/verification.component';
-import { HiringpageComponent } from './hiringpage/hiringpage.component';
+import { ConfirmpageComponent } from './confirmpage/confirmpage.component';
 import { RegisterComponent } from './register/register.component';
 import { VerificationLinkComponent } from './verification-link/verification-link.component';
 import { VerificationCardComponent } from './verification-card/verification-card.component';
@@ -33,7 +33,7 @@ import { ResumeOverviewComponent } from './resume-overview/resume-overview.compo
     NavbarComponent,
     LoginComponent,
     VerificationComponent,
-    HiringpageComponent,
+    ConfirmpageComponent,
     RegisterComponent,
     VerificationLinkComponent,
     VerificationCardComponent,

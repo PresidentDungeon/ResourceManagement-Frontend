@@ -12,12 +12,12 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
 
 @Component({
-  selector: "app-hiringpage",
-  templateUrl: "./hiringpage.component.html",
-  styleUrls: ["./hiringpage.component.scss"]
+  selector: "app-confirmpage",
+  templateUrl: "./confirmpage.component.html",
+  styleUrls: ["./confirmpage.component.scss"]
 })
 
-export class HiringpageComponent implements OnInit {
+export class ConfirmpageComponent implements OnInit {
 
   snackbarRef: MatSnackBarRef<any>;
   dialogRef: MatDialogRef<any>;

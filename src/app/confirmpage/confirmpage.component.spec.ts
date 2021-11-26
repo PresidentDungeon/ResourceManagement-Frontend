@@ -1,20 +1,20 @@
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { HiringpageComponent } from "./hiringpage.component";
+import { ConfirmpageComponent } from "./confirmpage.component";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-describe("HiringpageComponent", () => {
+describe("ConfirmpageComponent", () => {
 
-  let fixture: ComponentFixture<HiringpageComponent>;
-  let component: HiringpageComponent;
+  let fixture: ComponentFixture<ConfirmpageComponent>;
+  let component: ConfirmpageComponent;
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
       ],
-      declarations: [HiringpageComponent]
+      declarations: [ConfirmpageComponent]
     });
 
-    fixture = TestBed.createComponent(HiringpageComponent);
+    fixture = TestBed.createComponent(ConfirmpageComponent);
     component = fixture.componentInstance;
 
   });
