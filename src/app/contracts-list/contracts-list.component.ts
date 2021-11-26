@@ -58,6 +58,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     this.userContract.valueChanges.pipe().subscribe((value) => {
       let searchTerm = value as string;
       this.userContractSearchTerms.next(searchTerm);
+      this.getUsernames();
       this.filteredUsernames = this.usernames.filter((username) => {return username.toLowerCase().includes(searchTerm.toLowerCase())});
     });
 
