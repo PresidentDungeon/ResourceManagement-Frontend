@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from "rxjs";
 import {ContractService} from "../shared/services/contract.service";
 import {User} from "../shared/models/user";
 import {Contract} from "../shared/models/contract";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {MatSnackBarRef} from "@angular/material/snack-bar";
 import {SnackMessage} from "../shared/helpers/snack-message";
 
@@ -13,7 +13,7 @@ import {SnackMessage} from "../shared/helpers/snack-message";
   templateUrl: './contracts-list.component.html',
   styleUrls: ['./contracts-list.component.scss']
 })
-export class ContractsListComponent implements OnInit {
+export class ContractsListComponent implements OnInit, OnDestroy {
   constructor(private contractService: ContractService,
               private snackbar: SnackMessage) { }
 
@@ -32,18 +32,28 @@ export class ContractsListComponent implements OnInit {
 
   contractList: Contract[] = [];
 
+  unsubscriber$ = new Subject();
+
   ngOnInit(): void {
-    this.searchTerms.pipe(debounceTime(300), distinctUntilChanged(),).
+    this.searchTerms.pipe(debounceTime(300), distinctUntilChanged()).
     subscribe((search) => {this.searchTerm = search; this.getContracts()});
+
+    this.contractService.listenForCreate().pipe(takeUntil(this.unsubscriber$)).
+      subscribe((contract) => {this.getContracts()});
+
+    this.contractService.listenForUpdateChangeAdmin().pipe(takeUntil(this.unsubscriber$)).
+    subscribe((contract) => {
+      const placement = this.contractList.findIndex((contractIndex) => contractIndex.ID === contract.ID)
+      if(placement !== -1){this.contractList[placement] = contract; this.contractList = [...this.contractList];}
+      else{this.getContracts();}});
+
 
     this.getContracts();
   }
 
   getContracts(): void {
 
-    if(this.displayLoad){
-      this.snackbarRef = this.snackbar.open('');
-    }
+    if(this.displayLoad){this.snackbarRef = this.snackbar.open('');}
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}&sorting=ASC&sortingType=ADDED`;
 
@@ -66,5 +76,9 @@ export class ContractsListComponent implements OnInit {
     this.getContracts();
   }
 
+  ngOnDestroy(): void {
+    this.unsubscriber$.next();
+    this.unsubscriber$.complete();
+  }
 
 }

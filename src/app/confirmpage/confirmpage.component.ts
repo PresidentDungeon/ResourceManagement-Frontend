@@ -25,8 +25,11 @@ export class ConfirmpageComponent implements OnInit {
   loading: boolean = false;
   isContractFinished: boolean = false;
   isContractAccepted: boolean = false;
+  isContractRenewed: boolean = false;
 
   displaySelect: boolean = true;
+  displayRenewButton: boolean = false;
+  renewalLoading: boolean = false;
   hasContract: boolean = true;
 
   userID: number;
@@ -66,10 +69,16 @@ export class ConfirmpageComponent implements OnInit {
 
     this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
       this.selectedContract = contract;
-      this.displaySelect = (contract.status.status.toLowerCase() == 'accepted' || contract.status.status.toLowerCase() == 'rejected') ? false : true;
+      let contractStatus: string = contract.status.status.toLowerCase();
+      if(contractStatus == 'accepted' || contractStatus == 'rejected'){
+        this.displaySelect = false;
+      }
+      if(contractStatus == 'expired'){
+        this.displaySelect = false;
+        this.displayRenewButton = true;
+      }
 
-      //Missing sort?
-      this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
+        this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
       (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
       () => {this.loading = false;})
   }
@@ -98,6 +107,19 @@ export class ConfirmpageComponent implements OnInit {
       this.isContractAccepted = isAccepted;
       this.isContractFinished = true;
     },
+      (error) => {this.snackbar.open('error', error.error.message)},
+      () => {this.snackbarRef.dismiss();});
+  }
+
+  requestRenewal(){
+
+    this.snackbarRef = this.snackbar.open('');
+
+    this.contractService.requestRenewal(this.selectedContract).subscribe((contract) => {
+
+        this.isContractRenewed = true;
+        this.isContractFinished = true;
+      },
       (error) => {this.snackbar.open('error', error.error.message)},
       () => {this.snackbarRef.dismiss();});
   }

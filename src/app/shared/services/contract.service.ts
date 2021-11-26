@@ -4,10 +4,9 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Status} from "../models/status";
 import {Contract} from "../models/contract";
-import {concatAll} from "rxjs/operators";
-import {Resume} from "../models/resume";
 import {FilterList} from "../models/filterList";
 import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
+import {SocketManagementApp} from "../modules/shared.module";
 
 
 @Injectable({
@@ -15,7 +14,8 @@ import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
 })
 export class ContractService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private socket: SocketManagementApp) { }
 
   createContract(contract: Contract): Observable<Contract>{
     return this.http.post<Contract>(environment.apiUrl + '/contract/create', contract);
@@ -49,8 +49,22 @@ export class ContractService {
     return this.http.post<Contract>(environment.apiUrl + '/contract/contractStateReply', contractSateReplyDTO);
   }
 
+  requestRenewal(contract: Contract): Observable<Contract>{
+    return this.http.post<Contract>(environment.apiUrl + '/contract/requestRenewal', contract);
+  }
+
 
   getContractStatuses(): Observable<Status[]>{
     return this.http.get<Status[]>(environment.apiUrl + '/contract/getContractStatuses');
   }
+
+
+  listenForCreate(): Observable<Contract>{
+    return this.socket.fromEvent<Contract>('contractCreated');
+  }
+
+  listenForUpdateChangeAdmin(): Observable<Contract>{
+    return this.socket.fromEvent<Contract>('contractUpdatedAdmin');
+  }
+
 }

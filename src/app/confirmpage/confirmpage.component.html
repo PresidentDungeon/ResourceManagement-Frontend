@@ -30,8 +30,13 @@
       <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)" [disabled]="selectedResumes.length <= 0">Accept contract</button>
     </div>
 
-    <div *ngIf="!displaySelect">
+    <div *ngIf="!displaySelect && !displayRenewButton">
       <p>This contract has already been confirmed. You can still read about the selected resumes above!</p>
+    </div>
+
+    <div id="renewal" *ngIf="displayRenewButton">
+      <p>This contract has been expired. You can request for the contract to be renewed.</p>
+      <button mat-raised-button id="renewal-button" (click)="requestRenewal()" >Request renewal</button>
     </div>
   </div>
 
@@ -44,7 +49,10 @@
 <app-verification-card *ngIf="isContractFinished && isContractAccepted" [showCheckmark]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been accepted'" [text]="'You have successfully accepted your contract! An administrator from Semco Maritime' +
  ' will contact you shortly regarding the hiring process.'"></app-verification-card>
 
-<app-verification-card *ngIf="isContractFinished && !isContractAccepted" [showCancel]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been declined'" [text]="'You have successfully declined your contract. Please contact Semco Maritime if you have any problems or additional wishes.'"></app-verification-card>
+<app-verification-card *ngIf="isContractFinished && !isContractAccepted && !isContractRenewed" [showCancel]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been declined'" [text]="'You have successfully declined your contract. Please contact Semco Maritime if you have any problems or additional wishes.'"></app-verification-card>
+
+<app-verification-card *ngIf="isContractFinished && isContractRenewed" [showCheckmark]="true" [showReturnFrontpageButton]="true" [header]="'Renewal request is sent'" [text]="'You have successfully requested a renewal of your contract! An administrator from Semco Maritime' +
+ ' will contact you shortly regarding the hiring process.'"></app-verification-card>
 
 <ng-template #confirmTemplate>
 

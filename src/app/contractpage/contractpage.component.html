@@ -92,12 +92,20 @@
       <form [formGroup]="thirdFormGroup" (ngSubmit)="saveContract()">
 
 
-          <mat-form-field class="form-field" appearance="fill">
-            <mat-label>Select Contract</mat-label>
-            <mat-select formControlName="status">
-              <mat-option *ngFor="let status of contractStatuses" [value]="status.ID">{{status.status}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Select contract status</mat-label>
+          <mat-select formControlName="status" (selectionChange)="contractStatusUpdate($event.value)">
+            <mat-option *ngFor="let status of contractStatuses" [value]="status.ID">{{status.status}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="isDueDateRequired" class="form-field" appearance="outline">
+          <mat-label>Select user due date</mat-label>
+          <input matInput formControlName="dueDate" [matDatepicker]="dueDate">
+          <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
+          <mat-datepicker #dueDate></mat-datepicker>
+          <mat-error>Invalid end date</mat-error>
+        </mat-form-field>
 
         <button mat-raised-button *ngIf="!updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
         <button mat-raised-button *ngIf="updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
@@ -105,6 +113,28 @@
 
       </form>
     </mat-step>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   </mat-stepper>
