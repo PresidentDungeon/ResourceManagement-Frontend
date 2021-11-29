@@ -7,6 +7,7 @@ import {Contract} from "../models/contract";
 import {FilterList} from "../models/filterList";
 import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
 import {SocketManagementApp} from "../modules/shared.module";
+import { CommentDTO } from '../dtos/comment.dto';
 
 
 @Injectable({
@@ -23,6 +24,10 @@ export class ContractService {
 
   requestContract(contract: Contract): Observable<Contract>{
     return this.http.post<Contract>(environment.apiUrl + '/contract/requestContract', contract)
+  }
+
+  saveComment(commentDTO: CommentDTO): Observable<void> {
+    return this.http.post<void>(environment.apiUrl + '/contract/saveComment', commentDTO)
   }
 
   getContracts(filter: string): Observable<FilterList<Contract>>{

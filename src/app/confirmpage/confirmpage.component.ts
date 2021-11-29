@@ -10,6 +10,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
+import { CommentDTO } from "../shared/dtos/comment.dto";
 
 @Component({
   selector: "app-confirmpage",
@@ -45,7 +46,7 @@ export class ConfirmpageComponent implements OnInit {
   resumesToDisplayBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
   resumesToDisplayObservable: Observable<Resume[]> = this.resumesToDisplayBehaviourSubject.asObservable();
 
-  originalComment: string = 'dd';
+  originalComment: string = '';
   isCommentsIdentical: boolean = false;
 
   commentForm = new FormGroup({
@@ -88,7 +89,8 @@ export class ConfirmpageComponent implements OnInit {
       this.displayRenewButton = (contractStatus == 'expired') ? true : false;
       this.hasBeenAccepted = (contractStatus == 'accepted') ? true : false;
       this.hasBeenCompleted = (contractStatus == 'completed') ? true : false;
-
+      this.originalComment = contract.personalComment.comment;
+      this.commentForm.patchValue({comment: contract.personalComment.comment});
 
 
         this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
@@ -140,5 +142,13 @@ export class ConfirmpageComponent implements OnInit {
   }
 
   leaveComment() {
+    let comment: string = this.commentForm.value.comment;
+    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.userID};
+    this.contractService.saveComment(commentDTO).subscribe(() => {
+      this.snackbar.open('updated', 'Comment');
+      this.originalComment = comment;
+      this.isCommentsIdentical = true;
+    },
+    (error) => {this.snackbar.open('error', error.error.message); this.renewalLoading = false;})
   }
 }
