@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from "@angular/core";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { SnackMessage } from "../shared/helpers/snack-message";
 import { Resume } from "../shared/models/resume";
@@ -8,8 +8,12 @@ import { Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { ResumeRequest } from "../shared/models/resume-request";
 import { AuthenticationService } from "../shared/services/authentication.service";
-import {ResumeAmountRequestDTO} from "../shared/dtos/resume.amount.request.dto";
 import {GetResumesDTO} from "../shared/dtos/get.resumes.dto";
+import {FormControl} from "@angular/forms";
+import {Contract} from "../shared/models/contract";
+import {ContractService} from "../shared/services/contract.service";
+import {RegisterUserFormDialog} from "../register-user-form/register-user-form.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-resume-list',
@@ -22,7 +26,9 @@ export class ResumeListComponent implements OnInit {
   constructor(
     private snackbar: SnackMessage,
     private resumeService: ResumeService,
-    private authService: AuthenticationService) { }
+    private contractService: ContractService,
+    private authService: AuthenticationService,
+    private dialog: MatDialog) { }
 
   @Input() isAdminPage: boolean = true;
   @Input() displayLoad: boolean;
@@ -34,6 +40,10 @@ export class ResumeListComponent implements OnInit {
   @Input() resumesObservable: Observable<Resume[]>;
   @Input() excludeContractID: number = 0;
   @Input() isOverview: boolean = false;
+
+  @Input() startDateControl: FormControl
+  @Input() endDateControl: FormControl
+
   @Output() selectedResumesEmitter = new EventEmitter();
 
   displayedColumnsWithCandidates: string[] = ['occupation', 'candidates', 'iconStatus', 'select'];
@@ -42,6 +52,12 @@ export class ResumeListComponent implements OnInit {
 
   displayedColumns: string[];
   selectedResume?: Resume;
+
+  selectedResumeBooking: Resume;
+  selectedResumeContracts: Contract[] = [];
+
+  startDate: Date = null;
+  endDate: Date = null;
 
   snackbarRef: MatSnackBarRef<any>;
 
@@ -68,7 +84,6 @@ export class ResumeListComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.isAdminPage){this.authService.verifyAdmin().subscribe();}
-    
     if(this.isOverview){this.displayedColumns = this.displayedColumnsWithoutSelect}
     else{this.displayedColumns = (this.isAdminPage) ? this.displayedColumnsWithCandidates : this.displayedColumnsWithoutCandidates;}
 
@@ -100,6 +115,18 @@ export class ResumeListComponent implements OnInit {
         if(!this.displaySelect){this.insertSelected(resumes);}
       });
     }
+
+    if(this.startDateControl != null && this.endDateControl != null){
+      this.setDates();
+      this.startDateControl.valueChanges.subscribe((value) => {this.setDates();});
+      this.endDateControl.valueChanges.subscribe((value) => {this.setDates();});
+    }
+  }
+
+  setDates(){
+    this.startDate = this.startDateControl.value;
+    this.endDate = this.endDateControl.value;
+    this.getResumes();
   }
 
   getResumes() {
@@ -108,11 +135,11 @@ export class ResumeListComponent implements OnInit {
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.nameSearchTerm}`
       + `&occupation=${this.occupationSearchTerm}&sorting=ASC&sortingType=ADDED`;
 
-    const getResumeDTO: GetResumesDTO = {searchFilter: filter, shouldLoadResumeCount: this.displayResumeCountInfo, excludeContract: this.excludeContractID};
+    const getResumeDTO: GetResumesDTO = {searchFilter: filter, shouldLoadResumeCount: this.displayResumeCountInfo, excludeContract: this.excludeContractID, startDate: this.startDate, endDate: this.endDate};
     this.resumeService.getResumes(getResumeDTO).subscribe((filterList) => {
       this.pageLength = filterList.totalItems;
       this.dataSource = filterList.list;},
-      (error) => { console.log(error);this.snackbar.open('error', error.error.message);},
+      (error) => {this.snackbar.open('error', error.error.message);},
       () => { if (this.displayLoad) { this.snackbarRef.dismiss(); } });
   }
 
@@ -207,4 +234,23 @@ export class ResumeListComponent implements OnInit {
     this.totalOccupation.count = resumes.length;
   }
 
+  displayResumeBooking(resume: Resume, template: TemplateRef<any>) {
+
+      this.contractService.getContractsByResumeID(resume.ID).subscribe((contracts) => {
+
+        this.selectedResumeBooking = resume;
+        this.selectedResumeContracts = contracts;
+        this.dialog.open(template, {width: '400px', autoFocus: false});
+
+
+
+        },
+        (error) => {this.snackbar.open('error', error.error.message)});
+
+
+
+
+
+
+  }
 }

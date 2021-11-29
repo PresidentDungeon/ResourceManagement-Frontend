@@ -43,8 +43,8 @@ export class UserService {
     return this.http.get<Status[]>(environment.apiUrl + '/user/getUserStatuses');
   }
 
-  getUsernames(): Observable<string[]>{
-    return this.http.get<string[]>(environment.apiUrl + '/user/getUsernames');
+  getUsernames(username: string): Observable<string[]>{
+    return this.http.get<string[]>(environment.apiUrl + `/user/getUsernames?username=${username}`);
   }
 
   updateUser(user: User): Observable<User>{

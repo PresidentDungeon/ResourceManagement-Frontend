@@ -57,7 +57,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     this.userContract.valueChanges.pipe().subscribe((value) => {
       let searchTerm = value as string;
       this.userContractSearchTerms.next(searchTerm);
-      this.getUsernames();
+      this.getUsernames(searchTerm);
       this.filteredUsernames = this.usernames.filter((username) => {return username.toLowerCase().includes(searchTerm.toLowerCase())});
     });
 
@@ -70,7 +70,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
       if(placement !== -1){this.contractList[placement] = contract; this.contractList = [...this.contractList];}
       else{this.getContracts(false);}});
 
-    this.getUsernames();
+    this.getUsernames('');
     this.getStatuses();
     this.getContracts(true);
   }
@@ -91,8 +91,8 @@ export class ContractsListComponent implements OnInit, OnDestroy {
       )
   }
 
-  getUsernames(){
-    this.userService.getUsernames().subscribe((usernames) => {
+  getUsernames(username: string){
+    this.userService.getUsernames(username).subscribe((usernames) => {
       this.usernames = usernames;
       this.filteredUsernames = usernames.filter((username) => {return username.toLowerCase().includes((this.userContract.value as string).toLowerCase())})
     });

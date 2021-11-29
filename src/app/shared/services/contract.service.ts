@@ -41,6 +41,10 @@ export class ContractService {
     return this.http.get<Contract[]>(environment.apiUrl + `/contract/getContractByUserID?ID=${ID}`);
   }
 
+  getContractsByResumeID(ID: number): Observable<Contract[]>{
+    return this.http.get<Contract[]>(environment.apiUrl + `/contract/getContractsByResume?ID=${ID}`);
+  }
+
   updateContract(contract: Contract): Observable<Contract>{
     return this.http.put<Contract>(environment.apiUrl + '/contract/update', contract);
   }

@@ -75,7 +75,11 @@
     <mat-step label="Resumes">
       <form [formGroup]="secondFormGroup">
 
-        <app-resume-list [isAdminPage]="true" [displayAll]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true" [resumesObservable]="selectedResumesObservable" [excludeContractID]="(this.updateView && this.contract != undefined) ? this.contract.ID : 0" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+        <app-resume-list [isAdminPage]="true" [displayAll]="true" [displayPagination]="true" [displaySelect]="true" [displayResumeCountInfo]="true"
+                         [resumesObservable]="selectedResumesObservable" [excludeContractID]="(this.updateView && this.contract != undefined) ? this.contract.ID : 0"
+                         [startDateControl]="firstFormGroup.get('startDate')" [endDateControl]="firstFormGroup.get('endDate')"
+                         (selectedResumesEmitter)="updateResumeCheckedList($event)">
+        </app-resume-list>
 
         <mat-form-field *ngIf="updateView" floatLabel="always" appearance="outline">
           <mat-label>User requests</mat-label>

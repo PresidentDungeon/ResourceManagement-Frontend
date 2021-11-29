@@ -23,8 +23,8 @@ export class ContractpageComponent implements OnInit{
 
   firstFormGroup = new FormGroup({
     contractTitle: new FormControl('', [Validators.required]),
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required]),
+    startDate: new FormControl(null, [Validators.required]),
+    endDate: new FormControl(null, [Validators.required]),
     description: new FormControl('', []),
   });
 
@@ -61,10 +61,7 @@ export class ContractpageComponent implements OnInit{
 
   contractStatuses: Status[] = [];
 
-  dialogRef: MatDialogRef<any>;
-
   isDueDateRequired: boolean = false;
-  dueDateAddition: number = 7;
 
   constructor(
     private snackbar: SnackMessage,
