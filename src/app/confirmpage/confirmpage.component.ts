@@ -7,9 +7,10 @@ import { ContractService } from "../shared/services/contract.service";
 import {Resume} from "../shared/models/resume";
 import {ResumeService} from "../shared/services/resume.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
+import { CommentDTO } from "../shared/dtos/comment.dto";
 
 @Component({
   selector: "app-confirmpage",
@@ -27,8 +28,12 @@ export class ConfirmpageComponent implements OnInit {
   isContractAccepted: boolean = false;
   isContractRenewed: boolean = false;
 
-  displaySelect: boolean = true;
+  displaySelect: boolean = false;
   displayRenewButton: boolean = false;
+  hasBeenAccepted: boolean = false;
+  hasBeenCompleted: boolean = false;
+
+
   renewalLoading: boolean = false;
   hasContract: boolean = true;
 
@@ -41,6 +46,15 @@ export class ConfirmpageComponent implements OnInit {
   resumesToDisplayBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
   resumesToDisplayObservable: Observable<Resume[]> = this.resumesToDisplayBehaviourSubject.asObservable();
 
+  originalComment: string = '';
+  isCommentsIdentical: boolean = false;
+
+  commentForm = new FormGroup({
+    comment: new FormControl('', [Validators.required, Validators.maxLength(500)])
+  });
+
+
+
   constructor(
     private snackbar: SnackMessage,
     private contractService: ContractService,
@@ -51,6 +65,7 @@ export class ConfirmpageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getContractsByUserID();
+    this.commentForm.get('comment').valueChanges.subscribe((value) => {this.isCommentsIdentical = (value === this.originalComment) ? true : false;});
   }
 
   getContractsByUserID() {
@@ -70,13 +85,13 @@ export class ConfirmpageComponent implements OnInit {
     this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
       this.selectedContract = contract;
       let contractStatus: string = contract.status.status.toLowerCase();
-      if(contractStatus == 'accepted' || contractStatus == 'rejected'){
-        this.displaySelect = false;
-      }
-      if(contractStatus == 'expired'){
-        this.displaySelect = false;
-        this.displayRenewButton = true;
-      }
+      this.displaySelect = (contractStatus == 'pending review') ? true : false;
+      this.displayRenewButton = (contractStatus == 'expired') ? true : false;
+      this.hasBeenAccepted = (contractStatus == 'accepted') ? true : false;
+      this.hasBeenCompleted = (contractStatus == 'completed') ? true : false;
+      this.originalComment = contract.personalComment.comment;
+      this.commentForm.patchValue({comment: contract.personalComment.comment});
+
 
         this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
       (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
@@ -114,15 +129,26 @@ export class ConfirmpageComponent implements OnInit {
   requestRenewal(){
 
     this.snackbarRef = this.snackbar.open('');
+    this.renewalLoading = true;
 
     this.contractService.requestRenewal(this.selectedContract).subscribe((contract) => {
 
         this.isContractRenewed = true;
         this.isContractFinished = true;
+        this.renewalLoading = false;
       },
-      (error) => {this.snackbar.open('error', error.error.message)},
+      (error) => {this.snackbar.open('error', error.error.message); this.renewalLoading = false;},
       () => {this.snackbarRef.dismiss();});
   }
 
-
+  leaveComment() {
+    let comment: string = this.commentForm.value.comment;
+    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.userID};
+    this.contractService.saveComment(commentDTO).subscribe(() => {
+      this.snackbar.open('updated', 'Comment');
+      this.originalComment = comment;
+      this.isCommentsIdentical = true;
+    },
+    (error) => {this.snackbar.open('error', error.error.message); this.renewalLoading = false;})
+  }
 }

@@ -7,7 +7,7 @@
     <form #formDirective="ngForm" [formGroup]="registerUserForm" (ngSubmit)="addNewUser(formDirective)">
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
-        <input formControlName="username" matInput placeholder="Username...">
+        <input type="email" formControlName="username" matInput placeholder="Username...">
         <mat-error>Username must be a valid e-mail</mat-error>
       </mat-form-field>
 

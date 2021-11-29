@@ -5,13 +5,13 @@
       <div id="input-fields">
         <mat-form-field *ngIf="isAdminPage" class='searchBox' appearance="outline">
           <mat-label>Candidate name...</mat-label>
-          <input #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput
+          <input type="search" #nameSearchBox [ngModel]="nameSearchTerm" (input)="searchName(nameSearchBox.value)" matInput
             placeholder="Candiate name..." />
         </mat-form-field>
 
         <mat-form-field class='searchBox' appearance="outline">
           <mat-label>Candidate occupation...</mat-label>
-          <input #occupationSearchBox [ngModel]="occupationSearchTerm"
+          <input type="search" #occupationSearchBox [ngModel]="occupationSearchTerm"
             (input)="searchOccupation(occupationSearchBox.value)" matInput placeholder="Candiate occupation..." />
         </mat-form-field>
       </div>
