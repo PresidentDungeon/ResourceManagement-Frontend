@@ -35,32 +35,37 @@
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td mat-cell *matCellDef="let contract" >{{contract.title}}</td>
+      <td mat-cell *matCellDef="let contract" routerLink="/admin/contract/{{contract.ID}}">{{contract.title}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let contract" >{{contract.status.status}}</td>
+      <td mat-cell *matCellDef="let contract" routerLink="/admin/contract/{{contract.ID}}">{{contract.status.status}}</td>
     </ng-container>
 
 
     <ng-container matColumnDef="startDate">
       <th mat-header-cell *matHeaderCellDef>Start Date</th>
-      <td mat-cell *matCellDef="let contract" >{{contract.startDate | date}}</td>
+      <td mat-cell *matCellDef="let contract" routerLink="/admin/contract/{{contract.ID}}">{{contract.startDate | date}}</td>
     </ng-container>
 
     <ng-container matColumnDef="endDate">
       <th mat-header-cell *matHeaderCellDef>End Date</th>
-      <td mat-cell *matCellDef="let contract" >{{contract.endDate | date}}</td>
+      <td mat-cell *matCellDef="let contract" routerLink="/admin/contract/{{contract.ID}}">{{contract.endDate | date}}</td>
     </ng-container>
 
 
-
-
+    <ng-container matColumnDef="comments">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let contract">
+      <mat-icon (click)="getCommentsForContract(contract)" matTooltip="This contract has comments" id="commentIcon"
+                matTooltipPosition="above">comment</mat-icon>
+      </td>
+    </ng-container>
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/admin/contract/{{row.ID}}"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
 
   </table>
 

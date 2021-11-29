@@ -23,7 +23,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
   snackbarRef: MatSnackBarRef<any>;
 
-  displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate'];
+  displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate', 'comments'];
 
   pageSizeOptions: number[] = [25, 50, 75, 100];
   pageSize: number = 25;
@@ -125,4 +125,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     this.unsubscriber$.complete();
   }
 
+  getCommentsForContract(contract) {
+
+  }
 }
