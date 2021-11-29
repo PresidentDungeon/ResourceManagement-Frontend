@@ -4,13 +4,13 @@
 
     <mat-form-field class='searchBox' appearance="outline">
       <mat-label>Contracts</mat-label>
-      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Search..."/>
+      <input type="search" #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Search..."/>
     </mat-form-field>
 
 
     <mat-form-field class="searchBox" appearance="outline">
       <mat-label>User Contracts</mat-label>
-      <input type="text" matInput [formControl]="userContract" [matAutocomplete]="auto">
+      <input type="search" matInput [formControl]="userContract" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" >
         <mat-option *ngFor="let username of filteredUsernames | slice : 0 : 5" [value]="username">{{username}}</mat-option>
       </mat-autocomplete>

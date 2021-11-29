@@ -4,7 +4,7 @@
   <form id="form" [formGroup]="requestForm" (ngSubmit)="createContractRequest()">
     <mat-form-field class="form-field" appearance="outline">
       <mat-label>Contract title</mat-label>
-      <input matInput placeholder="Insert title..." formControlName="contractTitle">
+      <input type="text" matInput placeholder="Insert title..." formControlName="contractTitle">
     </mat-form-field>
 
     <mat-form-field class="form-field" appearance="outline">
@@ -26,7 +26,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Occupation</mat-label>
-        <input matInput formControlName="occupation">
+        <input type="text" matInput formControlName="occupation">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
