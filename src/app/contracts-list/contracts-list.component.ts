@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Subject} from "rxjs";
 import {ContractService} from "../shared/services/contract.service";
 import {User} from "../shared/models/user";
@@ -9,6 +9,8 @@ import {SnackMessage} from "../shared/helpers/snack-message";
 import {FormControl} from "@angular/forms";
 import {UserService} from "../shared/services/user.service";
 import {Status} from "../shared/models/status";
+import {MatDialog} from "@angular/material/dialog";
+import {Comment} from "../shared/models/comment";
 
 
 @Component({
@@ -17,9 +19,11 @@ import {Status} from "../shared/models/status";
   styleUrls: ['./contracts-list.component.scss']
 })
 export class ContractsListComponent implements OnInit, OnDestroy {
+
   constructor(private contractService: ContractService,
               private userService: UserService,
-              private snackbar: SnackMessage) { }
+              private snackbar: SnackMessage,
+              private dialog: MatDialog) { }
 
   snackbarRef: MatSnackBarRef<any>;
 
@@ -41,6 +45,9 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
   statuses: Status[] = [];
   selectedStatusID: number = 0;
+
+  selectedContract: Contract;
+  selectedContractComments: Comment[] = [];
 
   contractList: Contract[] = [];
 
@@ -125,7 +132,19 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     this.unsubscriber$.complete();
   }
 
-  getCommentsForContract(contract) {
+  getCommentsForContract(contract: Contract, template: TemplateRef<any>) {
+
+    this.contractService.getCommentsForContract(contract.ID).subscribe((comments) => {
+
+        this.selectedContract = contract;
+        this.selectedContractComments = comments;
+        this.dialog.open(template, {width: '400px', autoFocus: false});
+
+      },
+      (error) => {this.snackbar.open('error', error.error.message)});
+
+
+
 
   }
 }

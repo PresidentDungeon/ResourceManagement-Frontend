@@ -8,6 +8,7 @@ import {FilterList} from "../models/filterList";
 import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
 import {SocketManagementApp} from "../modules/shared.module";
 import { CommentDTO } from '../dtos/comment.dto';
+import {Comment} from "../models/comment";
 
 
 @Injectable({
@@ -28,6 +29,10 @@ export class ContractService {
 
   saveComment(commentDTO: CommentDTO): Observable<void> {
     return this.http.post<void>(environment.apiUrl + '/contract/saveComment', commentDTO)
+  }
+
+  getCommentsForContract(ID: number): Observable<Comment[]>{
+    return this.http.get<Comment[]>(environment.apiUrl + `/contract/getComments?ID=${ID}`);
   }
 
   getContracts(filter: string): Observable<FilterList<Contract>>{

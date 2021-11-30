@@ -242,15 +242,8 @@ export class ResumeListComponent implements OnInit {
         this.selectedResumeContracts = contracts;
         this.dialog.open(template, {width: '400px', autoFocus: false});
 
-
-
         },
         (error) => {this.snackbar.open('error', error.error.message)});
-
-
-
-
-
 
   }
 }
