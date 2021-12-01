@@ -41,7 +41,10 @@ mat-form-field {
   text-align: center;
 }
 
-mat-icon{
-  display: inline-flex;
-  vertical-align: middle;
+#checkbox{
+  position:absolute;
+  right:5px;
+  top:10px;
 }
+
+

@@ -16,6 +16,10 @@
         <mat-option *ngFor="let username of filteredUsernames | slice : 0 : 5"
                     [value]="username">{{username}}</mat-option>
       </mat-autocomplete>
+
+      <mat-checkbox id="checkbox" (change)="onMatchCheckboxChange()" [checked]="enableMatchComplete" [(ngModel)]="enableMatchComplete"
+                    matTooltip="Complete match" [ngModelOptions]="{standalone: true}" color="primary"></mat-checkbox>
+
     </mat-form-field>
 
     <mat-form-field appearance="outline">

@@ -39,9 +39,10 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
   userContractSearchTerms = new Subject<string>();
   userContractSearchTerm: string = "";
+  userContract = new FormControl('');
   usernames: string[] = [];
   filteredUsernames: string[] = [];
-  userContract = new FormControl('');
+  enableMatchComplete: boolean = false;
 
   statuses: Status[] = [];
   selectedStatusID: number = 0;
@@ -87,7 +88,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     if(displayLoad){this.snackbarRef = this.snackbar.open('');}
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}&contractUser=${this.userContractSearchTerm}`
-    + `&statusID=${this.selectedStatusID}&enableCommentCount=true&sorting=ASC&sortingType=ADDED`;
+    + `&statusID=${this.selectedStatusID}&enableCommentCount=true&enableMatchComplete=${this.enableMatchComplete}&sorting=ASC&sortingType=ADDED`;
 
     this.contractService.getContracts(filter).subscribe((FilterList) => {
       this.pageLength = FilterList.totalItems;
@@ -124,6 +125,11 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
   onStatusSearchChange($event){
     this.selectedStatusID = $event.value;
+    this.getContracts(true);
+  }
+
+  onMatchCheckboxChange(){
+    //console.log(this.enableMatchComplete);
     this.getContracts(true);
   }
 
