@@ -11,6 +11,7 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} f
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
 import { CommentDTO } from "../shared/dtos/comment.dto";
+import { Status } from "../shared/models/status";
 
 @Component({
   selector: "app-confirmpage",
@@ -37,7 +38,9 @@ export class ConfirmpageComponent implements OnInit {
   renewalLoading: boolean = false;
   hasContract: boolean = true;
 
-  userID: number;
+  statusID: number = 0;
+  statuses: Status[] = [];
+  selectedStatus: Status = null;
   contracts: Contract[] = [];
   selectedContract: Contract = null;
 
@@ -53,6 +56,7 @@ export class ConfirmpageComponent implements OnInit {
     comment: new FormControl('', [Validators.required, Validators.maxLength(500)])
   });
 
+  selectForm: FormControl = new FormControl();
 
 
   constructor(
@@ -65,22 +69,29 @@ export class ConfirmpageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getContractsByUserID();
+    this.getStatuses();
     this.commentForm.get('comment').valueChanges.subscribe((value) => {this.isCommentsIdentical = (value === this.originalComment) ? true : false;});
   }
 
   getContractsByUserID() {
     this.snackbarRef = this.snackbar.open('');
-    this.userID = this.authService.getID();
-    this.contractService.getContractsByUserID(this.userID).subscribe((contract) =>{
+    this.contractService.getContractsByUserID(this.statusID).subscribe((contract) =>{
       this.contracts = contract;
       this.hasContract = (contract.length > 0) ? true : false;},
     (error) => {this.snackbar.open('error', error.error.message)},
     () => {this.snackbarRef.dismiss();});
   }
 
+  getStatuses() {
+    this.contractService.getAllUserStatuses().subscribe((statuses) => {
+      this.statuses = [...statuses];},
+      (error) => {this.snackbar.open('error', error.error.message)},
+      () => {})
+  }
+
   contractSelect($event: any) {
     this.loading = true;
-    let contractID: number = $event.value;
+    let contractID: number = this.selectForm.value;
 
     this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
       this.selectedContract = contract;
@@ -92,10 +103,20 @@ export class ConfirmpageComponent implements OnInit {
       this.originalComment = contract.personalComment.comment;
       this.commentForm.patchValue({comment: contract.personalComment.comment});
 
-
-        this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
+      this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
       (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
       () => {this.loading = false;})
+  }
+
+  contractStatusSelect(statusID: number) {
+    this.selectedContract = null;
+    this.displaySelect =  false;
+    this.displayRenewButton = false;
+    this.hasBeenAccepted = false;
+    this.hasBeenCompleted = false;
+    this.selectForm.patchValue(null);
+    this.statusID = statusID;
+    this.getContractsByUserID();
   }
 
   updateResumeCheckedList($event: any) {
@@ -143,7 +164,7 @@ export class ConfirmpageComponent implements OnInit {
 
   leaveComment() {
     let comment: string = this.commentForm.value.comment;
-    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.userID};
+    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.statusID};
     this.contractService.saveComment(commentDTO).subscribe(() => {
       this.snackbar.open('updated', 'Comment');
       this.originalComment = comment;

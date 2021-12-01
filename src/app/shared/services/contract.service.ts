@@ -72,6 +72,10 @@ export class ContractService {
     return this.http.get<Status[]>(environment.apiUrl + '/contract/getContractStatuses');
   }
 
+  getAllUserStatuses(): Observable<Status[]>{
+    return this.http.get<Status[]>(environment.apiUrl + '/contract/getAllUserStatuses');
+  }
+
 
   listenForCreate(): Observable<Contract>{
     return this.socket.fromEvent<Contract>('contractCreated');

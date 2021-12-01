@@ -1,23 +1,45 @@
 <div id="container" *ngIf="!isContractFinished">
   <h1>Resources to choose from</h1>
-  <h1 *ngIf="!hasContract">You do not have any contracts...</h1>
-  <div *ngIf="hasContract" id="select-contract">
-    <mat-form-field appearance="fill">
-      <mat-label>Select Contract</mat-label>
-      <mat-select (selectionChange)="contractSelect($event)">
-        <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div *ngIf="!selectedContract && !loading">
-      <h3>Please select a contract from the dropdown!</h3>
+  <div id="select-contract">
+    <div id="dropdown">
+      <mat-form-field id="contract-status" appearance="outline">
+        <mat-label>Contract Status</mat-label>
+        <mat-select (selectionChange)="contractStatusSelect($event.value)" [value]="0">
+          <mat-option [value]="0">All</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status.ID">{{status.status}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="hasContract" appearance="outline">
+        <mat-label>Select Contract</mat-label>
+        <mat-select (selectionChange)="contractSelect()" [formControl]="selectForm">
+          <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="!hasContract" appearance="outline">
+        <mat-label>No contract with status</mat-label>
+        <mat-select [disabled]="true"></mat-select>
+      </mat-form-field>
+
+      <div *ngIf="!selectedContract && !loading">
+        <h3>Please select a contract from the dropdown!</h3>
+      </div>
     </div>
   </div>
 
+  <h1 *ngIf="!hasContract">You do not have any contracts with this status...</h1>
+
   <div id="main-section" *ngIf="selectedContract && !loading">
 
-    <h2 style="text-align: center">{{selectedContract.title}} <mat-divider></mat-divider>{{selectedContract.startDate | date}} - {{selectedContract.endDate | date}}<h2 style="text-align: center">Status: {{selectedContract.status.status}}</h2></h2>
+    <h2 style="text-align: center">{{selectedContract.title}} <mat-divider></mat-divider>{{selectedContract.startDate |
+      date}} - {{selectedContract.endDate | date}}<h2 style="text-align: center">Status:
+        {{selectedContract.status.status}}</h2>
+    </h2>
 
-    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect" [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)"></app-resume-list>
+    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect"
+      [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)">
+    </app-resume-list>
 
     <mat-form-field class="form-field" appearance="outline">
       <mat-label>Further notices</mat-label>
@@ -32,18 +54,21 @@
         <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button id="comment-button" type="submit" [disabled]="!commentForm.valid || isCommentsIdentical">Leave comment</button>
+      <button mat-raised-button id="comment-button" type="submit"
+        [disabled]="!commentForm.valid || isCommentsIdentical">Leave comment</button>
 
     </form>
 
     <div id="reply" *ngIf="displaySelect">
       <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
-      <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)" [disabled]="selectedResumes.length <= 0">Accept contract</button>
+      <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)"
+        [disabled]="selectedResumes.length <= 0">Accept contract</button>
     </div>
 
     <div id="renewal" *ngIf="displayRenewButton">
       <p>This contract has been expired. You can request for the contract to be renewed.</p>
-      <button mat-raised-button id="renewal-button" (click)="requestRenewal()" [disabled]="renewalLoading">Request renewal</button>
+      <button mat-raised-button id="renewal-button" (click)="requestRenewal()" [disabled]="renewalLoading">Request
+        renewal</button>
     </div>
   </div>
 
@@ -52,7 +77,8 @@
   </div>
 
   <div *ngIf="hasBeenCompleted">
-    <p>This contract has been completed. You can still read about the selected resumes or leave a comment about the general experience above.</p>
+    <p>This contract has been completed. You can still read about the selected resumes or leave a comment about the
+      general experience above.</p>
   </div>
 
 
@@ -63,12 +89,17 @@
 
 </div>
 
-<app-verification-card *ngIf="isContractFinished && isContractAccepted" [showCheckmark]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been accepted'" [text]="'You have successfully accepted your contract! An administrator from Semco Maritime' +
+<app-verification-card *ngIf="isContractFinished && isContractAccepted" [showCheckmark]="true"
+  [showReturnFrontpageButton]="true" [header]="'Contract has been accepted'" [text]="'You have successfully accepted your contract! An administrator from Semco Maritime' +
  ' will contact you shortly regarding the hiring process.'"></app-verification-card>
 
-<app-verification-card *ngIf="isContractFinished && !isContractAccepted && !isContractRenewed" [showCancel]="true" [showReturnFrontpageButton]="true" [header]="'Contract has been declined'" [text]="'You have successfully declined your contract. Please contact Semco Maritime if you have any problems or additional wishes.'"></app-verification-card>
+<app-verification-card *ngIf="isContractFinished && !isContractAccepted && !isContractRenewed" [showCancel]="true"
+  [showReturnFrontpageButton]="true" [header]="'Contract has been declined'"
+  [text]="'You have successfully declined your contract. Please contact Semco Maritime if you have any problems or additional wishes.'">
+</app-verification-card>
 
-<app-verification-card *ngIf="isContractFinished && isContractRenewed" [showCheckmark]="true" [showReturnFrontpageButton]="true" [header]="'Renewal request is sent'" [text]="'You have successfully requested a renewal of your contract! An administrator from Semco Maritime' +
+<app-verification-card *ngIf="isContractFinished && isContractRenewed" [showCheckmark]="true"
+  [showReturnFrontpageButton]="true" [header]="'Renewal request is sent'" [text]="'You have successfully requested a renewal of your contract! An administrator from Semco Maritime' +
  ' will contact you shortly regarding the hiring process.'"></app-verification-card>
 
 <ng-template #confirmTemplate>
@@ -76,8 +107,10 @@
   <h1 mat-dialog-title>Contract confirmation</h1>
 
   <div mat-dialog-content>
-    <p *ngIf="selectedResumes.length == 1">Is this the final <b>{{selectedResumes.length}}</b> resume that you want confirmed?</p>
-    <p *ngIf="selectedResumes.length > 1">Are these the final <b>{{selectedResumes.length}}</b> resumes that you want confirmed?</p>
+    <p *ngIf="selectedResumes.length == 1">Is this the final <b>{{selectedResumes.length}}</b> resume that you want
+      confirmed?</p>
+    <p *ngIf="selectedResumes.length > 1">Are these the final <b>{{selectedResumes.length}}</b> resumes that you want
+      confirmed?</p>
   </div>
 
   <mat-dialog-actions align="center">

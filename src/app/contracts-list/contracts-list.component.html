@@ -24,7 +24,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Contract status</mat-label>
-      <mat-select (selectionChange)="onStatusSearchChange($event)">
+      <mat-select (selectionChange)="onStatusSearchChange($event)" [value]="0">
         <mat-option [value]="0">All</mat-option>
         <mat-option *ngFor="let status of statuses" [value]="status.ID">
           {{status.status}}
