@@ -58,7 +58,7 @@
     <ng-container matColumnDef="comments">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let contract">
-      <mat-icon (click)="getCommentsForContract(contract, infoTemplate)" matTooltip="This contract has comments" id="commentIcon"
+      <mat-icon *ngIf="contract.commentCount > 0" (click)="getCommentsForContract(contract, infoTemplate)" matTooltip="This contract has {{contract.commentCount}} comments" id="commentIcon"
                 matTooltipPosition="above">comment</mat-icon>
       </td>
     </ng-container>
@@ -87,6 +87,7 @@
     <div *ngIf="selectedContractComments.length > 0">
       <div *ngFor="let comment of selectedContractComments">
         <h4 class="text-align"><b>{{comment.comment}}</b></h4>
+        <p>{{comment.username}}</p>
       </div>
     </div>
 

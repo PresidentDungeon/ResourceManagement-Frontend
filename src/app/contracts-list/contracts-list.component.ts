@@ -87,7 +87,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
     if(displayLoad){this.snackbarRef = this.snackbar.open('');}
 
     let filter = `?currentPage=${this.currentPage}&itemsPrPage=${this.pageSize}&name=${this.searchTerm}&contractUser=${this.userContractSearchTerm}`
-    + `&statusID=${this.selectedStatusID}&sorting=ASC&sortingType=ADDED`;
+    + `&statusID=${this.selectedStatusID}&enableCommentCount=true&sorting=ASC&sortingType=ADDED`;
 
     this.contractService.getContracts(filter).subscribe((FilterList) => {
       this.pageLength = FilterList.totalItems;
