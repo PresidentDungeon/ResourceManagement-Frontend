@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, FormGroupDirective, Validators } from "@angular/forms";
 import { ResumeRequest } from "../shared/models/resume-request";
-import {AuthenticationService} from "../shared/services/authentication.service";
-import {Contract} from "../shared/models/contract";
-import {ContractService} from "../shared/services/contract.service";
-import {SnackMessage} from "../shared/helpers/snack-message";
+import { AuthenticationService } from "../shared/services/authentication.service";
+import { Contract } from "../shared/models/contract";
+import { ContractService } from "../shared/services/contract.service";
+import { SnackMessage } from "../shared/helpers/snack-message";
 
 @Component({
   selector: "app-request",

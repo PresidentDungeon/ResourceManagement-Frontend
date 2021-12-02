@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {User} from "../shared/models/user";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Observable} from "rxjs";
-import {Resume} from "../shared/models/resume";
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from "@angular/forms";
+import { User } from "../shared/models/user";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { Observable } from "rxjs";
 
 export interface DialogData {
   name: string;

@@ -1,17 +1,16 @@
-import {Component, EventEmitter, OnDestroy, OnInit, TemplateRef} from "@angular/core";
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {User} from "../shared/models/user";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Resume} from "../shared/models/resume";
-import {ContractService} from "../shared/services/contract.service";
-import {Status} from "../shared/models/status";
-import {SnackMessage} from "../shared/helpers/snack-message";
-import {UserService} from "../shared/services/user.service";
-import {Contract} from "../shared/models/contract";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ResumeService} from "../shared/services/resume.service";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { User } from "../shared/models/user";
+import { MatDialog } from "@angular/material/dialog";
+import { Resume } from "../shared/models/resume";
+import { ContractService } from "../shared/services/contract.service";
+import { Status } from "../shared/models/status";
+import { SnackMessage } from "../shared/helpers/snack-message";
+import { UserService } from "../shared/services/user.service";
+import { Contract } from "../shared/models/contract";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ResumeService } from "../shared/services/resume.service";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 
 @Component({
   selector: "app-contractpage",

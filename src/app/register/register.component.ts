@@ -4,9 +4,8 @@ import { Router } from "@angular/router";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import { UserService } from "../shared/services/user.service";
 import { Location } from "@angular/common";
-import { LoginDto } from "../shared/dtos/login.dto";
 import { SnackMessage } from '../shared/helpers/snack-message';
-import {RegisterDTO} from "../shared/dtos/register.dto";
+import { RegisterDTO } from "../shared/dtos/register.dto";
 
 @Component({
   selector: 'app-register',

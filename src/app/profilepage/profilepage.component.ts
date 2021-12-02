@@ -5,7 +5,7 @@ import { UserPasswordUpdateDto } from '../shared/dtos/user.password.update.dto';
 import { SnackMessage } from '../shared/helpers/snack-message';
 import { User } from '../shared/models/user';
 import { UserService } from '../shared/services/user.service';
-import {AuthenticationService} from "../shared/services/authentication.service";
+import { AuthenticationService } from "../shared/services/authentication.service";
 
 @Component({
   selector: 'app-profilepage',

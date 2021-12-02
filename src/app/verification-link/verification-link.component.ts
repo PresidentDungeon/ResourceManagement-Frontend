@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {take} from "rxjs/operators";
-import {UserService} from "../shared/services/user.service";
-import {VerificationDTO} from "../shared/dtos/verification.dto";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {PasswordChangeRequestDTO} from "../shared/dtos/password.change.request.dto";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { take } from "rxjs/operators";
+import { UserService } from "../shared/services/user.service";
+import { VerificationDTO } from "../shared/dtos/verification.dto";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { PasswordChangeRequestDTO } from "../shared/dtos/password.change.request.dto";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 enum typeEnums {
   password = 'password',

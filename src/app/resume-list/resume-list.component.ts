@@ -1,19 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from "@angular/core";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { SnackMessage } from "../shared/helpers/snack-message";
 import { Resume } from "../shared/models/resume";
 import { ResumeService } from "../shared/services/resume.service";
-import { ResumeDTO } from "../shared/dtos/resumeDTO";
 import { Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { ResumeRequest } from "../shared/models/resume-request";
 import { AuthenticationService } from "../shared/services/authentication.service";
-import {GetResumesDTO} from "../shared/dtos/get.resumes.dto";
-import {FormControl} from "@angular/forms";
-import {Contract} from "../shared/models/contract";
-import {ContractService} from "../shared/services/contract.service";
-import {RegisterUserFormDialog} from "../register-user-form/register-user-form.component";
-import {MatDialog} from "@angular/material/dialog";
+import { GetResumesDTO } from "../shared/dtos/get.resumes.dto";
+import { FormControl } from "@angular/forms";
+import { Contract } from "../shared/models/contract";
+import { ContractService } from "../shared/services/contract.service";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-resume-list',

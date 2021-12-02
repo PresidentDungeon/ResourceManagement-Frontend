@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {Status} from "../models/status";
-import {Contract} from "../models/contract";
-import {FilterList} from "../models/filterList";
-import {ContractStateReplyDTO} from "../dtos/contract.state.reply.dto";
-import {SocketManagementApp} from "../modules/shared.module";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { Status } from "../models/status";
+import { Contract } from "../models/contract";
+import { FilterList } from "../models/filterList";
+import { ContractStateReplyDTO } from "../dtos/contract.state.reply.dto";
+import { SocketManagementApp } from "../modules/shared.module";
 import { CommentDTO } from '../dtos/comment.dto';
-import {Comment} from "../models/comment";
+import { Comment } from "../models/comment";
 
 
 @Injectable({

@@ -1,16 +1,15 @@
-import {Component, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {Subject} from "rxjs";
-import {ContractService} from "../shared/services/contract.service";
-import {User} from "../shared/models/user";
-import {Contract} from "../shared/models/contract";
-import {debounceTime, delay, distinctUntilChanged, takeUntil} from "rxjs/operators";
-import {MatSnackBarRef} from "@angular/material/snack-bar";
-import {SnackMessage} from "../shared/helpers/snack-message";
-import {FormControl} from "@angular/forms";
-import {UserService} from "../shared/services/user.service";
-import {Status} from "../shared/models/status";
-import {MatDialog} from "@angular/material/dialog";
-import {Comment} from "../shared/models/comment";
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Subject } from "rxjs";
+import { ContractService } from "../shared/services/contract.service";
+import { Contract } from "../shared/models/contract";
+import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { SnackMessage } from "../shared/helpers/snack-message";
+import { FormControl } from "@angular/forms";
+import { UserService } from "../shared/services/user.service";
+import { Status } from "../shared/models/status";
+import { MatDialog } from "@angular/material/dialog";
+import { Comment } from "../shared/models/comment";
 
 
 @Component({
