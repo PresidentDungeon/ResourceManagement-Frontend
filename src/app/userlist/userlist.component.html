@@ -9,7 +9,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>User role</mat-label>
-      <mat-select (selectionChange)="onRolesSearchChange($event)">
+      <mat-select (selectionChange)="onRolesSearchChange($event)" [value]="0">
         <mat-option [value]="0">All</mat-option>
         <mat-option *ngFor="let role of roles" [value]="role.ID">
           {{role.role}}
@@ -19,7 +19,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>User status</mat-label>
-      <mat-select (selectionChange)="onStatusSearchChange($event)">
+      <mat-select (selectionChange)="onStatusSearchChange($event)" [value]="0">
         <mat-option [value]="0">All</mat-option>
         <mat-option *ngFor="let status of statuses" [value]="status.ID">
           {{status.status}}
