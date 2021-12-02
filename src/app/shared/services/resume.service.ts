@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {FilterList} from "../models/filterList";
-import {Resume} from "../models/resume";
-import {GetResumesDTO} from "../dtos/get.resumes.dto";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { FilterList } from "../models/filterList";
+import { Resume } from "../models/resume";
+import { GetResumesDTO } from "../dtos/get.resumes.dto";
 
 @Injectable({
   providedIn: 'root'

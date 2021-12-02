@@ -1,6 +1,6 @@
-import { Component, OnInit, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Location } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginDto } from "../shared/dtos/login.dto";
 import { AuthenticationService } from "../shared/services/authentication.service";

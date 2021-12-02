@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { UserService } from "../shared/services/user.service";
-import { LoginDto } from "../shared/dtos/login.dto";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { VerificationDTO } from "../shared/dtos/verification.dto";
 import { Router } from "@angular/router";
@@ -15,7 +14,7 @@ import { SnackMessage } from "../shared/helpers/snack-message";
 export class VerificationComponent implements OnInit {
 
   constructor(
-    private userService: UserService, 
+    private userService: UserService,
     private snackbar: SnackMessage,
     private router: Router) {}
 

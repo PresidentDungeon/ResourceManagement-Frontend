@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {LoginDto} from "../dtos/login.dto";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {VerificationDTO} from "../dtos/verification.dto";
-import {PasswordChangeRequestDTO} from "../dtos/password.change.request.dto";
-import {User} from "../models/user";
-import {FilterList} from "../models/filterList";
-import {SocketManagementApp} from "../modules/shared.module";
-import {Role} from "../models/role";
-import {Status} from "../models/status";
+import { HttpClient } from "@angular/common/http";
+import { LoginDto } from "../dtos/login.dto";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { VerificationDTO } from "../dtos/verification.dto";
+import { PasswordChangeRequestDTO } from "../dtos/password.change.request.dto";
+import { User } from "../models/user";
+import { FilterList } from "../models/filterList";
+import { SocketManagementApp } from "../modules/shared.module";
+import { Role } from "../models/role";
+import { Status } from "../models/status";
 import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
 
 @Injectable({

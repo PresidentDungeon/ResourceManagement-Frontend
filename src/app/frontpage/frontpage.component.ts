@@ -9,9 +9,7 @@ import {UserService} from "../shared/services/user.service";
 
 export class FrontpageComponent implements OnInit {
 
-  constructor(private userService: UserService) {
-
-  }
+  constructor() {}
 
   ngOnInit() {}
 }

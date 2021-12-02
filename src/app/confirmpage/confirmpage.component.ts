@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, TemplateRef} from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { SnackMessage } from "../shared/helpers/snack-message";
 import { Contract } from "../shared/models/contract";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import { ContractService } from "../shared/services/contract.service";
-import {Resume} from "../shared/models/resume";
-import {ResumeService} from "../shared/services/resume.service";
-import {BehaviorSubject, Observable} from "rxjs";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {ContractStateReplyDTO} from "../shared/dtos/contract.state.reply.dto";
+import { Resume } from "../shared/models/resume";
+import { ResumeService } from "../shared/services/resume.service";
+import { BehaviorSubject, Observable } from "rxjs";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ContractStateReplyDTO } from "../shared/dtos/contract.state.reply.dto";
 import { CommentDTO } from "../shared/dtos/comment.dto";
 import { Status } from "../shared/models/status";
 
@@ -40,7 +40,6 @@ export class ConfirmpageComponent implements OnInit {
 
   statusID: number = 0;
   statuses: Status[] = [];
-  selectedStatus: Status = null;
   contracts: Contract[] = [];
   selectedContract: Contract = null;
 
@@ -57,7 +56,6 @@ export class ConfirmpageComponent implements OnInit {
   });
 
   selectForm: FormControl = new FormControl();
-
 
   constructor(
     private snackbar: SnackMessage,
@@ -89,7 +87,7 @@ export class ConfirmpageComponent implements OnInit {
       () => {})
   }
 
-  contractSelect($event: any) {
+  contractSelect() {
     this.loading = true;
     let contractID: number = this.selectForm.value;
 

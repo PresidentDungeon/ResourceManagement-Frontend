@@ -1,13 +1,12 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {User} from "../shared/models/user";
-import {Role} from "../shared/models/role";
-import {MatSnackBarRef} from "@angular/material/snack-bar";
-import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
-import {UserService} from "../shared/services/user.service";
-import {SnackMessage} from "../shared/helpers/snack-message";
-import {Status} from "../shared/models/status";
-import {Resume} from "../shared/models/resume";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User } from "../shared/models/user";
+import { Role } from "../shared/models/role";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { Observable, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { UserService } from "../shared/services/user.service";
+import { SnackMessage } from "../shared/helpers/snack-message";
+import { Status } from "../shared/models/status";
 
 @Component({
   selector: 'app-userlist',
