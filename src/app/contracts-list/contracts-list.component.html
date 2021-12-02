@@ -91,18 +91,20 @@
 
 
 <ng-template id="info-template" #infoTemplate>
-  <h1 class="text-align" mat-dialog-title>{{selectedContract.title}}</h1>
+  <h1 class="align-center" mat-dialog-title><b>{{selectedContract.title}}</b></h1>
   <div mat-dialog-content id="template-container">
 
-    <div *ngIf="selectedContractComments.length > 0">
-      <div *ngFor="let comment of selectedContractComments">
-        <h4 class="text-align"><b>{{comment.comment}}</b></h4>
-        <p>{{comment.username}}</p>
-      </div>
+    <div id="card-container" *ngIf="selectedContractComments.length > 0">
+
+      <mat-card id="comment-card" *ngFor="let comment of selectedContractComments">
+        <mat-card-title class="align-center"><p>{{comment.username}}</p></mat-card-title>
+        <p>{{comment.comment}}</p>
+      </mat-card>
+
     </div>
 
     <div *ngIf="selectedContractComments.length == 0">
-      <h3 class="text-align">This contract has not yet recieved any comments.</h3>
+      <h3 class="align-center">This contract has not yet recieved any comments.</h3>
     </div>
   </div>
 </ng-template>

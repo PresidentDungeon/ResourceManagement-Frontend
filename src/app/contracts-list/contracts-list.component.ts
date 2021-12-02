@@ -129,7 +129,6 @@ export class ContractsListComponent implements OnInit, OnDestroy {
   }
 
   onMatchCheckboxChange(){
-    //console.log(this.enableMatchComplete);
     this.getContracts(true);
   }
 
@@ -144,7 +143,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
         this.selectedContract = contract;
         this.selectedContractComments = comments;
-        this.dialog.open(template, {width: '400px', autoFocus: false});
+        this.dialog.open(template, {width: '800px', autoFocus: false});
 
       },
       (error) => {this.snackbar.open('error', error.error.message)});
