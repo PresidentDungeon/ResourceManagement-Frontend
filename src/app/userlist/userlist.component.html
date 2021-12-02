@@ -1,10 +1,10 @@
 <div class="container">
-
+  <h1>Users list</h1>
   <div id="input-fields">
 
     <mat-form-field id='searchBox' appearance="outline">
       <mat-label>User mail</mat-label>
-      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..."/>
+      <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Mail..." />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -91,11 +91,12 @@
 
     <div id="paginator">
       <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                     (page)="onPaginationChange($event)" aria-label="Select page">
+        (page)="onPaginationChange($event)" aria-label="Select page">
       </mat-paginator>
     </div>
   </div>
 
-  <app-register-user-form *ngIf="displayAddUser" [displayAddUserButton]="true" (createdUserEmitter)="addUser($event)"></app-register-user-form>
+  <app-register-user-form *ngIf="displayAddUser" [displayAddUserButton]="true" (createdUserEmitter)="addUser($event)">
+  </app-register-user-form>
 
 </div>
