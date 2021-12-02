@@ -8,7 +8,7 @@
     <h3>Invalid contract ID entered</h3>
   </div>
 
-  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="false">
+  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="true">
 
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
