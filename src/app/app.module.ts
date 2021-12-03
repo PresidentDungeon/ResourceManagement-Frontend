@@ -25,6 +25,7 @@ import { ContractsListComponent } from './contracts-list/contracts-list.componen
 import { RequestComponent } from './request/request.component';
 import { RegisterUserFormComponent, RegisterUserFormDialog } from './register-user-form/register-user-form.component';
 import { ResumeOverviewComponent } from './resume-overview/resume-overview.component';
+import { WhitelistComponent } from './whitelist/whitelist.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ResumeOverviewComponent } from './resume-overview/resume-overview.compo
     RequestComponent,
     RegisterUserFormComponent,
     RegisterUserFormDialog,
-    ResumeOverviewComponent
+    ResumeOverviewComponent,
+    WhitelistComponent
   ],
     imports: [
         BrowserModule,
