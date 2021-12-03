@@ -1,3 +1,57 @@
 <div id="container">
-  
+  <h1>Whitelist domains</h1>
+
+  <mat-form-field id='searchBox' appearance="outline">
+    <mat-label>Domain name</mat-label>
+    <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Domain...">
+  </mat-form-field>
+
+  <div id="accordion">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let domain of whitelists">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{domain.domain}}
+        </mat-panel-title>
+        <mat-panel-description style="display: flex; justify-content: flex-end">
+          Just a description ... maybe users.length here?
+          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate)" mat-button><mat-icon>edit</mat-icon></button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      List of users here
+    </mat-expansion-panel>
+  </mat-accordion>
+
+    <div id="paginator">
+      <mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                     (page)="onPaginationChange($event)" aria-label="Select page">
+      </mat-paginator>
+    </div>
+
+  </div>
+
+  <button id="add-domain-button" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
+
 </div>
+
+
+<ng-template id="save-template" #saveTemplate>
+
+  <h1 *ngIf="isCreatePage" class="align-center" mat-dialog-title>Register new whitelist domain</h1>
+  <h1 *ngIf="!isCreatePage" class="align-center" mat-dialog-title>Update domain <b>{{selectedWhitelistUpdate.domain}}</b></h1>
+
+  <div mat-dialog-content id="template-container">
+
+    <form #formDirective="ngForm" [formGroup]="whitelistForm" (ngSubmit)="(this.isCreatePage) ? createWhitelist() : updateWhitelist()">
+      <mat-form-field appearance="outline">
+        <mat-label>Whitelist domain</mat-label>
+        <input type="text" formControlName="domain" matInput placeholder="domain...">
+        <mat-error>Whitelist must contain a valid domain</mat-error>
+      </mat-form-field>
+
+      <button *ngIf="isCreatePage" id="create-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Create</button>
+      <button *ngIf="!isCreatePage" id="update-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
+    </form>
+  </div>
+
+</ng-template>

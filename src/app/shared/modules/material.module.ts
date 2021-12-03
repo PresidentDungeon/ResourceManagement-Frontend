@@ -23,6 +23,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @NgModule({
     declarations: [],
@@ -52,7 +53,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
       MatDialogModule,
       MatTooltipModule,
       MatProgressSpinnerModule,
-      MatAutocompleteModule
+      MatAutocompleteModule,
+      MatExpansionModule
     ],
     providers: []
   })

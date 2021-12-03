@@ -1,0 +1,60 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  text-align: center;
+}
+
+#accordion {
+  width: 1000px;
+  align-self: center;
+}
+
+#searchBox {
+  min-width: 300px;
+}
+
+#paginator {
+  margin-top: 19px;
+  display: flex;
+  justify-content: right;
+}
+
+#add-domain-button{
+  width: fit-content;
+  align-self: center;
+  color: #ffffff;
+  background: #4ad52a;
+  opacity: 85%;
+}
+
+
+
+
+
+
+
+#template-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.align-center{
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+#create-button, #update-button{
+  margin-bottom: 5px;
+  background-color: rgb(150, 252, 127, 0.4) !important;
+}
+
+#create-button:disabled, #update-button:disabled{
+  background-color: rgba(122, 122, 122, 0.4) !important;
+}

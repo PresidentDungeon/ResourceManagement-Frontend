@@ -137,18 +137,11 @@ export class ContractsListComponent implements OnInit, OnDestroy {
   }
 
   getCommentsForContract(contract: Contract, template: TemplateRef<any>) {
-
     this.contractService.getCommentsForContract(contract.ID).subscribe((comments) => {
-
         this.selectedContract = contract;
         this.selectedContractComments = comments;
         this.dialog.open(template, {width: '800px', autoFocus: false});
-
       },
       (error) => {this.snackbar.open('error', error.error.message)});
-
-
-
-
   }
 }

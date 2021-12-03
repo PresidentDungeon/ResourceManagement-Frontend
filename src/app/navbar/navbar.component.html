@@ -1,16 +1,21 @@
 <div id="container">
   <a id="logo"><img src="../../assets/images/semco-light.webp" routerLink="/home"></a>
   <div *ngIf="true;" id="navbar">
-    <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/admin/users">Users</a>
+    <a class="menu-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'"
+       [matMenuTriggerFor]="userMenuAdmin">Users <mat-icon>menu</mat-icon></a>
     <a *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" routerLink="/admin/resumes">Resumes</a>
-    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'" 
+    <a class="menu-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) == 'Admin'"
     [matMenuTriggerFor]="contractMenuAdmin">Contract <mat-icon>menu</mat-icon></a>
-    <a class="contract-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'" 
+    <a class="menu-selection" *ngIf="(loggedUserStatus$ | async) && (loggedUserStatus$ | async) != 'Admin'"
     [matMenuTriggerFor]="contractMenuUser">Contract <mat-icon>menu</mat-icon></a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/user/profile">Profile</a>
     <a *ngIf="!(loggedUserStatus$ | async)" routerLink="/register">Register</a>
     <a *ngIf="!(loggedUserStatus$ | async)"routerLink="/login">Sign in</a>
     <a *ngIf="loggedUserStatus$ | async" routerLink="/login">Sign out</a>
+    <mat-menu #userMenuAdmin="matMenu">
+      <button mat-menu-item routerLink="/admin/users">Users list</button>
+      <button mat-menu-item routerLink="/admin/whitelist">Whitelists</button>
+    </mat-menu>
     <mat-menu #contractMenuAdmin="matMenu">
       <button mat-menu-item routerLink="/admin/contract">New Contract</button>
       <button mat-menu-item routerLink="/admin/contracts">All Contracts</button>
