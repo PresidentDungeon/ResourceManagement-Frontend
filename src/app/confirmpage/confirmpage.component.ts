@@ -30,17 +30,20 @@ export class ConfirmpageComponent implements OnInit {
   isContractRenewed: boolean = false;
 
   displaySelect: boolean = false;
+  displayInserted: boolean = false;
   displayRenewButton: boolean = false;
   hasBeenAccepted: boolean = false;
   hasBeenCompleted: boolean = false;
-
+  hasBeenSelectedFromDomain: boolean = false;
 
   renewalLoading: boolean = false;
   hasContract: boolean = true;
+  hasDomainContract: boolean = true;
 
   statusID: number = 0;
   statuses: Status[] = [];
   contracts: Contract[] = [];
+  domainContracts: Contract[] = []
   selectedContract: Contract = null;
 
   selectedResumes: Resume[] = [];
@@ -55,7 +58,10 @@ export class ConfirmpageComponent implements OnInit {
     comment: new FormControl('', [Validators.required, Validators.maxLength(500)])
   });
 
-  selectForm: FormControl = new FormControl();
+  displayContractDomains: FormControl = new FormControl(false);
+
+  contractSelectForm: FormControl = new FormControl();
+  domainContractSelectForm: FormControl = new FormControl();
 
   constructor(
     private snackbar: SnackMessage,
@@ -69,13 +75,16 @@ export class ConfirmpageComponent implements OnInit {
     this.getContractsByUserID();
     this.getStatuses();
     this.commentForm.get('comment').valueChanges.subscribe((value) => {this.isCommentsIdentical = (value === this.originalComment) ? true : false;});
+    this.displayContractDomains.valueChanges.subscribe(() => {this.getContractsByUserID()});
   }
 
   getContractsByUserID() {
     this.snackbarRef = this.snackbar.open('');
-    this.contractService.getContractsByUserID(this.statusID).subscribe((contract) =>{
-      this.contracts = contract;
-      this.hasContract = (contract.length > 0) ? true : false;},
+    this.contractService.getContractsByUserID(this.statusID, this.displayContractDomains.value).subscribe((contracts) =>{
+      this.contracts = contracts.personalContract;
+      this.hasContract = (contracts.personalContract.length > 0) ? true : false;
+      this.domainContracts = contracts.domainContracts;
+      this.hasDomainContract = (contracts.domainContracts.length > 0) ? true : false;},
     (error) => {this.snackbar.open('error', error.error.message)},
     () => {this.snackbarRef.dismiss();});
   }
@@ -89,7 +98,9 @@ export class ConfirmpageComponent implements OnInit {
 
   contractSelect() {
     this.loading = true;
-    let contractID: number = this.selectForm.value;
+    this.hasBeenSelectedFromDomain = false;
+    let contractID: number = this.contractSelectForm.value;
+    this.domainContractSelectForm.patchValue(null);
 
     this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
       this.selectedContract = contract;
@@ -98,10 +109,33 @@ export class ConfirmpageComponent implements OnInit {
       this.displayRenewButton = (contractStatus == 'expired') ? true : false;
       this.hasBeenAccepted = (contractStatus == 'accepted') ? true : false;
       this.hasBeenCompleted = (contractStatus == 'completed') ? true : false;
+      this.displayInserted = (contractStatus == 'completed' || contractStatus == 'accepted') ? true : false;
       this.originalComment = contract.personalComment.comment;
       this.commentForm.patchValue({comment: contract.personalComment.comment});
 
       this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
+      (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
+      () => {this.loading = false;})
+  }
+
+  contractDomainSelect() {
+    this.loading = true;
+    this.hasBeenSelectedFromDomain = true;
+    let contractID: number = this.domainContractSelectForm.value;
+    this.contractSelectForm.patchValue(null);
+
+    this.contractService.getContractByIDUser(contractID).subscribe((contract) => {
+        this.selectedContract = contract;
+        let contractStatus: string = contract.status.status.toLowerCase();
+        this.displaySelect = false;
+        this.displayRenewButton = (contractStatus == 'expired') ? true : false;
+        this.hasBeenAccepted = (contractStatus == 'accepted') ? true : false;
+        this.hasBeenCompleted = (contractStatus == 'completed') ? true : false;
+        this.displayInserted = (contractStatus == 'completed' || contractStatus == 'accepted') ? true : false;
+        this.originalComment = contract.personalComment.comment;
+        this.commentForm.patchValue({comment: contract.personalComment.comment});
+
+        this.resumesToDisplayBehaviourSubject.next(contract.resumes);},
       (error) => {this.loading = false; this.snackbar.open('error', error.error.message)},
       () => {this.loading = false;})
   }
@@ -112,7 +146,8 @@ export class ConfirmpageComponent implements OnInit {
     this.displayRenewButton = false;
     this.hasBeenAccepted = false;
     this.hasBeenCompleted = false;
-    this.selectForm.patchValue(null);
+    this.contractSelectForm.patchValue(null);
+    this.domainContractSelectForm.patchValue(null);
     this.statusID = statusID;
     this.getContractsByUserID();
   }
@@ -162,7 +197,7 @@ export class ConfirmpageComponent implements OnInit {
 
   leaveComment() {
     let comment: string = this.commentForm.value.comment;
-    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.statusID};
+    let commentDTO: CommentDTO = {comment: comment, contractID: this.selectedContract.ID, userID: this.authService.getID()};
     this.contractService.saveComment(commentDTO).subscribe(() => {
       this.snackbar.open('updated', 'Comment');
       this.originalComment = comment;

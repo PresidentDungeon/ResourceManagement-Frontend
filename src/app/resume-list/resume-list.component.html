@@ -35,7 +35,7 @@
             <ng-container matColumnDef="iconStatus">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let resume">
-                <mat-icon (click)="displayResumeBooking(resume, infoTemplate)" matTooltip="This candidate is offered to {{resume.count}} other contracts" id="countIcon"
+                <mat-icon (click)="displayResumeBooking(resume, infoTemplate)" matTooltip="This candidate is offered to {{resume.count}} other contracts during this period." id="countIcon"
                   matTooltipPosition="above" *ngIf="displayResumeCountInfo"
                   [class.iconState3]="resume.count >= warningIconCount"
                   [class.iconState2]="resume.count >= alertIconCount"

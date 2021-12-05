@@ -9,11 +9,11 @@ import { SnackMessage } from "../shared/helpers/snack-message";
 import { Status } from "../shared/models/status";
 
 @Component({
-  selector: 'app-userlist',
-  templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.scss']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss']
 })
-export class UserlistComponent implements OnInit{
+export class UserListComponent implements OnInit{
   constructor(private snackbar: SnackMessage,
               private userService: UserService) { }
 

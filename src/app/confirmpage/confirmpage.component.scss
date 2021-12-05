@@ -1,4 +1,4 @@
-#container, #main-section, #select-contract, #renewal {
+#container, #main-section, #select-contract {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -11,13 +11,22 @@
   flex-direction: row;
 }
 
-#contract-status {
+#contract-status, .selected-contract {
   margin-right: 24px;
 }
 
 #confirmButton, #declineButton{
   width: fit-content;
   align-self: center;
+}
+
+#comment-button{
+  align-self: center;
+  width: 300px;
+}
+
+#comment-button, #renewal-button{
+  margin-bottom: 15px;
 }
 
 #confirmButton{
@@ -53,4 +62,8 @@ form {
   align-self: center;
   width: 80%;
   margin-top: 2rem;
+}
+
+#resume-list{
+  text-align: left;
 }

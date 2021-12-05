@@ -9,6 +9,7 @@ import { ContractStateReplyDTO } from "../dtos/contract.state.reply.dto";
 import { SocketManagementApp } from "../modules/shared.module";
 import { CommentDTO } from '../dtos/comment.dto';
 import { Comment } from "../models/comment";
+import {getUserContractsDTO} from "../dtos/get.user.contracts.dto";
 
 
 @Injectable({
@@ -47,8 +48,8 @@ export class ContractService {
     return this.http.get<Contract>(environment.apiUrl + `/contract/getContractByIDUser?ID=${ID}`);
   }
 
-  getContractsByUserID(ID: number): Observable<Contract[]>{
-    return this.http.get<Contract[]>(environment.apiUrl + `/contract/getContractByUserID?ID=${ID}`);
+  getContractsByUserID(ID: number, displayDomainContract: boolean): Observable<getUserContractsDTO>{
+    return this.http.get<getUserContractsDTO>(environment.apiUrl + `/contract/getContractsByUserID?ID=${ID}&displayDomainContract=${displayDomainContract}`);
   }
 
   getContractsByResumeID(ID: number): Observable<Contract[]>{

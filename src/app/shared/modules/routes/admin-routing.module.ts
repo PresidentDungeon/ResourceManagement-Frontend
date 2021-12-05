@@ -4,10 +4,10 @@ import { ContractpageComponent } from 'src/app/contractpage/contractpage.compone
 import { ContractsListComponent } from 'src/app/contracts-list/contracts-list.component';
 import { WhitelistComponent } from 'src/app/whitelist/whitelist.component';
 import { ResumeOverviewComponent } from '../../../resume-overview/resume-overview.component';
-import { UserlistComponent } from "../../../userlist/userlist.component";
+import { UserListComponent } from "../../../user-overview/user-list.component";
 
 const routes: Routes = [
-  {path: 'users', component: UserlistComponent},
+  {path: 'users', component: UserListComponent},
   {path: 'contract', component: ContractpageComponent},
   {path: 'contract/:id', component: ContractpageComponent},
   {path: 'contracts', component: ContractsListComponent},

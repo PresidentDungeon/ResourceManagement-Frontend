@@ -11,6 +11,7 @@ import { Contract } from "../shared/models/contract";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ResumeService } from "../shared/services/resume.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { Whitelist } from "../shared/models/whitelist";
 
 @Component({
   selector: "app-contractpage",
@@ -34,6 +35,7 @@ export class ContractpageComponent implements OnInit{
   thirdFormGroup = new FormGroup({
     status: new FormControl('', [Validators.required]),
     dueDate: new FormControl('', []),
+    isVisibleToDomainUsers: new FormControl(false)
   })
 
   contractLoad = true;
@@ -54,6 +56,10 @@ export class ContractpageComponent implements OnInit{
   selectedResumes: Resume[] = [];
   selectedResumesBehaviourSubject: BehaviorSubject<Resume[]> = new BehaviorSubject<Resume[]>([]);
   selectedResumesObservable: Observable<Resume[]> = this.selectedResumesBehaviourSubject.asObservable();
+
+  selectedDomains: Whitelist[] = [];
+  selectedDomainsBehaviourSubject: BehaviorSubject<Whitelist[]> = new BehaviorSubject<Whitelist[]>([]);
+  selectedDomainsObservable: Observable<Whitelist[]> = this.selectedDomainsBehaviourSubject.asObservable();
 
   requestUserFormSubject: Subject<any> = new Subject<any>();
   requestUserFormObservable: Observable<any> = this.requestUserFormSubject.asObservable();
@@ -100,16 +106,22 @@ export class ContractpageComponent implements OnInit{
       description: contract.description
     });
     this.secondFormGroup.patchValue({resumes: contract.resumes});
-    this.thirdFormGroup.patchValue({status: contract.status.ID, dueDate: contract.dueDate});
+    this.thirdFormGroup.patchValue({status: contract.status.ID, dueDate: contract.dueDate, isVisibleToDomainUsers: contract.isVisibleToDomainUsers});
     this.contractStatusUpdate(contract.status.ID);
     this.selectedUsers = contract.users;
     this.selectedResumes = contract.resumes;
+    this.selectedDomains = contract.whitelists;
     this.selectedResumesBehaviourSubject.next(contract.resumes);
     this.selectedUsersBehaviourSubject.next(contract.users);
+    this.selectedDomainsBehaviourSubject.next(contract.whitelists);
   }
 
   updateUserCheckedList(selectedUsers: User[]){
     this.selectedUsers = selectedUsers;
+  }
+
+  updateDomainsCheckList(selectedDomains: Whitelist[]){
+    this.selectedDomains = selectedDomains;
   }
 
   updateResumeCheckedList(selectedResumes: Resume[]){
@@ -117,10 +129,10 @@ export class ContractpageComponent implements OnInit{
     this.secondFormGroup.patchValue({resumes: selectedResumes});
   }
 
-  remove(user: User, userList: User[]): void {
-    const index = userList.indexOf(user);
+  remove<T>(entity: T, entityList: T[]): void {
+    const index = entityList.indexOf(entity);
     if (index >= 0) {
-      userList.splice(index, 1);
+      entityList.splice(index, 1);
     }
   }
 
@@ -137,6 +149,7 @@ export class ContractpageComponent implements OnInit{
     const selectedStatusID = statusID;
 
     if(selectedStatusID == 3){
+      console.log('here');
       this.isDueDateRequired = true;
       this.thirdFormGroup.get('dueDate').setValidators([Validators.required]);
     }
@@ -145,16 +158,9 @@ export class ContractpageComponent implements OnInit{
       this.thirdFormGroup.get('dueDate').setValidators([]);
       this.thirdFormGroup.get('dueDate').updateValueAndValidity();
     }
-
   }
 
   saveContract() {
-
-    /*
-        We first save new users
-        We then get the values from selectedUsers and merge with the newly created users
-        We then create the contract and save to the backend
-    */
 
     this.contractSave = true;
 
@@ -176,14 +182,17 @@ export class ContractpageComponent implements OnInit{
         startDate: firstFormData.startDate,
         endDate: firstFormData.endDate,
         dueDate: dueDate,
+        isVisibleToDomainUsers: thirdFormData.isVisibleToDomainUsers,
         status: {ID: thirdFormData.status, status: ''},
         resumeRequests: (this.updateView) ? this.contract.resumeRequests : [],
         users: users,
-        resumes: this.selectedResumes
+        resumes: this.selectedResumes,
+        whitelists: (thirdFormData.isVisibleToDomainUsers) ? this.selectedDomains : []
       }
 
       if(this.updateView){
         this.contractService.updateContract(contract).subscribe((contract) => {
+          this.snackbar.open('updated', 'Contract');
           this.router.navigate(['']);},
           (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
           () => {this.contractSave = false;});
@@ -191,6 +200,7 @@ export class ContractpageComponent implements OnInit{
 
       else{
         this.contractService.createContract(contract).subscribe((contract) => {
+            this.snackbar.open('created', 'Contract');
             this.router.navigate(['']);},
           (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
           () => {this.contractSave = false;});

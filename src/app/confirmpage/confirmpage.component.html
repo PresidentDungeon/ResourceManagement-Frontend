@@ -1,5 +1,6 @@
 <div id="container" *ngIf="!isContractFinished">
   <h1>Resources to choose from</h1>
+  <mat-checkbox [formControl]="displayContractDomains" color="primary">Display domain contracts</mat-checkbox>
   <div id="select-contract">
     <div id="dropdown">
       <mat-form-field id="contract-status" appearance="outline">
@@ -10,17 +11,30 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="hasContract" appearance="outline">
+      <mat-form-field class="selected-contract" *ngIf="hasContract" appearance="outline">
         <mat-label>Select Contract</mat-label>
-        <mat-select (selectionChange)="contractSelect()" [formControl]="selectForm">
+        <mat-select (selectionChange)="contractSelect()" [formControl]="contractSelectForm">
           <mat-option *ngFor="let contract of contracts" [value]="contract.ID">{{contract.title}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="!hasContract" appearance="outline">
+      <mat-form-field class="selected-contract" *ngIf="!hasContract" appearance="outline">
         <mat-label>No contract with status</mat-label>
         <mat-select [disabled]="true"></mat-select>
       </mat-form-field>
+
+      <mat-form-field *ngIf="hasDomainContract && displayContractDomains.value" appearance="outline">
+        <mat-label>Select Domain Contract</mat-label>
+        <mat-select (selectionChange)="contractDomainSelect()" [formControl]="domainContractSelectForm">
+          <mat-option *ngFor="let contract of domainContracts" [value]="contract.ID">{{contract.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="!hasDomainContract && displayContractDomains.value" appearance="outline">
+        <mat-label>No contract with status</mat-label>
+        <mat-select [disabled]="true"></mat-select>
+      </mat-form-field>
+
 
       <div *ngIf="!selectedContract && !loading">
         <h3>Please select a contract from the dropdown!</h3>
@@ -37,7 +51,7 @@
         {{selectedContract.status.status}}</h2>
     </h2>
 
-    <app-resume-list [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect"
+    <app-resume-list id="resume-list" [isAdminPage]="false" [displayPagination]="false" [displaySelect]="displaySelect" [displayInserted]="displayInserted"
       [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)">
     </app-resume-list>
 
@@ -59,27 +73,30 @@
 
     </form>
 
-    <div id="reply" *ngIf="displaySelect">
+    <div id="reply" *ngIf="displaySelect && !hasBeenSelectedFromDomain">
       <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
       <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)"
         [disabled]="selectedResumes.length <= 0">Accept contract</button>
     </div>
 
     <div id="renewal" *ngIf="displayRenewButton">
+      <button *ngIf="!hasBeenSelectedFromDomain" mat-raised-button id="renewal-button" (click)="requestRenewal()" [disabled]="renewalLoading">Request renewal</button>
       <p>This contract has been expired. You can request for the contract to be renewed.</p>
-      <button mat-raised-button id="renewal-button" (click)="requestRenewal()" [disabled]="renewalLoading">Request
-        renewal</button>
     </div>
+
+    <div *ngIf="hasBeenAccepted">
+      <p>This contract has been accepted. You can still read about the selected resumes above.</p>
+    </div>
+
+    <div *ngIf="hasBeenCompleted">
+      <p>This contract has been completed. You can still read about the selected resumes or leave a comment about the
+        general experience above.</p>
+    </div>
+
+
   </div>
 
-  <div *ngIf="hasBeenAccepted">
-    <p>This contract has been accepted. You can still read about the selected resumes above.</p>
-  </div>
 
-  <div *ngIf="hasBeenCompleted">
-    <p>This contract has been completed. You can still read about the selected resumes or leave a comment about the
-      general experience above.</p>
-  </div>
 
 
 

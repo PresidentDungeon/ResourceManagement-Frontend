@@ -10,7 +10,7 @@
 
   <h1 *ngIf="!updateView">New contract</h1>
   <h1 *ngIf="updateView">Update contract</h1>
-  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="true">
+  <mat-stepper id="stepper" *ngIf="!contractLoad && !invalidID" #stepper [linear]="!updateView">
 
     <mat-step [stepControl]="firstFormGroup" label="Contract Information">
 
@@ -20,7 +20,7 @@
           <input matInput placeholder="Insert title..." formControlName="contractTitle">
         </mat-form-field>
 
-        <app-userlist [isSelectable]="true" [displayAddUser]="false" [displayLoad]="false" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-userlist>
+        <app-user-list [isSelectable]="true" [displayAddUser]="false" [displayLoad]="false" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-user-list>
 
         <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
@@ -95,6 +95,7 @@
     </mat-step>
 
     <mat-step label="Confirmation">
+
       <form [formGroup]="thirdFormGroup" (ngSubmit)="saveContract()">
 
 
@@ -112,6 +113,34 @@
           <mat-datepicker #dueDate></mat-datepicker>
           <mat-error>Invalid end date</mat-error>
         </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Display contract to domain users</mat-label>
+          <mat-select formControlName="isVisibleToDomainUsers" [value]="false">
+            <mat-option [value]="true">Yes</mat-option>
+            <mat-option [value]="false">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div id="domain-container" *ngIf="thirdFormGroup.get('isVisibleToDomainUsers').value">
+
+          <app-whitelist-overview [SelectedDomainsObservable]="selectedDomainsObservable" (selectedDomainsEmitter)="updateDomainsCheckList($event)"></app-whitelist-overview>
+
+          <mat-form-field class="form-field" floatLabel="always" appearance="outline">
+            <mat-label>Selected domains</mat-label>
+            <mat-chip-list aria-label="User selection">
+              <mat-chip *ngFor="let domain of selectedDomains" [selectable]="selectable"
+                        [removable]="removable" (removed)="remove(domain, selectedDomains)">
+                {{domain.domain}}
+                <button matChipRemove *ngIf="removable">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+
+            </mat-chip-list>
+          </mat-form-field>
+
+        </div>
 
         <button mat-raised-button *ngIf="!updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
         <button mat-raised-button *ngIf="updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>

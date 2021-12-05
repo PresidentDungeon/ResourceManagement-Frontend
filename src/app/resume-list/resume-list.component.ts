@@ -32,6 +32,7 @@ export class ResumeListComponent implements OnInit {
   @Input() displayLoad: boolean;
   @Input() displayPagination: boolean;
   @Input() displaySelect: boolean;
+  @Input() displayInserted: boolean;
   @Input() displayResumeCountInfo: boolean;
   @Input() displayAll: boolean;
   @Input() dataSource: Resume[] = [];
@@ -110,7 +111,7 @@ export class ResumeListComponent implements OnInit {
         this.initialContractResumes = resumes;
         this.dataSource = resumes;
 
-        if(!this.displaySelect){this.insertSelected(resumes);}
+        if(!this.displaySelect && this.displayInserted){this.insertSelected(resumes);}
       });
     }
 

@@ -55,10 +55,12 @@ export class RequestComponent implements OnInit {
       description: contractData.description,
       startDate: contractData.startDate,
       endDate: contractData.endDate,
+      isVisibleToDomainUsers: false,
       status: null,
       resumeRequests: contractData.occupations,
       resumes: [],
-      users: [JSON.parse(`{"ID": ${userID}}`)]
+      users: [JSON.parse(`{"ID": ${userID}}`)],
+      whitelists: []
     }
 
     this.contractService.requestContract(contract).subscribe((contract) => {

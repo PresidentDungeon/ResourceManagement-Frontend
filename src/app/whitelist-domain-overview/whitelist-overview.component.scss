@@ -1,0 +1,58 @@
+.container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1000px;
+}
+
+h1 {
+  margin-top: 24px;
+}
+
+mat-form-field {
+  margin: 0px 4px -4px 4px;
+}
+
+#searchBox {
+  min-width: 300px;
+}
+
+#paginator {
+  margin-top: 19px;
+  display: flex;
+  justify-content: right;
+}
+
+:host .mat-column-Role {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+:host .mat-column-Status:host {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+:host .mat-column-Select:host {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 7% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: center;
+}

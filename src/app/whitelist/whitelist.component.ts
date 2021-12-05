@@ -42,7 +42,7 @@ export class WhitelistComponent implements OnInit {
   mockWhitelist: Whitelist = {ID: 1, domain: '@gmail.com'}
 
   whitelistForm = new FormGroup({
-    domain: new FormControl('', [Validators.required, Validators.pattern('^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
+    domain: new FormControl('@', [Validators.required, Validators.pattern('^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
   });
 
   ngOnInit() {
@@ -78,7 +78,8 @@ export class WhitelistComponent implements OnInit {
 
   openCreateInput(template: TemplateRef<any>) {
     this.isCreatePage = true;
-    this.whitelistForm.patchValue({domain: ''});
+    this.whitelistForm.reset();
+    this.whitelistForm.patchValue({domain: '@'});
     this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
   }
 
