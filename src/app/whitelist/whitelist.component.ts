@@ -5,9 +5,11 @@ import {SnackMessage} from "../shared/helpers/snack-message";
 import {MatSnackBarRef} from "@angular/material/snack-bar";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatAccordion} from "@angular/material/expansion";
+import {User} from "../shared/models/user";
+import {UserService} from "../shared/services/user.service";
 
 @Component({
   selector: "app-whitelist",
@@ -21,6 +23,7 @@ export class WhitelistComponent implements OnInit {
 
   constructor(
     private whitelistService: WhitelistService,
+    private userService: UserService,
     private snackbar: SnackMessage,
     private dialog: MatDialog
   ) {}
@@ -42,6 +45,9 @@ export class WhitelistComponent implements OnInit {
   selectedWhitelistDomain: Whitelist;
 
   loading: boolean = true;
+
+  indexExpanded = -1;
+  whitelistUsers: User[] = [];
 
   whitelistForm = new FormGroup({
     domain: new FormControl('@', [Validators.required, Validators.pattern('^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
@@ -126,10 +132,10 @@ export class WhitelistComponent implements OnInit {
       this.snackbar.open('updated','Whitelist domain');
       this.getWhitelists(false);
       this.isSaveLoading = false;
+      this.closePanelIfChanged();
       this.dialogRef.close();
     }, (error) => {this.isSaveLoading = false; this.snackbar.open('error', error.error.message)});
   }
-
 
   deleteDomain() {
     this.whitelistService.deleteWhitelist(this.selectedWhitelistDomain).subscribe(() => {
@@ -139,6 +145,28 @@ export class WhitelistComponent implements OnInit {
       this.dialogRef.close();
 
     }, (error) => {this.snackbar.open('error', error.error.message)});
+  }
+
+  loadUsers(domain: Whitelist, index: number) {
+    this.accordion.closeAll();
+
+    this.snackbarRef = this.snackbar.open('');
+
+    this.userService.getDomainUsers(domain.domain).subscribe((users) => {
+      this.whitelistUsers = users;
+      this.snackbarRef.dismiss();
+      this.togglePanels(index);
+    }, (error) => {this.snackbar.open('error', error.error.message)});
+  }
+
+  togglePanels(index: number) {
+    this.indexExpanded = index == this.indexExpanded ? -1 : index;
+  }
+
+  closePanelIfChanged(){
+    if(this.indexExpanded != -1 && this.selectedWhitelistDomain == this.whitelists[this.indexExpanded]){
+      this.indexExpanded = -1;
+    }
   }
 
 }

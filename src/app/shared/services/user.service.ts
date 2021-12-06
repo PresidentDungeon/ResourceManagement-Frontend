@@ -11,6 +11,7 @@ import { SocketManagementApp } from "../modules/shared.module";
 import { Role } from "../models/role";
 import { Status } from "../models/status";
 import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
+import {Whitelist} from "../models/whitelist";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class UserService {
 
   getUsers(filter: string): Observable<FilterList<User>>{
     return this.http.get<FilterList<User>>(environment.apiUrl + '/user/getUsers' + filter);
+  }
+
+  getDomainUsers(domainTitle: string): Observable<User[]>{
+    return this.http.get<User[]>(environment.apiUrl + `/user/getUsersByDomain?title=${domainTitle}`);
   }
 
   getUserByID(userID: number): Observable<User>{

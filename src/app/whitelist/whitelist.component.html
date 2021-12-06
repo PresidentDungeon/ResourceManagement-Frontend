@@ -10,18 +10,25 @@
 
   <div id="accordion">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let domain of whitelists">
+    <mat-expansion-panel [expanded]="indexExpanded == i" *ngFor="let domain of whitelists; let i = index" (click)="loadUsers(domain, i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{domain.domain}}
         </mat-panel-title>
         <mat-panel-description style="display: flex; justify-content: flex-end">
-          Just a description ... maybe users.length here?
           <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate, $event)" mat-button><mat-icon>edit</mat-icon></button>
           <button class="primary-color" (click)="openDeleteInput(domain, deleteTemplate, $event)" mat-button><mat-icon>delete_forever</mat-icon></button>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      List of users here
+
+      <div id="user-container" *ngIf="whitelistUsers.length > 0" >
+        <div id="user-list" *ngFor="let user of whitelistUsers">
+          <p>{{user.username}}</p>
+        </div>
+      </div>
+
+      <h1 *ngIf="whitelistUsers.length == 0"> No users with this domain.</h1>
+
     </mat-expansion-panel>
   </mat-accordion>
 
