@@ -7,6 +7,7 @@ import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatAccordion} from "@angular/material/expansion";
 
 @Component({
   selector: "app-whitelist",
@@ -15,6 +16,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 })
 
 export class WhitelistComponent implements OnInit {
+
+  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   constructor(
     private whitelistService: WhitelistService,
@@ -82,14 +85,18 @@ export class WhitelistComponent implements OnInit {
     this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
   }
 
-  openUpdateInput(whitelist: Whitelist, template: TemplateRef<any>) {
+  openUpdateInput(whitelist: Whitelist, template: TemplateRef<any>, $event: any) {
+    $event.stopPropagation();
+    $event.preventDefault();
     this.isCreatePage = false;
     this.selectedWhitelistDomain = whitelist;
     this.whitelistForm.patchValue({domain: whitelist.domain});
     this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
   }
 
-  openDeleteInput(whitelist: Whitelist, template: TemplateRef<any>){
+  openDeleteInput(whitelist: Whitelist, template: TemplateRef<any>, $event: any){
+    $event.stopPropagation();
+    $event.preventDefault();
     this.selectedWhitelistDomain = whitelist;
     this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
   }
@@ -125,8 +132,6 @@ export class WhitelistComponent implements OnInit {
 
 
   deleteDomain() {
-
-    console.log(this.selectedWhitelistDomain);
     this.whitelistService.deleteWhitelist(this.selectedWhitelistDomain).subscribe(() => {
 
       this.snackbar.open('deleted','Whitelist domain');
@@ -134,8 +139,6 @@ export class WhitelistComponent implements OnInit {
       this.dialogRef.close();
 
     }, (error) => {this.snackbar.open('error', error.error.message)});
-
-
   }
 
 }

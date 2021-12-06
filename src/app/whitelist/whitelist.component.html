@@ -17,8 +17,8 @@
         </mat-panel-title>
         <mat-panel-description style="display: flex; justify-content: flex-end">
           Just a description ... maybe users.length here?
-          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate)" mat-button><mat-icon>edit</mat-icon></button>
-          <button class="primary-color" (click)="openDeleteInput(domain, deleteTemplate)" mat-button><mat-icon>delete_forever</mat-icon></button>
+          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate, $event)" mat-button><mat-icon>edit</mat-icon></button>
+          <button class="primary-color" (click)="openDeleteInput(domain, deleteTemplate, $event)" mat-button><mat-icon>delete_forever</mat-icon></button>
         </mat-panel-description>
       </mat-expansion-panel-header>
       List of users here
