@@ -7,7 +7,6 @@ import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {User} from "../shared/models/user";
 
 @Component({
   selector: "app-whitelist",
@@ -37,9 +36,9 @@ export class WhitelistComponent implements OnInit {
   dialogRef: MatDialogRef<any>;
   isCreatePage: boolean = true;
   isSaveLoading: boolean = false;
-  selectedWhitelistUpdate: Whitelist;
+  selectedWhitelistDomain: Whitelist;
 
-  mockWhitelist: Whitelist = {ID: 1, domain: '@gmail.com'}
+  loading: boolean = true;
 
   whitelistForm = new FormGroup({
     domain: new FormControl('@', [Validators.required, Validators.pattern('^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
@@ -62,8 +61,8 @@ export class WhitelistComponent implements OnInit {
         this.pageLength = FilterList.totalItems;
         this.whitelists = FilterList.list;
       },
-      (error) => {this.snackbar.open('error', error.error.message)},
-      () => {if(displayLoad){this.snackbarRef.dismiss();}});
+      (error) => {this.snackbar.open('error', error.error.message); this.loading = false;},
+      () => {if(displayLoad){this.snackbarRef.dismiss(); this.loading = false;}});
   }
 
   onPaginationChange($event){;
@@ -85,8 +84,13 @@ export class WhitelistComponent implements OnInit {
 
   openUpdateInput(whitelist: Whitelist, template: TemplateRef<any>) {
     this.isCreatePage = false;
-    this.selectedWhitelistUpdate = whitelist;
+    this.selectedWhitelistDomain = whitelist;
     this.whitelistForm.patchValue({domain: whitelist.domain});
+    this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
+  }
+
+  openDeleteInput(whitelist: Whitelist, template: TemplateRef<any>){
+    this.selectedWhitelistDomain = whitelist;
     this.dialogRef = this.dialog.open(template, {width: '500px', autoFocus: false});
   }
 
@@ -108,7 +112,7 @@ export class WhitelistComponent implements OnInit {
     this.isSaveLoading = true;
 
     let whitelistData = this.whitelistForm.value;
-    let whitelistToUpdate: Whitelist = Object.assign(this.selectedWhitelistUpdate);
+    let whitelistToUpdate: Whitelist = Object.assign(this.selectedWhitelistDomain);
     whitelistToUpdate.domain = whitelistData.domain;
 
     this.whitelistService.updateWhitelist(whitelistToUpdate).subscribe((whiteList) => {
@@ -119,5 +123,19 @@ export class WhitelistComponent implements OnInit {
     }, (error) => {this.isSaveLoading = false; this.snackbar.open('error', error.error.message)});
   }
 
+
+  deleteDomain() {
+
+    console.log(this.selectedWhitelistDomain);
+    this.whitelistService.deleteWhitelist(this.selectedWhitelistDomain).subscribe(() => {
+
+      this.snackbar.open('deleted','Whitelist domain');
+      this.getWhitelists(false);
+      this.dialogRef.close();
+
+    }, (error) => {this.snackbar.open('error', error.error.message)});
+
+
+  }
 
 }

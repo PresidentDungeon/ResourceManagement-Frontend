@@ -24,7 +24,7 @@
   </div>
 
   <div *ngIf="isActive && !loginIsActive && !passwordResetRequestIsSuccessful" class="formfield">
-    <h1>Password Reset</h1>
+    <h1 class="align-center">Password Reset</h1>
     <p>We'll send a password reset link to your email account.</p>
     <form [formGroup]="resetForm" (ngSubmit)="sendPasswordResetLink()">
 
