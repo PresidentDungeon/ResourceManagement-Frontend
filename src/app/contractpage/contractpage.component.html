@@ -20,21 +20,13 @@
           <input matInput placeholder="Insert title..." formControlName="contractTitle">
         </mat-form-field>
 
-        <app-user-list [isSelectable]="true" [displayAddUser]="false" [displayLoad]="false" [selectedUsersObservable]="selectedUsersObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-user-list>
+        <app-user-list [isSelectable]="true" [displayAddUserButton]="false" [displayLoad]="false" [selectedUsersObservable]="selectedUsersObservable" [openInputObservable]="requestUserFormObservable" (selectedUsersEmitter)="updateUserCheckedList($event)"></app-user-list>
 
         <mat-form-field class="form-field" floatLabel="always" appearance="outline">
           <mat-label>Selected users</mat-label>
           <mat-chip-list #chipList aria-label="User selection">
             <mat-chip id="registered" *ngFor="let user of selectedUsers" [selectable]="selectable"
                       [removable]="removable" (removed)="remove(user, selectedUsers)">
-              {{user.username}}
-              <button matChipRemove *ngIf="removable">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-
-            <mat-chip id="unregistered" *ngFor="let user of selectedUnregisteredUsers" [selectable]="selectable"
-                      [removable]="removable" (removed)="remove(user, selectedUnregisteredUsers)">
               {{user.username}}
               <button matChipRemove *ngIf="removable">
                 <mat-icon>cancel</mat-icon>
@@ -149,30 +141,6 @@
       </form>
     </mat-step>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </mat-stepper>
 </div>
 
-<app-register-user-form [displayAddUserButton]="false" [openInputObservable]="requestUserFormObservable" (createdUserEmitter)="addNewUser($event)"></app-register-user-form>

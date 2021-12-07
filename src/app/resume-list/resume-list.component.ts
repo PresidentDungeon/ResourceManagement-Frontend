@@ -8,7 +8,7 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { ResumeRequest } from "../shared/models/resume-request";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import { GetResumesDTO } from "../shared/dtos/get.resumes.dto";
-import { FormControl } from "@angular/forms";
+import { AbstractControl } from "@angular/forms";
 import { Contract } from "../shared/models/contract";
 import { ContractService } from "../shared/services/contract.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -40,8 +40,8 @@ export class ResumeListComponent implements OnInit {
   @Input() excludeContractID: number = 0;
   @Input() isOverview: boolean = false;
 
-  @Input() startDateControl: FormControl
-  @Input() endDateControl: FormControl
+  @Input() startDateControl: AbstractControl
+  @Input() endDateControl: AbstractControl
 
   @Output() selectedResumesEmitter = new EventEmitter();
 

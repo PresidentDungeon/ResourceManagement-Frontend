@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from "@angular/forms";
-import { User } from "../shared/models/user";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 
@@ -37,12 +36,8 @@ export class RegisterUserFormComponent implements OnInit {
   openNewUserInput() {
     this.dialogRef = this.dialog.open(RegisterUserFormDialog, {width: '300px', autoFocus: false});
 
-    this.dialogRef.afterClosed().subscribe(result => {
-
-      if (result != undefined) {
-        let userToCreate: User = {ID: 0, username: result, status: null, role: null}
-        this.createdUserEmitter.next(userToCreate);
-      }
+    this.dialogRef.afterClosed().subscribe(username => {
+      if (username != undefined) {this.createdUserEmitter.next(username);}
     });
   }
 

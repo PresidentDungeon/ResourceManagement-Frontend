@@ -24,8 +24,8 @@ export class UserService {
     return this.http.post<boolean>(environment.apiUrl + '/user/register', loginDTO);
   }
 
-  registerUsers(unregisteredUsers: User[]): Observable<User[]>{
-    return this.http.post<User[]>(environment.apiUrl + '/user/registerUsers', unregisteredUsers);
+  registerUser(username: string): Observable<User>{
+    return this.http.get<User>(environment.apiUrl + `/user/registerUser?username=${username}`);
   }
 
   getUsers(filter: string): Observable<FilterList<User>>{

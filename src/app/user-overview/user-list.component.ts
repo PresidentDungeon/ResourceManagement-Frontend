@@ -19,8 +19,9 @@ export class UserListComponent implements OnInit{
 
   @Input() isSelectable: boolean;
   @Input() displayLoad: boolean = true;
-  @Input() displayAddUser: boolean = true;
+  @Input() displayAddUserButton: boolean = true;
   @Input() selectedUsersObservable: Observable<User[]>;
+  @Input() openInputObservable: Observable<any>;
   @Output() selectedUsersEmitter = new EventEmitter();
 
   displayedColumnsWithSelect: string[] = ['ID', 'Username', 'Status', 'Role', 'Select'];
@@ -152,10 +153,17 @@ export class UserListComponent implements OnInit{
     return false;
   }
 
-  addUser(userToAdd: User){
-    this.userService.registerUsers([userToAdd]).subscribe((registeredUsers) => {
-      this.getUsers();},
+  addUser(username: string){
+
+    this.userService.registerUser(username).subscribe((registeredUser) => {
+      this.getUsers();
+      if(this.openInputObservable){
+        this.selectedUsers.push(registeredUser);
+        this.selectedUsersEmitter.emit(this.selectedUsers);
+      }
+    },
       (error) => {this.snackbar.open('error', error.error.message);});
+
   }
 
 }

@@ -49,7 +49,6 @@ export class ContractpageComponent implements OnInit{
   contract: Contract = null;
 
   selectedUsers: User[] = [];
-  selectedUnregisteredUsers: User[] = [];
   selectedUsersBehaviourSubject: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   selectedUsersObservable: Observable<User[]> = this.selectedUsersBehaviourSubject.asObservable();
 
@@ -95,7 +94,6 @@ export class ContractpageComponent implements OnInit{
         this.contractLoad = false;},
         (error) => {this.invalidID = true; this.contractLoad = false; this.snackbar.open('error', error.error.message);});
     }
-
   }
 
   initializeContract(contract: Contract){
@@ -140,16 +138,11 @@ export class ContractpageComponent implements OnInit{
     this.requestUserFormSubject.next();
   }
 
-  addNewUser(user: User){
-    this.selectedUnregisteredUsers.push(user);
-  }
-
   contractStatusUpdate(statusID: number){
 
     const selectedStatusID = statusID;
 
     if(selectedStatusID == 3){
-      console.log('here');
       this.isDueDateRequired = true;
       this.thirdFormGroup.get('dueDate').setValidators([Validators.required]);
     }
@@ -164,48 +157,41 @@ export class ContractpageComponent implements OnInit{
 
     this.contractSave = true;
 
-    this.userService.registerUsers(this.selectedUnregisteredUsers).subscribe((registeredUsers) => {
+    const firstFormData = this.firstFormGroup.value;
+    const thirdFormData = this.thirdFormGroup.value;
 
-      let users = [...this.selectedUsers];
-      users.push(...registeredUsers);
+    let dueDate: Date = (this.isDueDateRequired) ? new Date(thirdFormData.dueDate) : null
+    if(dueDate){dueDate.setHours(23); dueDate.setMinutes(59); dueDate.setSeconds(59);}
 
-      const firstFormData = this.firstFormGroup.value;
-      const thirdFormData = this.thirdFormGroup.value;
+    const contract: Contract = {
+      ID: (this.updateView) ? this.contract.ID : 0,
+      title: firstFormData.contractTitle,
+      description: firstFormData.description,
+      startDate: firstFormData.startDate,
+      endDate: firstFormData.endDate,
+      dueDate: dueDate,
+      isVisibleToDomainUsers: thirdFormData.isVisibleToDomainUsers,
+      status: {ID: thirdFormData.status, status: ''},
+      resumeRequests: (this.updateView) ? this.contract.resumeRequests : [],
+      users: this.selectedUsers,
+      resumes: this.selectedResumes,
+      whitelists: (thirdFormData.isVisibleToDomainUsers) ? this.selectedDomains : []
+    }
 
-      let dueDate: Date = (this.isDueDateRequired) ? new Date(thirdFormData.dueDate) : null
-      if(dueDate){dueDate.setHours(23); dueDate.setMinutes(59); dueDate.setSeconds(59);}
+    if(this.updateView){
+      this.contractService.updateContract(contract).subscribe((contract) => {
+        this.snackbar.open('updated', 'Contract');
+        this.router.navigate(['']);},
+        (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
+        () => {this.contractSave = false;});
+    }
 
-      const contract: Contract = {
-        ID: (this.updateView) ? this.contract.ID : 0,
-        title: firstFormData.contractTitle,
-        description: firstFormData.description,
-        startDate: firstFormData.startDate,
-        endDate: firstFormData.endDate,
-        dueDate: dueDate,
-        isVisibleToDomainUsers: thirdFormData.isVisibleToDomainUsers,
-        status: {ID: thirdFormData.status, status: ''},
-        resumeRequests: (this.updateView) ? this.contract.resumeRequests : [],
-        users: users,
-        resumes: this.selectedResumes,
-        whitelists: (thirdFormData.isVisibleToDomainUsers) ? this.selectedDomains : []
-      }
-
-      if(this.updateView){
-        this.contractService.updateContract(contract).subscribe((contract) => {
-          this.snackbar.open('updated', 'Contract');
-          this.router.navigate(['']);},
-          (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
-          () => {this.contractSave = false;});
-      }
-
-      else{
-        this.contractService.createContract(contract).subscribe((contract) => {
-            this.snackbar.open('created', 'Contract');
-            this.router.navigate(['']);},
-          (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
-          () => {this.contractSave = false;});
-      }
-    },
-      (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message)});
+    else{
+      this.contractService.createContract(contract).subscribe((contract) => {
+        this.snackbar.open('created', 'Contract');
+        this.router.navigate(['']);},
+        (error) => {this.contractSave = false; this.snackbar.open('error', error.error.message);},
+        () => {this.contractSave = false;});
+    }
   }
 }
