@@ -1,6 +1,8 @@
 <div id="container">
   <h1>Whitelist domains</h1>
 
+  <div *ngIf="!loading && whitelists.length > 0">
+
   <mat-form-field id='searchBox' appearance="outline">
     <mat-label>Domain name</mat-label>
     <input #searchBox [ngModel]="searchTerm" (input)="search(searchBox.value)" matInput placeholder="Domain...">
@@ -8,17 +10,25 @@
 
   <div id="accordion">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let domain of whitelists">
+    <mat-expansion-panel [expanded]="indexExpanded == i" *ngFor="let domain of whitelists; let i = index" (click)="loadUsers(domain, i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{domain.domain}}
         </mat-panel-title>
         <mat-panel-description style="display: flex; justify-content: flex-end">
-          Just a description ... maybe users.length here?
-          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate)" mat-button><mat-icon>edit</mat-icon></button>
+          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate, $event)" mat-button><mat-icon>edit</mat-icon></button>
+          <button class="primary-color" (click)="openDeleteInput(domain, deleteTemplate, $event)" mat-button><mat-icon>delete_forever</mat-icon></button>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      List of users here
+
+      <div id="user-container" *ngIf="whitelistUsers.length > 0" >
+        <div id="user-list" *ngFor="let user of whitelistUsers">
+          <p>{{user.username}}</p>
+        </div>
+      </div>
+
+      <h1 *ngIf="whitelistUsers.length == 0"> No users with this domain.</h1>
+
     </mat-expansion-panel>
   </mat-accordion>
 
@@ -32,13 +42,24 @@
 
   <button class="add-domain-button accept-color" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
 
+  </div>
+
+  <div *ngIf="!loading && whitelists.length == 0">
+    <h1>No whitelists registered. Please register a whitelist below.</h1>
+    <button class="add-domain-button" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
+  </div>
+
+  <div *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
 </div>
 
 
 <ng-template id="save-template" #saveTemplate>
 
   <h1 *ngIf="isCreatePage" class="align-center" mat-dialog-title>Register new whitelist domain</h1>
-  <h1 *ngIf="!isCreatePage" class="align-center" mat-dialog-title>Update domain <b>{{selectedWhitelistUpdate.domain}}</b></h1>
+  <h1 *ngIf="!isCreatePage" class="align-center" mat-dialog-title>Update domain <b>{{selectedWhitelistDomain.domain}}</b></h1>
 
   <div mat-dialog-content id="template-container">
 
@@ -53,5 +74,20 @@
       <button *ngIf="!isCreatePage" class="update-button edit-color" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
     </form>
   </div>
+
+</ng-template>
+
+<ng-template id="delete-template" #deleteTemplate>
+
+  <h1 mat-dialog-title class="align-center">Domain Delete</h1>
+
+  <div mat-dialog-content>
+    <p class="align-center">Are you sure that you want to delete whitelist domain <b>{{selectedWhitelistDomain.domain}}</b>?</p>
+  </div>
+
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="deleteDomain()" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+  </mat-dialog-actions>
 
 </ng-template>

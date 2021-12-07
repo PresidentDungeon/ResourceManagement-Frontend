@@ -15,7 +15,10 @@ export class SnackMessage {
       return this.snackbar.open(message + ' updated.', '', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000});
     } else if (type === 'created') {
         return this.snackbar.open(message + ' created.', '', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000});
-    } else {
+    }  else if(type === 'deleted') {
+        return this.snackbar.open(message + ' deleted.', '', {horizontalPosition: 'center', verticalPosition: 'top', duration: 3000})
+    }
+    else {
       return this.snackbar.open("Loading...", '', { verticalPosition: 'top', duration: 60000 });
     }
   }
