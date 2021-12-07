@@ -1,6 +1,19 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: #103447!important;
+}
+
+.mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+  background-color: #103447!important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick, 
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #103447;
+}
+
 .primary-color-icon{
   color: #103447;
 }

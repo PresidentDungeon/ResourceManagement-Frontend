@@ -31,11 +31,10 @@
   margin-top: 24px;
 }
 
-#register-button{
+.register-button{
   margin-bottom: 5px;
-  background-color: rgb(150, 252, 127, 0.4) !important;
 }
 
-#register-button:disabled{
+.register-button:disabled{
   background-color: rgba(122, 122, 122, 0.4) !important;
 }
