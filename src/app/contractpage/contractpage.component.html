@@ -142,8 +142,8 @@
 
         </div>
 
-        <button mat-raised-button *ngIf="!updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
-        <button mat-raised-button *ngIf="updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
+        <button mat-raised-button *ngIf="!updateView" class="create-button accept-color" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
+        <button mat-raised-button *ngIf="updateView" class="create-button edit-color" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
         <mat-progress-bar *ngIf="contractSave" id="progress-bar" mode="indeterminate"></mat-progress-bar>
 
       </form>

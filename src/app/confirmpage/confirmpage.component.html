@@ -68,19 +68,19 @@
         <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button id="comment-button" type="submit"
+      <button mat-raised-button class="comment-button" type="submit"
         [disabled]="!commentForm.valid || isCommentsIdentical">Leave comment</button>
 
     </form>
 
     <div id="reply" *ngIf="displaySelect && !hasBeenSelectedFromDomain">
-      <button (click)="openDialog(declineTemplate)" id="declineButton" mat-raised-button>Decline contract</button>
-      <button mat-raised-button id="confirmButton" (click)="openDialog(confirmTemplate)"
+      <button (click)="openDialog(declineTemplate)" class="declineButton delete-color" mat-raised-button>Decline contract</button>
+      <button mat-raised-button class="confirmButton accept-color" (click)="openDialog(confirmTemplate)"
         [disabled]="selectedResumes.length <= 0">Accept contract</button>
     </div>
 
     <div id="renewal" *ngIf="displayRenewButton">
-      <button *ngIf="!hasBeenSelectedFromDomain" mat-raised-button id="renewal-button" (click)="requestRenewal()" [disabled]="renewalLoading">Request renewal</button>
+      <button *ngIf="!hasBeenSelectedFromDomain" mat-raised-button class="renewal-button edit-color" (click)="requestRenewal()" [disabled]="renewalLoading">Request renewal</button>
       <p>This contract has been expired. You can request for the contract to be renewed.</p>
     </div>
 

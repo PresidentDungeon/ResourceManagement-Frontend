@@ -21,12 +21,9 @@
   justify-content: right;
 }
 
-#add-domain-button{
+.add-domain-button{
   width: fit-content;
   align-self: center;
-  color: #ffffff;
-  background: #4ad52a;
-  opacity: 85%;
 }
 
 
@@ -50,11 +47,10 @@ form {
   flex-direction: column;
 }
 
-#create-button, #update-button{
+.create-button, .update-button{
   margin-bottom: 5px;
-  background-color: rgb(150, 252, 127, 0.4) !important;
 }
 
-#create-button:disabled, #update-button:disabled{
+.create-button:disabled, .update-button:disabled{
   background-color: rgba(122, 122, 122, 0.4) !important;
 }

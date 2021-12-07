@@ -30,7 +30,7 @@
 
   </div>
 
-  <button id="add-domain-button" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
+  <button class="add-domain-button accept-color" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
 
 </div>
 
@@ -49,8 +49,8 @@
         <mat-error>Whitelist must contain a valid domain</mat-error>
       </mat-form-field>
 
-      <button *ngIf="isCreatePage" id="create-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Create</button>
-      <button *ngIf="!isCreatePage" id="update-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
+      <button *ngIf="isCreatePage" class="create-button accept-color" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Create</button>
+      <button *ngIf="!isCreatePage" class="update-button edit-color" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
     </form>
   </div>
 

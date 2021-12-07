@@ -15,36 +15,27 @@
   margin-right: 24px;
 }
 
-#confirmButton, #declineButton{
+.confirmButton, .declineButton{
   width: fit-content;
   align-self: center;
 }
 
-#comment-button{
+.comment-button{
   align-self: center;
   width: 300px;
 }
 
-#comment-button, #renewal-button{
+.comment-button, .renewal-button{
   margin-bottom: 15px;
 }
 
-#confirmButton{
-  color: #ffffff;
-  background: #4ad52a;
-  opacity: 85%;
-}
-
-#confirmButton:disabled{
+.confirmButton:disabled{
   color: #ffffff;
   background: rgba(98, 98, 98, 0.22);
   opacity: 85%;
 }
 
-#declineButton{
-  color: #ffffff;
-  background: #d52a2a;
-  opacity: 85%;
+.declineButton{
   margin-right: 5px;
 }
 

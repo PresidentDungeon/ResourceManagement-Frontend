@@ -4,3 +4,36 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .primary-color-icon{
   color: #103447;
 }
+
+.primary-color{
+  background-color: #103447;
+  color: white;
+}
+
+.accept-color-icon{
+  color: green;
+}
+
+.accept-color{
+  background-color: #4ad52a;
+  opacity: 85%;
+  color: white;
+}
+
+.edit-color-icon{
+  color: lightblue;
+}
+
+.edit-color{
+  background-color: lightblue;
+  color: black;
+}
+
+.delete-color-icon{
+  color: red;
+}
+
+.delete-color{
+  background-color: red;
+  color: white;
+}
