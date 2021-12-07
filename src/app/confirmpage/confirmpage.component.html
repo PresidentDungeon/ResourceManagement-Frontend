@@ -132,7 +132,7 @@
 
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="confirmContract(true)" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+    <button class="primary-color" mat-button (click)="confirmContract(true)" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
   </mat-dialog-actions>
 
 </ng-template>
@@ -147,7 +147,7 @@
 
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="confirmContract(false)" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+    <button class="delete-color" mat-button (click)="confirmContract(false)" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
   </mat-dialog-actions>
 
 </ng-template>
