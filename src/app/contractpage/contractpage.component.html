@@ -60,7 +60,7 @@
           <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
         </mat-form-field>
 
-        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!firstFormGroup.valid || contractSave">Next Step</button>
+        <button matStepperNext mat-raised-button class="active-button primary-color" type="submit" [disabled]="!firstFormGroup.valid || contractSave">Next Step</button>
 
       </form>
 
@@ -82,7 +82,7 @@
           </mat-chip-list>
         </mat-form-field>
 
-        <button matStepperNext mat-raised-button class="active-button" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
+        <button matStepperNext mat-raised-button class="active-button primary-color" type="submit" [disabled]="!secondFormGroup.valid || contractSave">Next Step</button>
       </form>
     </mat-step>
 
@@ -134,8 +134,8 @@
 
         </div>
 
-        <button mat-raised-button *ngIf="!updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
-        <button mat-raised-button *ngIf="updateView" class="create-button" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
+        <button mat-raised-button *ngIf="!updateView" class="create-button primary-color" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Create contract</button>
+        <button mat-raised-button *ngIf="updateView" class="create-button primary-color" type="submit" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || contractSave">Update contract</button>
         <mat-progress-bar *ngIf="contractSave" id="progress-bar" mode="indeterminate"></mat-progress-bar>
 
       </form>

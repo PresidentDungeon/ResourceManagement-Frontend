@@ -34,7 +34,7 @@
         <input type="number" matInput formControlName="amount">
       </mat-form-field>
 
-      <button mat-raised-button type="submit" [disabled]="!occupationForm.valid">Add</button>
+      <button class="primary-color" mat-raised-button type="submit" [disabled]="!occupationForm.valid">Add</button>
     </form>
 
     <div id="requested-resumes">
@@ -54,7 +54,7 @@
       <textarea matInput formControlName="description" #input maxlength="500"></textarea>
       <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
     </mat-form-field>
-    <button id="register-button" mat-raised-button type="submit" [disabled]="!requestForm.valid || contractSave">Request Contract</button>
+    <button class="register-button primary-color" mat-raised-button type="submit" [disabled]="!requestForm.valid || contractSave">Request Contract</button>
   </form>
 </div>
 

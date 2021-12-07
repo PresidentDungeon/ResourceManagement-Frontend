@@ -16,8 +16,8 @@
           {{domain.domain}}
         </mat-panel-title>
         <mat-panel-description style="display: flex; justify-content: flex-end">
-          <button class="primary-color" (click)="openUpdateInput(domain, saveTemplate, $event)" mat-button><mat-icon>edit</mat-icon></button>
-          <button class="primary-color" (click)="openDeleteInput(domain, deleteTemplate, $event)" mat-button><mat-icon>delete_forever</mat-icon></button>
+          <button class="edit-icon primary-color-icon" (click)="openUpdateInput(domain, saveTemplate, $event)" mat-button><mat-icon>edit</mat-icon></button>
+          <button class="delete-icon primary-color-icon" (click)="openDeleteInput(domain, deleteTemplate, $event)" mat-button><mat-icon>delete_forever</mat-icon></button>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -40,13 +40,13 @@
 
   </div>
 
-  <button class="add-domain-button" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
+  <button class="add-domain-button primary-color" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
 
   </div>
 
   <div *ngIf="!loading && whitelists.length == 0">
     <h1>No whitelists registered. Please register a whitelist below.</h1>
-    <button class="add-domain-button" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
+    <button class="add-domain-button primary-color" mat-raised-button (click)="openCreateInput(saveTemplate)">Add new domain</button>
   </div>
 
   <div *ngIf="loading">
@@ -70,8 +70,8 @@
         <mat-error>Whitelist must contain a valid domain</mat-error>
       </mat-form-field>
 
-      <button *ngIf="isCreatePage" id="create-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Create</button>
-      <button *ngIf="!isCreatePage" id="update-button" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
+      <button *ngIf="isCreatePage" class="create-button primary-color" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Create</button>
+      <button *ngIf="!isCreatePage" class="update-button primary-color" mat-raised-button type="submit" [disabled]="!whitelistForm.valid || isSaveLoading">Update</button>
     </form>
   </div>
 
@@ -86,8 +86,8 @@
   </div>
 
   <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="deleteDomain()" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
+    <button class="primary-color" mat-button mat-dialog-close>Cancel</button>
+    <button class="delete-color" mat-button (click)="deleteDomain()" [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
   </mat-dialog-actions>
 
 </ng-template>
