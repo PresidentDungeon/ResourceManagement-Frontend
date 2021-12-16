@@ -35,7 +35,6 @@ export class ResumeListComponent implements OnInit {
   @Input() displayInserted: boolean;
   @Input() displayResumeCountInfo: boolean;
   @Input() displayAll: boolean;
-  @Input() dataSource: Resume[] = [];
   @Input() resumesObservable: Observable<Resume[]>;
   @Input() excludeContractID: number = 0;
   @Input() isOverview: boolean = false;
@@ -50,6 +49,7 @@ export class ResumeListComponent implements OnInit {
   displayedColumnsWithoutSelect: string[] = ['occupation', 'candidates', 'iconStatus'];
 
   displayedColumns: string[];
+  dataSource: Resume[] = [];
   selectedResume?: Resume;
 
   selectedResumeBooking: Resume;
@@ -183,10 +183,7 @@ export class ResumeListComponent implements OnInit {
   }
 
   isChecked(resume: Resume) {
-    if (this.checkedResumes.find(indexResume => indexResume.ID == resume.ID)) {
-      return true;
-    }
-    return false;
+    return (this.checkedResumes.find(indexResume => indexResume.ID == resume.ID)) ? true : false;
   }
 
   searchName(term: string): void {
@@ -240,9 +237,7 @@ export class ResumeListComponent implements OnInit {
         this.selectedResumeBooking = resume;
         this.selectedResumeContracts = contracts;
         this.dialog.open(template, {width: '400px', autoFocus: false});
-
         },
         (error) => {this.snackbar.open('error', error.error.message)});
-
   }
 }

@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService) {}
 
   loggedUserStatus$: Observable<string> = this.authenticationService.userStatus$;
+  userApproved$: Observable<boolean> = this.authenticationService.userApproved$;
 
   ngOnInit() {}
 }

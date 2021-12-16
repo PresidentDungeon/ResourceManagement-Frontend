@@ -80,6 +80,10 @@ export class UserService {
     return this.http.post<void>(environment.apiUrl + '/user/verifyConfirmationToken', verificationDTO);
   }
 
+  verifyUserApprovedStatus(): Observable<void>{
+    return this.http.get<void>(environment.apiUrl + '/user/verifyUserApprovedStatus');
+  }
+
   requestPasswordChange(passwordChangeDTO: PasswordChangeRequestDTO): Observable<void>{
     return this.http.post<void>(environment.apiUrl + '/user/requestPasswordChange', passwordChangeDTO);
   }
