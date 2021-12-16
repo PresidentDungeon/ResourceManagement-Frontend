@@ -101,7 +101,6 @@ import { map } from "rxjs/operators";
   verifyUserApproved(): void{
     this.http.get<boolean>(environment.apiUrl + '/user/verifyUserApprovedStatus').subscribe((isApproved) => {
       this.userApprovedBehaviourSubject.next(isApproved);
-      console.log(isApproved);
     });
   }
 
