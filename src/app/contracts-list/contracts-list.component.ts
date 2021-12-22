@@ -19,11 +19,6 @@ import { Comment } from "../shared/models/comment";
 })
 export class ContractsListComponent implements OnInit, OnDestroy {
 
-  constructor(private contractService: ContractService,
-              private userService: UserService,
-              private snackbar: SnackMessage,
-              private dialog: MatDialog) { }
-
   snackbarRef: MatSnackBarRef<any>;
 
   displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate', 'comments'];
@@ -53,6 +48,11 @@ export class ContractsListComponent implements OnInit, OnDestroy {
 
   unsubscriber$ = new Subject();
 
+  constructor(private contractService: ContractService,
+              private userService: UserService,
+              private snackbar: SnackMessage,
+              private dialog: MatDialog) { }
+
   ngOnInit(): void {
 
     this.searchTerms.pipe(debounceTime(300), distinctUntilChanged()).
@@ -72,10 +72,7 @@ export class ContractsListComponent implements OnInit, OnDestroy {
       subscribe((contract) => {this.getContracts(false)});
 
     this.contractService.listenForUpdateChangeAdmin().pipe(takeUntil(this.unsubscriber$)).
-    subscribe((contract) => {
-      const placement = this.contractList.findIndex((contractIndex) => contractIndex.ID === contract.ID)
-      if(placement !== -1){this.contractList[placement] = contract; this.contractList = [...this.contractList];}
-      else{this.getContracts(false);}});
+    subscribe((contract) => {this.getContracts(false)});
 
     this.getUsernames('');
     this.getStatuses();

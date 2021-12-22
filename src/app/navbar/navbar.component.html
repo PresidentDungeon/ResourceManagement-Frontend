@@ -21,7 +21,7 @@
       <button mat-menu-item routerLink="/admin/contracts">All Contracts</button>
     </mat-menu>
     <mat-menu #contractMenuUser="matMenu">
-      <button mat-menu-item routerLink="/user/request">Request Contract</button>
+      <button *ngIf="userApproved$ | async" mat-menu-item routerLink="/user/request">Request Contract</button>
       <button mat-menu-item routerLink="/user/confirm">My Contracts</button>
     </mat-menu>
   </div>

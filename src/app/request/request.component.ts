@@ -5,6 +5,7 @@ import { AuthenticationService } from "../shared/services/authentication.service
 import { Contract } from "../shared/models/contract";
 import { ContractService } from "../shared/services/contract.service";
 import { SnackMessage } from "../shared/helpers/snack-message";
+import { UserService } from "../shared/services/user.service";
 
 @Component({
   selector: "app-request",
@@ -35,15 +36,14 @@ export class RequestComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
+    private userService: UserService,
     private contractService: ContractService,
     private snackbar: SnackMessage
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  createContractRequest(){
+  createContractRequest() {
     this.contractSave = true;
 
     const contractData = this.requestForm.value;

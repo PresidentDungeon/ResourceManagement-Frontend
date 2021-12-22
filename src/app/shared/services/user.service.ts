@@ -11,7 +11,6 @@ import { SocketManagementApp } from "../modules/shared.module";
 import { Role } from "../models/role";
 import { Status } from "../models/status";
 import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
-import {Whitelist} from "../models/whitelist";
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +77,10 @@ export class UserService {
 
   verifyConfirmationToken(verificationDTO: VerificationDTO): Observable<void>{
     return this.http.post<void>(environment.apiUrl + '/user/verifyConfirmationToken', verificationDTO);
+  }
+
+  verifyUserApprovedStatus(): Observable<void>{
+    return this.http.get<void>(environment.apiUrl + '/user/verifyUserApprovedStatus');
   }
 
   requestPasswordChange(passwordChangeDTO: PasswordChangeRequestDTO): Observable<void>{

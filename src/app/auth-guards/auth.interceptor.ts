@@ -20,10 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if(request.url === 'https://us-central1-recipeapp-d80f3.cloudfunctions.net/uploadFile' || request.url === 'https://us-central1-recipeapp-d80f3.cloudfunctions.net/deleteFile'){
-      return next.handle(request);
-    }
-
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     if (loggedUser && loggedUser.token) {
       request = request.clone({

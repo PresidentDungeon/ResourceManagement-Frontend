@@ -10,9 +10,13 @@ import {Observable} from "rxjs";
 
 export class NavbarComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) {}
+  loggedUserStatus$: Observable<string>;
+  userApproved$: Observable<boolean>;
 
-  loggedUserStatus$: Observable<string> = this.authenticationService.userStatus$;
+  constructor(private authenticationService: AuthenticationService) {
+    this.loggedUserStatus$ = this.authenticationService.userStatus$;
+    this.userApproved$ = this.authenticationService.userApproved$;
+  }
 
   ngOnInit() {}
 }

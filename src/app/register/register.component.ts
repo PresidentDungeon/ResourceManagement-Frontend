@@ -14,6 +14,12 @@ import { RegisterDTO } from "../shared/dtos/register.dto";
 })
 export class RegisterComponent implements OnInit {
 
+  registerForm = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    passwordConfirm: new FormControl('', [Validators.required])
+  }, {validators: [this.passwordConfirming]});
+
   constructor(
     private router: Router,
     private authService: AuthenticationService,
@@ -21,11 +27,12 @@ export class RegisterComponent implements OnInit {
     private location: Location,
     private snackbar: SnackMessage) { }
 
-  registerForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    passwordConfirm: new FormControl('', [Validators.required])
-  }, {validators: [this.passwordConfirming]});
+  registerLoad: boolean = false;
+
+  isActive: boolean = true;
+  email: string = '';
+
+  ngOnInit(): void {}
 
   passwordConfirming(group: AbstractControl): ValidationErrors  {
     if (group.get('password').value !== group.get('passwordConfirm').value) {
@@ -40,13 +47,6 @@ export class RegisterComponent implements OnInit {
       group.get('passwordConfirm').setErrors(null);
     }
   }
-
-  registerLoad: boolean = false;
-
-  isActive: boolean = true;
-  email: string = '';
-
-  ngOnInit(): void {}
 
   register(): void{
 

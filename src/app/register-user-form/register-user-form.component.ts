@@ -51,12 +51,11 @@ export class RegisterUserFormComponent implements OnInit {
 })
 export class RegisterUserFormDialog {
 
-  constructor(public dialogRef: MatDialogRef<RegisterUserFormDialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
-
   registerUserForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.pattern('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')])
   });
+
+  constructor(public dialogRef: MatDialogRef<RegisterUserFormDialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   addNewUser(formDirective: FormGroupDirective) {
     formDirective.resetForm();

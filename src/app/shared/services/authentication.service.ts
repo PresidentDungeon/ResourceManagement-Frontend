@@ -14,9 +14,15 @@ import { map } from "rxjs/operators";
   private userStatusBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   public userStatus$: Observable<string> = this.userStatusBehaviourSubject.asObservable();
 
+  private userApprovedBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public userApproved$: Observable<boolean> = this.userApprovedBehaviourSubject.asObservable();
+
   constructor(private http: HttpClient) {
     const token = this.getToken();
-    if(token != null && token != undefined && token != '' ){this.userStatusBehaviourSubject.next(this.getRole());}
+    if(token != null && token != undefined && token != '' ){
+      this.userStatusBehaviourSubject.next(this.getRole());
+      this.verifyUserApproved();
+    }
     else{this.userStatusBehaviourSubject.next(null);}
   }
 
@@ -26,6 +32,7 @@ import { map } from "rxjs/operators";
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
           this.userStatusBehaviourSubject.next(this.getRole());
+          this.verifyUserApproved();
           return true;
         } else {
           this.userStatusBehaviourSubject.next(null);
@@ -67,7 +74,7 @@ import { map } from "rxjs/operators";
   getID(): number{
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     if (loggedUser !== null){
-      return JSON.parse(atob(loggedUser.token.split('.')[1])).ID;
+      return JSON.parse(atob(loggedUser.token.split('.')[1])).userID;
     }
     else{
       return null;
@@ -89,6 +96,12 @@ import { map } from "rxjs/operators";
 
   verifyAdmin(): Observable<void>{
     return this.http.get<void>(environment.apiUrl + '/user/verifyAdmin');
+  }
+
+  verifyUserApproved(): void{
+    this.http.get<boolean>(environment.apiUrl + '/user/verifyUserApprovedStatus').subscribe((isApproved) => {
+      this.userApprovedBehaviourSubject.next(isApproved);
+    });
   }
 
 }

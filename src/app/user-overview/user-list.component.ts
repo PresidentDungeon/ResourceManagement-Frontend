@@ -29,7 +29,6 @@ export class UserListComponent implements OnInit{
 
   displayedColumns: string[] = ['ID', 'Username'];
 
-
   pageSizeOptions: number[] = [25, 50, 75, 100];
   pageSize: number = 25;
   pageLength: number = 0;
