@@ -14,12 +14,26 @@
   width: 1300px;
 }
 
+
+h3 {
+  margin: 0;
+}
+
 #occupation-form {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  width: 60%;
+  width: 80%;
+}
+
+.occupation-formfield {
+  align-self: center;
+  width: 49%;
+}
+
+#requested-resumes {
+  margin-top: 12px;
 }
 
 .form-field {
@@ -37,4 +51,8 @@
 
 .register-button:disabled{
   background-color: rgba(122, 122, 122, 0.4) !important;
+}
+
+button {
+  width: 150px;
 }

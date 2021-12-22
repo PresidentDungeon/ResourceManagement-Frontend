@@ -21,21 +21,24 @@
       <mat-error *ngIf="requestForm.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
 
+    <div id="occupation-header">
+      <h3>Request preferred candidates</h3>
+    </div>
     <form id="occupation-form" [formGroup]="occupationForm" #formDirective="ngForm"
       (ngSubmit)="createOccupation(formDirective)">
 
-      <mat-form-field appearance="outline">
+      <mat-form-field class="occupation-formfield" appearance="outline">
         <mat-label>Occupation</mat-label>
         <input type="text" matInput formControlName="occupation">
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field class="occupation-formfield" appearance="outline">
         <mat-label>Amount</mat-label>
         <input type="number" matInput formControlName="amount">
       </mat-form-field>
-
-      <button class="primary-color" mat-raised-button type="submit" [disabled]="!occupationForm.valid">Add</button>
     </form>
+
+    <button class="primary-color" mat-raised-button type="button" (click)="createOccupation(formDirective)" [disabled]="!occupationForm.valid">Add</button>
 
     <div id="requested-resumes">
       <mat-chip-list #chipList aria-label="User selection">
