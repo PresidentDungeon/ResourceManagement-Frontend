@@ -7,12 +7,8 @@ import { Component, OnInit } from "@angular/core";
 })
 
 export class ResumeOverviewComponent implements OnInit {
-  
-  constructor() { 
 
-  }
+  constructor() {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

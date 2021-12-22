@@ -11,7 +11,6 @@ import { SocketManagementApp } from "../modules/shared.module";
 import { Role } from "../models/role";
 import { Status } from "../models/status";
 import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
-import {Whitelist} from "../models/whitelist";
 
 @Injectable({
   providedIn: 'root'

@@ -21,13 +21,6 @@ import { MatDialog } from "@angular/material/dialog";
 
 export class ResumeListComponent implements OnInit {
 
-  constructor(
-    private snackbar: SnackMessage,
-    private resumeService: ResumeService,
-    private contractService: ContractService,
-    private authService: AuthenticationService,
-    private dialog: MatDialog) { }
-
   @Input() isAdminPage: boolean = true;
   @Input() displayLoad: boolean;
   @Input() displayPagination: boolean;
@@ -80,6 +73,13 @@ export class ResumeListComponent implements OnInit {
 
   totalOccupation: ResumeRequest = { ID: 0, occupation: 'Total', count: 0 };
   occupationTypes: ResumeRequest[] = [];
+
+  constructor(
+    private snackbar: SnackMessage,
+    private resumeService: ResumeService,
+    private contractService: ContractService,
+    private authService: AuthenticationService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     if(this.isAdminPage){this.authService.verifyAdmin().subscribe();}

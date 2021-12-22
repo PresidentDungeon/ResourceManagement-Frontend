@@ -19,11 +19,6 @@ import { Comment } from "../shared/models/comment";
 })
 export class ContractsListComponent implements OnInit, OnDestroy {
 
-  constructor(private contractService: ContractService,
-              private userService: UserService,
-              private snackbar: SnackMessage,
-              private dialog: MatDialog) { }
-
   snackbarRef: MatSnackBarRef<any>;
 
   displayedColumns: string[] = ['title', 'status', 'startDate', 'endDate', 'comments'];
@@ -52,6 +47,11 @@ export class ContractsListComponent implements OnInit, OnDestroy {
   contractList: Contract[] = [];
 
   unsubscriber$ = new Subject();
+
+  constructor(private contractService: ContractService,
+              private userService: UserService,
+              private snackbar: SnackMessage,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
