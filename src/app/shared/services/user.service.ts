@@ -7,7 +7,6 @@ import { VerificationDTO } from "../dtos/verification.dto";
 import { PasswordChangeRequestDTO } from "../dtos/password.change.request.dto";
 import { User } from "../models/user";
 import { FilterList } from "../models/filterList";
-import { SocketManagementApp } from "../modules/shared.module";
 import { Role } from "../models/role";
 import { Status } from "../models/status";
 import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
@@ -17,7 +16,7 @@ import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
 })
 export class UserService {
 
-  constructor(private http: HttpClient, private socket: SocketManagementApp) { }
+  constructor(private http: HttpClient) { }
 
   register(loginDTO: LoginDto): Observable<boolean>{
     return this.http.post<boolean>(environment.apiUrl + '/user/register', loginDTO);
