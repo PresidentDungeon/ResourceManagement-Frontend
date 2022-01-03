@@ -7,7 +7,7 @@
       <mat-form-field appearance="outline">
         <mat-label>e-mail</mat-label>
         <input formControlName="username" matInput placeholder="e-mail...">
-        <mat-error>Username is required</mat-error>
+        <mat-error>e-mail is required</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -25,13 +25,13 @@
 
   <div *ngIf="isActive && !loginIsActive && !passwordResetRequestIsSuccessful" class="formfield">
     <h1 class="align-center">Password Reset</h1>
-    <p>We'll send a password reset link to your email account.</p>
+    <p>We'll send a password reset link to your e-mail account.</p>
     <form [formGroup]="resetForm" (ngSubmit)="sendPasswordResetLink()">
 
       <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input formControlName="username" matInput placeholder="Name...">
-        <mat-error>Email is required</mat-error>
+        <mat-label>e-mail</mat-label>
+        <input formControlName="username" matInput placeholder="e-mail...">
+        <mat-error>e-mail is required</mat-error>
       </mat-form-field>
 
       <button class="primary-color" mat-raised-button type="submit" [disabled]="!resetForm.valid || passwordResetLoading">Reset password</button>

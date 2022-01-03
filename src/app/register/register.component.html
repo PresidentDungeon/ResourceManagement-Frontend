@@ -5,9 +5,9 @@
     <form [formGroup]="registerForm" (ngSubmit)="register()">
 
       <mat-form-field appearance="outline">
-        <mat-label>e-mail or username</mat-label>
+        <mat-label>e-mail</mat-label>
         <input formControlName="username" matInput placeholder="e-mail...">
-        <mat-error>Username must be a valid e-mail</mat-error>
+        <mat-error>e-mail is required</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">

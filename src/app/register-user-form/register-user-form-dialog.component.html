@@ -4,9 +4,9 @@
 
   <form #formDirective="ngForm" [formGroup]="registerUserForm" (ngSubmit)="addNewUser(formDirective)">
     <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
+      <mat-label>e-mail</mat-label>
       <input type="email" formControlName="username" matInput placeholder="Username...">
-      <mat-error>Username must be a valid e-mail</mat-error>
+      <mat-error>e-mail is required</mat-error>
     </mat-form-field>
 
     <button class="register-button primary-color" mat-raised-button type="submit" [mat-dialog-close]="registerUserForm.value.username" [disabled]="!registerUserForm.valid">Register</button>
