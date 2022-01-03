@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from "@angular/material/select";
-import { MatOptionModule } from "@angular/material/core";
+import { MatOptionModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
@@ -56,7 +56,9 @@ import { MatExpansionModule } from "@angular/material/expansion";
       MatAutocompleteModule,
       MatExpansionModule
     ],
-    providers: []
+    providers: [
+      {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    ],
   })
 
   export class MaterialModule { }
