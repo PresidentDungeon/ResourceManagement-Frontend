@@ -55,6 +55,13 @@
       [resumesObservable]="resumesToDisplayObservable" (selectedResumesEmitter)="updateResumeCheckedList($event)">
     </app-resume-list>
 
+    <mat-form-field *ngIf="selectedContract.resumeRequests.length > 0" id="user-requests" floatLabel="always" appearance="outline">
+      <mat-label>User requests</mat-label>
+      <mat-chip-list #chipList aria-label="User requests">
+        <mat-chip id="occupation" *ngFor="let resumeRequest of selectedContract.resumeRequests">{{resumeRequest.occupation}}: {{resumeRequest.count}}</mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+
     <mat-form-field class="form-field" appearance="outline">
       <mat-label>Further notices</mat-label>
       <textarea matInput [value]="selectedContract.description" [disabled]="true"></textarea>
