@@ -38,7 +38,7 @@
     </form>
   </div>
 
-  <app-verification-card *ngIf="isActive && !loginIsActive && passwordResetRequestIsSuccessful" [showCheckmark]="false" [showReturnLoginButton]="true" [emailBold]="true" [header]="'Password Reset'" [text]="email"></app-verification-card>
+  <app-verification-card *ngIf="isActive && !loginIsActive && passwordResetRequestIsSuccessful" [showCheckmark]="false" [showReturnLoginButton]="false" [emailBold]="true" [header]="'Password Reset'" [text]="email"></app-verification-card>
 
   <div *ngIf="!isActive">
     <app-verification [email]="email"></app-verification>

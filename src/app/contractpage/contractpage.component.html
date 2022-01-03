@@ -75,9 +75,9 @@
                          (selectedResumesEmitter)="updateResumeCheckedList($event)">
         </app-resume-list>
 
-        <mat-form-field id="user-requests" *ngIf="updateView" floatLabel="always" appearance="outline">
+        <mat-form-field id="user-requests" *ngIf="updateView && contract.resumeRequests.length > 0" floatLabel="always" appearance="outline">
           <mat-label>User requests</mat-label>
-          <mat-chip-list *ngIf="updateView" #chipList aria-label="User requests">
+          <mat-chip-list #chipList aria-label="User requests">
             <mat-chip id="occupation" *ngFor="let resumeRequest of contract.resumeRequests">{{resumeRequest.occupation}}: {{resumeRequest.count}}</mat-chip>
           </mat-chip-list>
         </mat-form-field>
