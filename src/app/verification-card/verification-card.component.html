@@ -5,7 +5,7 @@
     <img *ngIf="showCancel" mat-card-sm-image src="assets/images/Cross.png">
     <h2 class="cardElement">{{header}}</h2>
     <p *ngIf="!emailBold && !contractBold">{{text}}</p>
-    <p *ngIf="emailBold" class="cardElement">An email has been sent to <b>{{text}}</b> with instructions for resetting your password.</p>
+    <p *ngIf="emailBold" class="cardElement">An e-mail has been sent to <b>{{text}}</b> with instructions for resetting your password.</p>
     <p *ngIf="contractBold" class="cardElement">You have successfully requested contract <b>{{text}}</b> An administrator from Semco Maritime will look through your request and return with an offer.</p>
     <button mat-raised-button *ngIf="showReturnLoginButton" (click)="returnToLogin()" class="returnButton" [class.primary-color]="!showCancel">Return to login</button>
     <button mat-raised-button *ngIf="showReturnFrontpageButton" (click)="returnToFrontpage()" class="returnButton" [class.primary-color]="!showCancel" [class.delete-color]="showCancel">Return to frontpage</button>

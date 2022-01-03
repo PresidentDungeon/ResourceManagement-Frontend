@@ -1,6 +1,6 @@
 <div *ngIf="!emailVerified" id="container">
     <div id="verify-field">
-      <h1>You need to verify your account via email</h1>
+      <h1>You need to verify your account via e-mail</h1>
 
       <form [formGroup]="verificationForm" (ngSubmit)="confirmVerificationCode()">
 
@@ -17,11 +17,11 @@
     </div>
 
     <div id="email-field">
-      <h2>Code sent to: {{email}}</h2>
-      <h2>Did not receive email? Send new code here.</h2>
+      <h2>Code sent to: {{e-mail}}</h2>
+      <h2>Did not receive e-mail? Send new code here.</h2>
       <button *ngIf="!emailHasBeenResend" mat-raised-button (click)="resendVerificationMail()" [disabled]="resendLoading">Send new code</button>
-      <button id="confirmButton" *ngIf="emailHasBeenResend" [disabled]="true" mat-raised-button>Email has been sent</button>
+      <button id="confirmButton" *ngIf="emailHasBeenResend" [disabled]="true" mat-raised-button>e-mail has been sent</button>
     </div>
 </div>
 
-<app-verification-card *ngIf="emailVerified" [showCheckmark]="true" [showReturnLoginButton]="true" [header]="'Email address confirmed'" [text]="'Your email has successfully been confirmed.'"></app-verification-card>
+<app-verification-card *ngIf="emailVerified" [showCheckmark]="true" [showReturnLoginButton]="true" [header]="'e-mail address confirmed'" [text]="'Your e-mail has successfully been confirmed.'"></app-verification-card>
