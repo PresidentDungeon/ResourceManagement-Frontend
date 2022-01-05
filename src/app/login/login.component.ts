@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { LoginDto } from "../shared/dtos/login.dto";
+import { LoginDTO } from "../shared/dtos/loginDTO";
 import { AuthenticationService } from "../shared/services/authentication.service";
 import { UserService } from "../shared/services/user.service";
 import { SnackMessage } from "../shared/helpers/snack-message";
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authService.logout();
 
-    const loginInfo: LoginDto = this.authService.getLoginInformation();
+    const loginInfo: LoginDTO = this.authService.getLoginInformation();
     if (loginInfo !== null) {
       this.loginForm.patchValue({
         username: loginInfo.username,
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     this.loginLoad = true;
 
     const loginData = this.loginForm.value;
-    const loginDTO: LoginDto = {username: loginData.username, password: loginData.password}
+    const loginDTO: LoginDTO = {username: loginData.username, password: loginData.password}
 
     this.authService.login(loginDTO).subscribe(success => {
       this.saveLoginForUser(loginDTO);},
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
     () => {this.loginLoad = false; this.router.navigate(['']);});
   }
 
-  saveLoginForUser(loginDTO: LoginDto): void{
+  saveLoginForUser(loginDTO: LoginDTO): void{
     if(this.saveLogin){this.authService.saveLogin(loginDTO);}
     else{this.authService.forgetLogin();}
   }

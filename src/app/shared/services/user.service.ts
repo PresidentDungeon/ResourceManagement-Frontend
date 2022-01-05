@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { LoginDto } from "../dtos/login.dto";
+import { LoginDTO } from "../dtos/loginDTO";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { VerificationDTO } from "../dtos/verification.dto";
@@ -9,7 +9,7 @@ import { User } from "../models/user";
 import { FilterList } from "../models/filterList";
 import { Role } from "../models/role";
 import { Status } from "../models/status";
-import { UserPasswordUpdateDto } from '../dtos/user.password.update.dto';
+import { UserPasswordUpdateDTO } from '../dtos/userPasswordUpdateDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  register(loginDTO: LoginDto): Observable<boolean>{
+  register(loginDTO: LoginDTO): Observable<boolean>{
     return this.http.post<boolean>(environment.apiUrl + '/user/register', loginDTO);
   }
 
@@ -54,7 +54,7 @@ export class UserService {
     return this.http.put<User>(environment.apiUrl + '/user/updateUser', user);
   }
 
-  updatePassword(userPasswordUpdateDTO: UserPasswordUpdateDto): Observable<boolean>{
+  updatePassword(userPasswordUpdateDTO: UserPasswordUpdateDTO): Observable<boolean>{
     return this.http.put<boolean>(environment.apiUrl + '/user/updatePassword', userPasswordUpdateDTO);
   }
 

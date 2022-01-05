@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { LoginDto } from "../dtos/login.dto";
-import { LoginResponseDto } from "../dtos/login.response.dto";
+import { LoginDTO } from "../dtos/loginDTO";
+import { LoginResponseDTO } from "../dtos/loginResponseDTO";
 import { map } from "rxjs/operators";
 
 @Injectable({
@@ -26,8 +26,8 @@ import { map } from "rxjs/operators";
     else{this.userStatusBehaviourSubject.next(null);}
   }
 
-  login(loginDTO: LoginDto): Observable<boolean> {
-    return this.http.post<LoginResponseDto>(environment.apiUrl + '/user/login', loginDTO)
+  login(loginDTO: LoginDTO): Observable<boolean> {
+    return this.http.post<LoginResponseDTO>(environment.apiUrl + '/user/login', loginDTO)
       .pipe(map((loginResponseDTO) => {
         if (loginResponseDTO !== null) {
           localStorage.setItem('loggedUser', JSON.stringify({token: loginResponseDTO.token}));
@@ -81,7 +81,7 @@ import { map } from "rxjs/operators";
     }
   }
 
-  saveLogin(loginDTO: LoginDto): void{
+  saveLogin(loginDTO: LoginDTO): void{
     localStorage.setItem('loginForm', JSON.stringify(loginDTO));
   }
 
@@ -90,7 +90,7 @@ import { map } from "rxjs/operators";
   }
 
   getLoginInformation(): any{
-    const loginDTO: LoginDto = JSON.parse(localStorage.getItem('loginForm'));
+    const loginDTO: LoginDTO = JSON.parse(localStorage.getItem('loginForm'));
     return loginDTO;
   }
 

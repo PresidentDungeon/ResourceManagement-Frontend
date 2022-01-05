@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormGroupDirective, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserPasswordUpdateDto } from '../shared/dtos/user.password.update.dto';
+import { UserPasswordUpdateDTO } from '../shared/dtos/userPasswordUpdateDTO';
 import { SnackMessage } from '../shared/helpers/snack-message';
 import { User } from '../shared/models/user';
 import { UserService } from '../shared/services/user.service';
@@ -63,7 +63,7 @@ export class ProfilepageComponent implements OnInit {
 
     const passwordData = this.updateForm.value;
 
-    const updatePasswordUserDTO: UserPasswordUpdateDto = {userID: this.userID, password: passwordData.password, oldPassword: passwordData.oldPassword}
+    const updatePasswordUserDTO: UserPasswordUpdateDTO = {userID: this.userID, password: passwordData.password, oldPassword: passwordData.oldPassword}
 
     this.userService.updatePassword(updatePasswordUserDTO).subscribe(() => {
       this.passwordUpdated = true;
