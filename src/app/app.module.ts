@@ -14,19 +14,11 @@ import { ConfirmpageComponent } from './confirmpage/confirmpage.component';
 import { RegisterComponent } from './register/register.component';
 import { VerificationLinkComponent } from './verification-link/verification-link.component';
 import { VerificationCardComponent } from './verification-card/verification-card.component';
-import { UserListComponent } from "./user-overview/user-list.component";
 import { ProfilepageComponent } from './profilepage/profilepage.component';
 import { SocketIoModule } from "ngx-socket-io";
-import { ContractpageComponent } from './contractpage/contractpage.component';
 import { AuthInterceptor } from "./auth-guards/auth.interceptor";
 import { ReplaceNullWithTextPipe } from "./shared/helpers/replace-null-with-text.pipe";
-import { ResumeListComponent } from './resume-list/resume-list.component';
-import { ContractsListComponent } from './contracts-list/contracts-list.component';
 import { RequestComponent } from './request/request.component';
-import { RegisterUserFormComponent, RegisterUserFormDialog } from './register-user-form/register-user-form.component';
-import { ResumeOverviewComponent } from './resume-overview/resume-overview.component';
-import { WhitelistComponent } from './whitelist/whitelist.component';
-import {WhitelistOverviewComponent} from "./whitelist-domain-overview/whitelist-overview.component";
 
 @NgModule({
   declarations: [
@@ -35,22 +27,10 @@ import {WhitelistOverviewComponent} from "./whitelist-domain-overview/whitelist-
     NavbarComponent,
     LoginComponent,
     VerificationComponent,
-    ConfirmpageComponent,
     RegisterComponent,
     VerificationLinkComponent,
     VerificationCardComponent,
-    UserListComponent,
-    ProfilepageComponent,
-    ContractpageComponent,
-    ResumeListComponent,
     ReplaceNullWithTextPipe,
-    ContractsListComponent,
-    RequestComponent,
-    RegisterUserFormComponent,
-    RegisterUserFormDialog,
-    ResumeOverviewComponent,
-    WhitelistComponent,
-    WhitelistOverviewComponent
   ],
     imports: [
         BrowserModule,
@@ -58,7 +38,6 @@ import {WhitelistOverviewComponent} from "./whitelist-domain-overview/whitelist-
         BrowserAnimationsModule,
         HttpClientModule,
         SharedModule,
-        MaterialModule,
         SocketIoModule.forRoot({url: ''}),
     ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
